@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Настройка окружения и установка Django &mdash; документация My Django Project 1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e35015f7"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=9bfe3ffa"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="next" title="Создание структуры проекта Flower Shop" href="project-structure.html" />
+    <link rel="prev" title="Руководство по созданию Django веб-приложения" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            My Django Project
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <p class="caption" role="heading"><span class="caption-text">Пошаговое руководство:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Настройка окружения и установка Django</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#python">Установка Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Создание виртуального окружения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Установка Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Создание Django проекта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Запуск сервера разработки</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Базовые команды Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Установка зависимостей:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Полезные команды для работы с виртуальным окружением</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">Следующий шаг</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="project-structure.html">Создание структуры проекта Flower Shop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">My Django Project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Настройка окружения и установка Django</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="django">
+<h1>Настройка окружения и установка Django<a class="headerlink" href="#django" title="Ссылка на этот заголовок"></a></h1>
+<p>В этом разделе мы настроим окружение для разработки Django приложения на Windows.</p>
+<section id="python">
+<h2>Установка Python<a class="headerlink" href="#python" title="Ссылка на этот заголовок"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Скачайте Python</strong> с официального сайта:
+<a class="reference external" href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p></li>
+<li><p><strong>При установке отметьте</strong> «Add Python to PATH»</p></li>
+<li><p><strong>Проверьте установку</strong> в командной строке:</p></li>
+</ol>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>python --version
+# Должно показать: Python 3.x.x
+
+pip --version
+# Должно показать: pip 2x.x.x
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h2>Создание виртуального окружения<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
+<p>Виртуальное окружение изолирует зависимости вашего проекта.</p>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Создайте папку для проекта
+<span class="k">mkdir</span> myproject
+<span class="k">cd</span> myproject
+
+# Создайте виртуальное окружение
+python -m venv venv
+
+# Активируйте виртуальное окружение
+venv\Scripts\activate
+
+# В командной строке должно появиться (venv)
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>Установка Django<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Убедитесь что виртуальное окружение активировано
+# (должно быть (venv) в начале строки)
+
+# Установите Django
+pip install django
+
+# Проверьте установку
+python -m django --version
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>Создание Django проекта<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Создайте новый Django проект
+django-admin startproject flower_shop .
+
+# Структура после создания:
+# flower_shop/
+# │   manage.py
+# │
+# └───flower_shop
+#         settings.py
+#         urls.py
+#         wsgi.py
+#         __init__.py
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>Запуск сервера разработки<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Запустите сервер разработки
+python manage.py runserver
+
+# Откройте браузер и перейдите по:
+# http://127.0.0.1:8000/
+
+# Вы должны увидеть страницу с ракетой - <span class="s2">&quot;The install worked successfully!&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>Базовые команды Django<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Создание приложения
+python manage.py startapp myapp
+
+# Создание миграций
+python manage.py makemigrations
+
+# Применение миграций
+python manage.py migrate
+
+# Создание суперпользователя
+python manage.py createsuperuser
+
+# Запуск тестов
+python manage.py test
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h2>Установка зависимостей:<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h2>
+<p>В нашем проекте используются следующие зависимости:</p>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Создайте файл зависимостей
+pip install Django
+pip install Pillow
+pip install django-crispy-forms
+pip install crispy-bootstrap5
+pip install django-widget-tweaks
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>Полезные команды для работы с виртуальным окружением<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Деактивация виртуального окружения
+deactivate
+
+# Повторная активация (из папки проекта)
+venv\Scripts\activate
+
+# Просмотр установленных пакетов
+pip list
+
+# Установка конкретной версии Django
+pip install django==4.2.7
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h2>Следующий шаг<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h2>
+<p>После настройки окружения переходите к <a class="reference internal" href="project-structure.html"><span class="doc">Создание структуры проекта Flower Shop</span></a> чтобы создать структуру проекта.</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p><strong>Совет:</strong> Добавьте папку <cite>venv</cite> в <cite>.gitignore</cite> если используете Git!</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
+        <a href="index.html" class="btn btn-neutral float-left" title="Руководство по созданию Django веб-приложения" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="project-structure.html" class="btn btn-neutral float-right" title="Создание структуры проекта Flower Shop" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2024, Your Name. </p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
