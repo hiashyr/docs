@@ -14,14 +14,14 @@
    # Активируйте виртуальное окружение (если еще не активировано)
    venv\Scripts\activate
 
-   # Создайте Django проект с именем flower_shop
-   django-admin startproject flower_shop .
+   # Создайте Django проект с именем ekz
+   django-admin startproject ekz .
 
    # Структура после создания:
    # .
    # │   manage.py
    # │
-   # └───flower_shop
+   # └───ekz
    #         settings.py
    #         urls.py
    #         wsgi.py
@@ -31,18 +31,11 @@
 -------------------
 
 Django приложения - это модули, которые выполняют конкретные функции. 
-Создадим три приложения для нашего магазина:
+Создадим приложение для нашего магазина:
 
 .. code-block:: batch
 
-   # Основное приложение - главная страница, каталог, информация
-   python manage.py startapp main
-
-   # Приложение для заказов - корзина, оформление заказа, история
-   python manage.py startapp orders
-
-   # Приложение для аутентификации - регистрация, вход, профиль
-   python manage.py startapp user_auth
+   python manage.py startapp 
 
 Структура проекта после создания приложений:
 
@@ -50,9 +43,8 @@ Django приложения - это модули, которые выполня
 
    flower_shop_project/
    │   manage.py
-   │   requirements.txt
    │
-   ├───flower_shop/                 # Настройки проекта
+   ├───ekz/                 # Настройки проекта
    │   │   settings.py
    │   │   urls.py
    │   │   wsgi.py
@@ -60,29 +52,7 @@ Django приложения - это модули, которые выполня
    │   │
    │   └───__pycache__/
    │
-   ├───main/                        # Основное приложение
-   │   │   admin.py
-   │   │   apps.py
-   │   │   models.py
-   │   │   tests.py
-   │   │   views.py
-   │   │   __init__.py
-   │   │
-   │   └───migrations/
-   │           __init__.py
-   │
-   ├───orders/                      # Приложение заказов
-   │   │   admin.py
-   │   │   apps.py
-   │   │   models.py
-   │   │   tests.py
-   │   │   views.py
-   │   │   __init__.py
-   │   │
-   │   └───migrations/
-   │           __init__.py
-   │
-   ├───user_auth/                   # Приложение аутентификации
+   ├───front/                        # Основное приложение
    │   │   admin.py
    │   │   apps.py
    │   │   models.py
@@ -99,7 +69,7 @@ Django приложения - это модули, которые выполня
 ---------------------
 
 Теперь нужно зарегистрировать наши приложения в настройках проекта. 
-Откройте файл `flower_shop/settings.py` и найдите раздел `INSTALLED_APPS`:
+Откройте файл `ekz/settings.py` и найдите раздел `INSTALLED_APPS`:
 
 .. code-block:: python
    :linenos:
@@ -115,15 +85,8 @@ Django приложения - это модули, которые выполня
        'django.contrib.messages',
        'django.contrib.staticfiles',
        
-       # Наши приложения
-       'main',
-       'orders', 
-       'user_auth',
-
-       # Также добавим наши библиотеки
-        'crispy_forms',
-        'crispy_bootstrap5',
-        'widget_tweaks',
+       # Наше приложение
+       'front'
    ]
 
 Настройка базы данных
@@ -150,8 +113,6 @@ Django приложения - это модули, которые выполня
 
 .. code-block:: python
 
-   # flower_shop/settings.py
-
    # Статические файлы (CSS, JavaScript, Images)
    STATIC_URL = '/static/'
    STATICFILES_DIRS = [
@@ -161,6 +122,15 @@ Django приложения - это модули, которые выполня
    # Медиа файлы (загружаемые пользователями)
    MEDIA_URL = '/media/'
    MEDIA_ROOT = BASE_DIR / 'media'
+
+   DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+   # Использование кастомного пользователя
+   AUTH_USER_MODEL = 'front.CustomUser'
+
+   # Ссылка для редиректа после авторизации
+   LOGOUT_REDIRECT_URL = '/'
+
 
 Создание папок для статических и медиа файлов
 ---------------------------------------------
@@ -172,19 +142,18 @@ Django приложения - это модули, которые выполня
    mkdir media
    mkdir templates
 
+   # В директории templates создаем pages и components
+
 Структура теперь выглядит так:
 
 .. code-block:: text
 
-   flower_shop_project/
+   ekz_project/
    │   manage.py
    │   db.sqlite3
-   │   requirements.txt
    │
-   ├───flower_shop/
-   ├───main/
-   ├───orders/
-   ├───user_auth/
+   ├───front/
+   ├───ekz/
    ├───static/           # CSS, JS, изображения
    ├───media/            # Загружаемые файлы
    ├───templates/        # HTML шаблоны

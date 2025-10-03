@@ -16,7 +16,7 @@ extensions = [
 ]
 
 # Основные настройки
-project = 'My Django Project'
+project = 'Проект Django на русском'
 copyright = '2024, Your Name'
 author = 'Your Name'
 release = '1.0.0'
