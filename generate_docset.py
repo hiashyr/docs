@@ -111,9 +111,9 @@ def create_info_plist(docset_dir):
 <plist version="1.0">
 <dict>
     <key>CFBundleIdentifier</key>
-    <string>mydjangoproject</string>
+    <string>django-russian-docs</string>
     <key>CFBundleName</key>
-    <string>My Django Project</string>
+    <string>Документация Django на русском</string>
     <key>DocSetPlatformFamily</key>
     <string>mydjangoproject</string>
     <key>dashIndexFilePath</key>
