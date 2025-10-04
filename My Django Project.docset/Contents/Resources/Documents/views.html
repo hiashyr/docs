@@ -1,0 +1,1890 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Создание представлений (Views) &mdash; документация Проект Django на русском 1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5d928502" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e35015f7"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=9bfe3ffa"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="next" title="Создание HTML шаблонов" href="templates.html" />
+    <link rel="prev" title="Создание моделей базы данных" href="models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Проект Django на русском
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <p class="caption" role="heading"><span class="caption-text">Пошаговое руководство:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Настройка окружения и установка Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project-structure.html">Создание структуры проекта ekz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Создание моделей базы данных</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Создание представлений (Views)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Представление главной страницы</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#main-page">Функция main_page</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Получение популярных товаров</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Создание контекста</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Возврат ответа</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Представление регистрации пользователя</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#register-view">Функция register_view</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">Проверка метода запроса</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#post">Обработка POST-запроса</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">Валидация и сохранение формы</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">Автоматический вход после регистрации</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">Редирект после успешной регистрации</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get">Обработка GET-запроса</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">Возврат ответа с формой</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">Представление входа в систему</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id18">Определение типа аутентификации</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19">Обработка POST-запроса</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">Выбор формы по типу аутентификации</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">Валидация и аутентификация</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">Обработка GET-запроса</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23">Возврат ответа с контекстом</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24">Преимущества подхода</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id25">Представление выхода из системы</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id26">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#logout-view">Функция logout_view</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id28">Выход из системы</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id29">Редирект на главную страницу</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id30">Особенности реализации</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id31">Рекомендации по использованию</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id32">Представление каталога с фильтрацией</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id33">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id34">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id35">Получение списка категорий</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id36">Извлечение GET-параметров</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#queryset">Базовый QuerySet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id37">Фильтрация по категории</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id38">Поиск по названию и описанию</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id39">Фильтрация по цене</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id40">Подготовка контекста</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id41">Возврат ответа</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id42">Особенности реализации</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id43">Представление детальной страницы товара</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id44">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id45">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#product-id">Функция с параметром product_id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id46">Получение товара или 404 ошибка</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-object-or-404">Преимущества get_object_or_404</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id47">Представление корзины пользователя</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id48">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id49">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#login-required">Декоратор login_required</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id50">Получение элементов корзины</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id51">Подсчет общей суммы</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-total-cartitem">Метод get_total() модели CartItem</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id52">Подготовка контекста</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id53">Возврат ответа</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id54">Оптимизации и улучшения</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id55">Особенности реализации</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id56">Представление добавления товара в корзину</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id57">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id58">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id59">Защита декоратором</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id60">Получение товара</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-or-create">Метод get_or_create</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id61">Логика увеличения количества</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id62">Редирект на корзину</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id63">Альтернативные реализации</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id64">Особенности реализации</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id65">Представление обновления количества товара в корзине</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id66">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id67">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id68">Безопасное получение элемента корзины</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id69">Проверка метода запроса</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id70">Создание формы с данными</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id71">Валидация и сохранение</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id72">Редирект на корзину</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id73">Представление удаления товара из корзины</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id74">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id75">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id76">Защита доступа</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id77">Безопасное получение элемента</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id78">Удаление элемента</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id79">Редирект на корзину</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id80">Альтернативные реализации</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id81">Представление страницы контактов</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id82">Код представления</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id83">Представление оформления заказа</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id84">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id85">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id86">Проверка наличия товаров в корзине</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id87">Подсчет общей суммы</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id88">Обработка POST-запроса (отправка формы)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id89">Создание заказа с дополнительными полями</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id90">Создание элементов заказа</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id91">Очистка корзины и редирект</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id92">Обработка GET-запроса (показ формы)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id93">Отображение страницы оформления</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id94">Особенности реализации</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id95">Представление страницы успешного заказа</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id96">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id97">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id98">Безопасное получение заказа</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id99">Подготовка контекста</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id100">Отображение страницы успеха</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id101">Особенности реализации</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id102">Представление списка заказов</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id103">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id104">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id105">Получение заказов пользователя</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id106">Подготовка контекста</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id107">Отображение страницы заказов</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id108">Особенности реализации</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id109">Представление детальной страницы заказа</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id110">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id111">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id112">Безопасное получение заказа</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id113">Получение элементов заказа</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id114">Подготовка контекста</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id115">Отображение детальной страницы</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id116">Особенности реализации</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id117">Представление профиля пользователя</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id118">Код представления</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id119">Разбор кода</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id120">Получение текущего пользователя</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id121">Обработка POST-запроса (обновление профиля)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id122">Обновление полей пользователя</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id123">Обработка загрузки аватара</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id124">Сохранение изменений</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id125">Получение истории заказов</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id126">Подготовка контекста</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id127">Отображение страницы профиля</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id128">Импорт</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Создание HTML шаблонов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Работа с формами в Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin.html">Настройка админ-панели Django</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Проект Django на русском</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Создание представлений (Views)</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="views">
+<h1>Создание представлений (Views)<a class="headerlink" href="#views" title="Ссылка на этот заголовок"></a></h1>
+<p>В этом разделе мы создадим представления для нашего приложения ekz. Представления обрабатывают запросы пользователей и возвращают ответы с данными.</p>
+<section id="id1">
+<h2>Представление главной страницы<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">main_page</span></code> отвечает за отображение главной страницы приложения.</p>
+<section id="id2">
+<h3>Код представления<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main_page</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">popular_products</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()[:</span><span class="mi">8</span><span class="p">]</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;popular_products&#39;</span><span class="p">:</span> <span class="n">popular_products</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/main_page.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>Разбор кода<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h3>
+<section id="main-page">
+<h4>Функция main_page<a class="headerlink" href="#main-page" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main_page</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Объявление функции представления.</p>
+<p><strong>Параметры:</strong>
+- <code class="docutils literal notranslate"><span class="pre">request</span></code> - объект HttpRequest, содержащий информацию о запросе пользователя
+- Каждое представление Django принимает request первым параметром</p>
+</section>
+<section id="id4">
+<h4>Получение популярных товаров<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">popular_products</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()[:</span><span class="mi">8</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Получает товары для отображения на главной странице.</p>
+<p><strong>Логика:</strong>
+- <code class="docutils literal notranslate"><span class="pre">Product.objects.all()</span></code> - получает все товары из базы данных
+- <code class="docutils literal notranslate"><span class="pre">[:8]</span></code> - ограничивает результат первыми 8 товарами
+- <strong>Примечание:</strong> В будущем можно добавить логику для определения действительно популярных товаров</p>
+</section>
+<section id="id5">
+<h4>Создание контекста<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;popular_products&#39;</span><span class="p">:</span> <span class="n">popular_products</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Подготавливает данные для передачи в шаблон.</p>
+<p><strong>Структура:</strong>
+- <code class="docutils literal notranslate"><span class="pre">context</span></code> - словарь с данными
+- <code class="docutils literal notranslate"><span class="pre">'popular_products'</span></code> - ключ, по которому данные будут доступны в шаблоне
+- <code class="docutils literal notranslate"><span class="pre">popular_products</span></code> - значение (QuerySet с товарами)</p>
+</section>
+<section id="id6">
+<h4>Возврат ответа<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/main_page.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Возвращает отрендеренный HTML-ответ.</p>
+<p><strong>Параметры:</strong>
+- <code class="docutils literal notranslate"><span class="pre">request</span></code> - исходный объект запроса
+- <code class="docutils literal notranslate"><span class="pre">'pages/main_page.html'</span></code> - путь к шаблону
+- <code class="docutils literal notranslate"><span class="pre">context</span></code> - словарь с данными для шаблона</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p><strong>Совет:</strong> Для улучшения производительности можно использовать <code class="docutils literal notranslate"><span class="pre">select_related()</span></code> или <code class="docutils literal notranslate"><span class="pre">prefetch_related()</span></code> если товары связаны с другими моделями.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>Использование <code class="docutils literal notranslate"><span class="pre">Product.objects.all()[:8]</span></code> без сортировки может возвращать разные товары при каждом запросе. Рекомендуется добавить сортировку.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="id7">
+<h2>Представление регистрации пользователя<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">register_view</span></code> обрабатывает регистрацию новых пользователей в системе.</p>
+<section id="id8">
+<h3>Код представления<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">register_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CustomUserCreationForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;django.contrib.auth.backends.ModelBackend&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;main_page&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CustomUserCreationForm</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;components/register.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>Разбор кода<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h3>
+<section id="register-view">
+<h4>Функция register_view<a class="headerlink" href="#register-view" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">register_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Объявление функции представления для регистрации.</p>
+<p><strong>Особенности:</strong>
+- Обрабатывает как GET (показ формы), так и POST (отправка данных) запросы
+- Использует кастомную форму регистрации</p>
+</section>
+<section id="id10">
+<h4>Проверка метода запроса<a class="headerlink" href="#id10" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Определяет тип HTTP-запроса.</p>
+<p><strong>Логика:</strong>
+- <code class="docutils literal notranslate"><span class="pre">POST</span></code> - пользователь отправил данные формы
+- Любой другой метод (обычно <code class="docutils literal notranslate"><span class="pre">GET</span></code>) - пользователь запрашивает страницу</p>
+</section>
+<section id="post">
+<h4>Обработка POST-запроса<a class="headerlink" href="#post" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">form</span> <span class="o">=</span> <span class="n">CustomUserCreationForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Создает форму с данными от пользователя.</p>
+<p><strong>Параметры:</strong>
+- <code class="docutils literal notranslate"><span class="pre">request.POST</span></code> - данные формы (текстовые поля)
+- <code class="docutils literal notranslate"><span class="pre">request.FILES</span></code> - загруженные файлы (например, аватар)</p>
+</section>
+<section id="id11">
+<h4>Валидация и сохранение формы<a class="headerlink" href="#id11" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Проверяет корректность данных и сохраняет пользователя.</p>
+<p><strong>Логика:</strong>
+- <code class="docutils literal notranslate"><span class="pre">form.is_valid()</span></code> - проверяет все валидаторы формы
+- <code class="docutils literal notranslate"><span class="pre">form.save()</span></code> - создает нового пользователя в базе данных
+- Возвращает созданный объект пользователя</p>
+</section>
+<section id="id12">
+<h4>Автоматический вход после регистрации<a class="headerlink" href="#id12" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;django.contrib.auth.backends.ModelBackend&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Выполняет вход пользователя сразу после регистрации.</p>
+<p><strong>Параметры:</strong>
+- <code class="docutils literal notranslate"><span class="pre">request</span></code> - объект запроса
+- <code class="docutils literal notranslate"><span class="pre">user</span></code> - созданный пользователь
+- <code class="docutils literal notranslate"><span class="pre">backend</span></code> - указывает бэкенд аутентификации</p>
+</section>
+<section id="id13">
+<h4>Редирект после успешной регистрации<a class="headerlink" href="#id13" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;main_page&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Перенаправляет пользователя на главную страницу.</p>
+<p><strong>Особенности:</strong>
+- <code class="docutils literal notranslate"><span class="pre">'main_page'</span></code> - имя URL-шаблона из urls.py
+- Пользователь сразу попадает в систему</p>
+</section>
+<section id="get">
+<h4>Обработка GET-запроса<a class="headerlink" href="#get" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">else</span><span class="p">:</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">CustomUserCreationForm</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Создает пустую форму для отображения.</p>
+<p><strong>Логика:</strong>
+- Выполняется когда метод запроса не POST
+- Подготавливает чистую форму для заполнения</p>
+</section>
+<section id="id14">
+<h4>Возврат ответа с формой<a class="headerlink" href="#id14" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;components/register.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Отображает страницу регистрации с формой.</p>
+<p><strong>Параметры:</strong>
+- <code class="docutils literal notranslate"><span class="pre">'components/register.html'</span></code> - шаблон страницы регистрации
+- <code class="docutils literal notranslate"><span class="pre">{'form':</span> <span class="pre">form}</span></code> - передает форму в контекст шаблона</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p><strong>Важно:</strong> Указание бэкенда аутентификации необходимо при использовании кастомной модели пользователя.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>Всегда проверяйте метод запроса для разделения логики отображения формы и обработки данных.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="id15">
+<h2>Представление входа в систему<a class="headerlink" href="#id15" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">login_view</span></code> обрабатывает вход пользователей в систему с поддержкой нескольких типов аутентификации.</p>
+<section id="id16">
+<h3>Код представления<a class="headerlink" href="#id16" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">login_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">auth_type</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;auth_type&#39;</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tab&#39;</span><span class="p">,</span> <span class="s1">&#39;username&#39;</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">auth_type</span> <span class="o">==</span> <span class="s1">&#39;phone&#39;</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">PhoneAuthForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">auth_type</span> <span class="o">==</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">EmailAuthForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">UsernameAuthForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">get_user</span><span class="p">()</span>
+            <span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;django.contrib.auth.backends.ModelBackend&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;main_page&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">auth_type</span> <span class="o">==</span> <span class="s1">&#39;phone&#39;</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">PhoneAuthForm</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">auth_type</span> <span class="o">==</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">EmailAuthForm</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">UsernameAuthForm</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;components/login.html&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s1">&#39;active_tab&#39;</span><span class="p">:</span> <span class="n">auth_type</span>
+    <span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>Разбор кода<a class="headerlink" href="#id17" title="Ссылка на этот заголовок"></a></h3>
+<section id="id18">
+<h4>Определение типа аутентификации<a class="headerlink" href="#id18" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">auth_type</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;auth_type&#39;</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tab&#39;</span><span class="p">,</span> <span class="s1">&#39;username&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Определяет выбранный пользователем тип аутентификации.</p>
+<p><strong>Логика:</strong>
+- <code class="docutils literal notranslate"><span class="pre">request.POST.get('auth_type')</span></code> - проверяет данные из отправленной формы
+- <code class="docutils literal notranslate"><span class="pre">request.GET.get('tab')</span></code> - проверяет параметр URL (для вкладок)
+- <code class="docutils literal notranslate"><span class="pre">'username'</span></code> - значение по умолчанию
+- <strong>Приоритет:</strong> POST данные &gt; GET параметры &gt; значение по умолчанию</p>
+</section>
+<section id="id19">
+<h4>Обработка POST-запроса<a class="headerlink" href="#id19" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Обрабатывает отправку данных формы входа.</p>
+</section>
+<section id="id20">
+<h4>Выбор формы по типу аутентификации<a class="headerlink" href="#id20" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">auth_type</span> <span class="o">==</span> <span class="s1">&#39;phone&#39;</span><span class="p">:</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">PhoneAuthForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">auth_type</span> <span class="o">==</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">EmailAuthForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">UsernameAuthForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Создает соответствующую форму с данными пользователя.</p>
+<p><strong>Типы аутентификации:</strong>
+- <code class="docutils literal notranslate"><span class="pre">phone</span></code> - вход по номеру телефона
+- <code class="docutils literal notranslate"><span class="pre">email</span></code> - вход по email адресу
+- <code class="docutils literal notranslate"><span class="pre">username</span></code> - вход по имени пользователя (по умолчанию)</p>
+</section>
+<section id="id21">
+<h4>Валидация и аутентификация<a class="headerlink" href="#id21" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">get_user</span><span class="p">()</span>
+    <span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;django.contrib.auth.backends.ModelBackend&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;main_page&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Проверяет данные и выполняет вход пользователя.</p>
+<p><strong>Логика:</strong>
+- <code class="docutils literal notranslate"><span class="pre">form.is_valid()</span></code> - проверяет корректность введенных данных
+- <code class="docutils literal notranslate"><span class="pre">form.get_user()</span></code> - возвращает объект пользователя после успешной аутентификации
+- <code class="docutils literal notranslate"><span class="pre">login()</span></code> - создает сессию пользователя
+- <code class="docutils literal notranslate"><span class="pre">redirect('main_page')</span></code> - перенаправляет на главную страницу</p>
+</section>
+<section id="id22">
+<h4>Обработка GET-запроса<a class="headerlink" href="#id22" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">else</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">auth_type</span> <span class="o">==</span> <span class="s1">&#39;phone&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">PhoneAuthForm</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">auth_type</span> <span class="o">==</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">EmailAuthForm</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">UsernameAuthForm</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Создает пустые формы для отображения страницы входа.</p>
+<p><strong>Особенности:</strong>
+- Использует тот же <code class="docutils literal notranslate"><span class="pre">auth_type</span></code> для согласованности
+- Подготавливает правильную форму для выбранного типа аутентификации</p>
+</section>
+<section id="id23">
+<h4>Возврат ответа с контекстом<a class="headerlink" href="#id23" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;components/login.html&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+    <span class="s1">&#39;active_tab&#39;</span><span class="p">:</span> <span class="n">auth_type</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Отображает страницу входа с формой и активной вкладкой.</p>
+<p><strong>Контекст:</strong>
+- <code class="docutils literal notranslate"><span class="pre">'form'</span></code> - объект формы для рендеринга
+- <code class="docutils literal notranslate"><span class="pre">'active_tab'</span></code> - текущий активный тип аутентификации для подсветки вкладки</p>
+</section>
+<section id="id24">
+<h4>Преимущества подхода<a class="headerlink" href="#id24" title="Ссылка на этот заголовок"></a></h4>
+<ul class="simple">
+<li><p><strong>Гибкость:</strong> Поддержка нескольких способов входа</p></li>
+<li><p><strong>Удобство:</strong> Сохранение выбранного типа аутентификации между запросами</p></li>
+<li><p><strong>Модульность:</strong> Разделение логики для разных типов аутентификации</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p><strong>Совет:</strong> Для улучшения UX можно добавить переключение между вкладками без перезагрузки страницы с помощью JavaScript.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>Убедитесь, что все формы аутентификации правильно реализуют метод <code class="docutils literal notranslate"><span class="pre">get_user()</span></code> для возврата объекта пользователя.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="id25">
+<h2>Представление выхода из системы<a class="headerlink" href="#id25" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">logout_view</span></code> обрабатывает выход пользователя из системы.</p>
+<section id="id26">
+<h3>Код представления<a class="headerlink" href="#id26" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">logout_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;main_page&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id27">
+<h3>Разбор кода<a class="headerlink" href="#id27" title="Ссылка на этот заголовок"></a></h3>
+<section id="logout-view">
+<h4>Функция logout_view<a class="headerlink" href="#logout-view" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">logout_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Объявление функции представления для выхода из системы.</p>
+<p><strong>Особенности:</strong>
+- Очень простое представление без сложной логики
+- Обычно вызывается по GET-запросу (ссылка «Выйти»)</p>
+</section>
+<section id="id28">
+<h4>Выход из системы<a class="headerlink" href="#id28" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Завершает сеанс пользователя.</p>
+<p><strong>Действие:</strong>
+- Удаляет данные сессии из базы данных
+- Очищает cookies в браузере пользователя
+- Пользователь больше не считается аутентифицированным</p>
+</section>
+<section id="id29">
+<h4>Редирект на главную страницу<a class="headerlink" href="#id29" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;main_page&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Перенаправляет пользователя после выхода.</p>
+<p><strong>Логика:</strong>
+- <code class="docutils literal notranslate"><span class="pre">'main_page'</span></code> - имя URL-шаблона главной страницы
+- Пользователь попадает на публичную часть сайта
+- Можно изменить на любую другую страницу (например, страницу входа)</p>
+</section>
+<section id="id30">
+<h4>Особенности реализации<a class="headerlink" href="#id30" title="Ссылка на этот заголовок"></a></h4>
+<p><strong>Простота:</strong> Минимальный код без лишней логики</p>
+<p><strong>Безопасность:</strong>
+- Не требует проверки метода запроса
+- Безопасно вызывать даже если пользователь уже вышел</p>
+<p><strong>Надежность:</strong> Всегда выполняет перенаправление</p>
+</section>
+<section id="id31">
+<h4>Рекомендации по использованию<a class="headerlink" href="#id31" title="Ссылка на этот заголовок"></a></h4>
+<ul class="simple">
+<li><p><strong>Защита CSRF:</strong> Убедитесь, что выход выполняется через POST-запрос или с CSRF-токеном</p></li>
+<li><p><strong>Сообщения:</strong> Можно добавить flash-сообщение о успешном выходе:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">messages</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">logout_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Вы успешно вышли из системы&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;main_page&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Логирование:</strong> Для отладки можно добавить логирование:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">logout_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;User </span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s1"> logged out&#39;</span><span class="p">)</span>
+    <span class="n">logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;main_page&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p><strong>Важно:</strong> Функция <code class="docutils literal notranslate"><span class="pre">logout()</span></code> безопасна для многократного вызова - она не вызывает ошибок если пользователь уже вышел.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>Для безопасности рекомендуется использовать POST-запросы для выхода из системы, чтобы предотвратить CSRF-атаки.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="id32">
+<h2>Представление каталога с фильтрацией<a class="headerlink" href="#id32" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">catalog_view</span></code> отображает каталог товаров с поддержкой фильтрации по категориям, поиска и ценового диапазона.</p>
+<section id="id33">
+<h3>Код представления<a class="headerlink" href="#id33" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">catalog_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="n">category_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+    <span class="n">search_query</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)</span>
+    <span class="n">min_price</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;min_price&#39;</span><span class="p">)</span>
+    <span class="n">max_price</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_price&#39;</span><span class="p">)</span>
+
+    <span class="n">products</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">category_id</span><span class="p">:</span>
+        <span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">category_id</span><span class="o">=</span><span class="n">category_id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">search_query</span><span class="p">:</span>
+        <span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">Q</span><span class="p">(</span><span class="n">name__icontains</span><span class="o">=</span><span class="n">search_query</span><span class="p">)</span> <span class="o">|</span>
+            <span class="n">Q</span><span class="p">(</span><span class="n">description__icontains</span><span class="o">=</span><span class="n">search_query</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">min_price</span><span class="p">:</span>
+        <span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">price__gte</span><span class="o">=</span><span class="n">min_price</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">max_price</span><span class="p">:</span>
+        <span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">price__lte</span><span class="o">=</span><span class="n">max_price</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;categories&#39;</span><span class="p">:</span> <span class="n">categories</span><span class="p">,</span>
+        <span class="s1">&#39;products&#39;</span><span class="p">:</span> <span class="n">products</span><span class="p">,</span>
+        <span class="s1">&#39;selected_category&#39;</span><span class="p">:</span> <span class="n">category_id</span><span class="p">,</span>
+        <span class="s1">&#39;search_query&#39;</span><span class="p">:</span> <span class="n">search_query</span><span class="p">,</span>
+        <span class="s1">&#39;min_price&#39;</span><span class="p">:</span> <span class="n">min_price</span><span class="p">,</span>
+        <span class="s1">&#39;max_price&#39;</span><span class="p">:</span> <span class="n">max_price</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/catalog.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id34">
+<h3>Разбор кода<a class="headerlink" href="#id34" title="Ссылка на этот заголовок"></a></h3>
+<section id="id35">
+<h4>Получение списка категорий<a class="headerlink" href="#id35" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">categories</span> <span class="o">=</span> <span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Получает все категории для отображения в фильтрах.</p>
+<p><strong>Особенности:</strong>
+- Используется для построения выпадающего списка категорий
+- Всегда загружается, независимо от примененных фильтров</p>
+</section>
+<section id="id36">
+<h4>Извлечение GET-параметров<a class="headerlink" href="#id36" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">category_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+<span class="n">search_query</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)</span>
+<span class="n">min_price</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;min_price&#39;</span><span class="p">)</span>
+<span class="n">max_price</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_price&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Получает параметры фильтрации из URL.</p>
+<p><strong>Параметры:</strong>
+- <code class="docutils literal notranslate"><span class="pre">category</span></code> - ID выбранной категории
+- <code class="docutils literal notranslate"><span class="pre">q</span></code> - поисковый запрос
+- <code class="docutils literal notranslate"><span class="pre">min_price</span></code> - минимальная цена
+- <code class="docutils literal notranslate"><span class="pre">max_price</span></code> - максимальная цена
+- <strong>Метод:</strong> <code class="docutils literal notranslate"><span class="pre">.get()</span></code> возвращает <code class="docutils literal notranslate"><span class="pre">None</span></code> если параметр отсутствует</p>
+</section>
+<section id="queryset">
+<h4>Базовый QuerySet<a class="headerlink" href="#queryset" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">products</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Создает начальную выборку всех товаров.</p>
+<p><strong>Особенности:</strong>
+- Является точкой отсчета для применения фильтров
+- QuerySet ленивый - выполнение происходит только при использовании результатов</p>
+</section>
+<section id="id37">
+<h4>Фильтрация по категории<a class="headerlink" href="#id37" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">category_id</span><span class="p">:</span>
+    <span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">category_id</span><span class="o">=</span><span class="n">category_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Фильтрует товары по выбранной категории.</p>
+<p><strong>Логика:</strong>
+- Проверяет, что <code class="docutils literal notranslate"><span class="pre">category_id</span></code> не <code class="docutils literal notranslate"><span class="pre">None</span></code>
+- Использует <code class="docutils literal notranslate"><span class="pre">filter()</span></code> для сужения выборки
+- <code class="docutils literal notranslate"><span class="pre">category_id</span></code> - прямое указание ID без загрузки объекта Category</p>
+</section>
+<section id="id38">
+<h4>Поиск по названию и описанию<a class="headerlink" href="#id38" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">search_query</span><span class="p">:</span>
+    <span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+        <span class="n">Q</span><span class="p">(</span><span class="n">name__icontains</span><span class="o">=</span><span class="n">search_query</span><span class="p">)</span> <span class="o">|</span>
+        <span class="n">Q</span><span class="p">(</span><span class="n">description__icontains</span><span class="o">=</span><span class="n">search_query</span><span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Выполняет поиск товаров по названию и описанию.</p>
+<p><strong>Особенности:</strong>
+- <code class="docutils literal notranslate"><span class="pre">Q()</span></code> объекты позволяют строить сложные запросы
+- <code class="docutils literal notranslate"><span class="pre">|</span></code> - оператор ИЛИ (OR)
+- <code class="docutils literal notranslate"><span class="pre">icontains</span></code> - регистронезависимое совпадение подстроки
+- Ищет как в названии, так и в описании товара</p>
+</section>
+<section id="id39">
+<h4>Фильтрация по цене<a class="headerlink" href="#id39" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">min_price</span><span class="p">:</span>
+    <span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">price__gte</span><span class="o">=</span><span class="n">min_price</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">max_price</span><span class="p">:</span>
+    <span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">price__lte</span><span class="o">=</span><span class="n">max_price</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Фильтрует товары по ценовому диапазону.</p>
+<p><strong>Операторы:</strong>
+- <code class="docutils literal notranslate"><span class="pre">gte</span></code> - Greater Than or Equal (больше или равно)
+- <code class="docutils literal notranslate"><span class="pre">lte</span></code> - Less Than or Equal (меньше или равно)
+- Можно использовать одновременно для диапазона</p>
+</section>
+<section id="id40">
+<h4>Подготовка контекста<a class="headerlink" href="#id40" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;categories&#39;</span><span class="p">:</span> <span class="n">categories</span><span class="p">,</span>
+    <span class="s1">&#39;products&#39;</span><span class="p">:</span> <span class="n">products</span><span class="p">,</span>
+    <span class="s1">&#39;selected_category&#39;</span><span class="p">:</span> <span class="n">category_id</span><span class="p">,</span>
+    <span class="s1">&#39;search_query&#39;</span><span class="p">:</span> <span class="n">search_query</span><span class="p">,</span>
+    <span class="s1">&#39;min_price&#39;</span><span class="p">:</span> <span class="n">min_price</span><span class="p">,</span>
+    <span class="s1">&#39;max_price&#39;</span><span class="p">:</span> <span class="n">max_price</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Собирает все данные для передачи в шаблон.</p>
+<p><strong>Структура контекста:</strong>
+- <code class="docutils literal notranslate"><span class="pre">categories</span></code> - все категории для фильтра
+- <code class="docutils literal notranslate"><span class="pre">products</span></code> - отфильтрованные товары
+- <code class="docutils literal notranslate"><span class="pre">selected_category</span></code> - сохраняет выбранную категорию для формы
+- <code class="docutils literal notranslate"><span class="pre">search_query</span></code> - сохраняет поисковый запрос
+- <code class="docutils literal notranslate"><span class="pre">min_price,</span> <span class="pre">max_price</span></code> - сохраняют значения ценовых фильтров</p>
+</section>
+<section id="id41">
+<h4>Возврат ответа<a class="headerlink" href="#id41" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/catalog.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Отображает страницу каталога с примененными фильтрами.</p>
+</section>
+<section id="id42">
+<h4>Особенности реализации<a class="headerlink" href="#id42" title="Ссылка на этот заголовок"></a></h4>
+<p><strong>Постепенная фильтрация:</strong> Каждый фильтр применяется последовательно к QuerySet</p>
+<p><strong>Сохранение состояния:</strong> Все параметры фильтрации передаются обратно в шаблон</p>
+<p><strong>Гибкость:</strong> Легко добавить новые фильтры без изменения структуры</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p><strong>Производительность:</strong> Для большого количества товаров рассмотрите использование <code class="docutils literal notranslate"><span class="pre">select_related('category')</span></code> для избежания N+1 запросов.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>Фильтрация по цене предполагает, что параметры передаются как числа. Добавьте валидацию для защиты от неверных данных.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="id43">
+<h2>Представление детальной страницы товара<a class="headerlink" href="#id43" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">product_detail_view</span></code> отображает подробную информацию о конкретном товаре.</p>
+<section id="id44">
+<h3>Код представления<a class="headerlink" href="#id44" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">product_detail_view</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="n">product</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/product_detail.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id45">
+<h3>Разбор кода<a class="headerlink" href="#id45" title="Ссылка на этот заголовок"></a></h3>
+<section id="product-id">
+<h4>Функция с параметром product_id<a class="headerlink" href="#product-id" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">product_detail_view</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Объявление функции представления с параметром URL.</p>
+<p><strong>Особенности:</strong>
+- <code class="docutils literal notranslate"><span class="pre">product_id</span></code> - параметр из URL, который передается в функцию
+- Обычно извлекается из пути URL, например: <code class="docutils literal notranslate"><span class="pre">/products/123/</span></code></p>
+</section>
+<section id="id46">
+<h4>Получение товара или 404 ошибка<a class="headerlink" href="#id46" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Получает товар по ID или возвращает страницу 404.</p>
+<p><strong>Параметры:</strong>
+- <code class="docutils literal notranslate"><span class="pre">Product</span></code> - модель для поиска
+- <code class="docutils literal notranslate"><span class="pre">id=product_id</span></code> - условие поиска по первичному ключу
+- <strong>Альтернатива:</strong> <code class="docutils literal notranslate"><span class="pre">Product.objects.get(id=product_id)</span></code>, но тогда нужно обрабатывать исключение вручную</p>
+</section>
+<section id="get-object-or-404">
+<h4>Преимущества get_object_or_404<a class="headerlink" href="#get-object-or-404" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Эквивалентная ручная реализация:</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">Product</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">Http404</span><span class="p">(</span><span class="s2">&quot;Товар не существует&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Сравнение:</strong>
+- <code class="docutils literal notranslate"><span class="pre">get_object_or_404()</span></code> - более компактная и читаемая запись
+- Автоматически генерирует соответствующий HTTP-ответ
+- Стандартный Django подход для таких случаев</p>
+</section>
+</section>
+</section>
+<section id="id47">
+<h2>Представление корзины пользователя<a class="headerlink" href="#id47" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">cart_view</span></code> отображает содержимое корзины текущего пользователя с подсчетом общей суммы.</p>
+<section id="id48">
+<h3>Код представления<a class="headerlink" href="#id48" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cart_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">cart_items</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="c1"># Подсчет общей суммы корзины</span>
+    <span class="n">total_amount</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_total</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;cart_items&#39;</span><span class="p">:</span> <span class="n">cart_items</span><span class="p">,</span>
+        <span class="s1">&#39;total_amount&#39;</span><span class="p">:</span> <span class="n">total_amount</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/cart.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id49">
+<h3>Разбор кода<a class="headerlink" href="#id49" title="Ссылка на этот заголовок"></a></h3>
+<section id="login-required">
+<h4>Декоратор login_required<a class="headerlink" href="#login-required" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Ограничивает доступ к представлению только для авторизованных пользователей.</p>
+<p><strong>Действие:</strong>
+- Если пользователь не авторизован, перенаправляет на страницу входа
+- После входа возвращает на запрошенную страницу корзины
+- <strong>Альтернатива:</strong> Можно использовать <code class="docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code> для класс-базированных представлений</p>
+</section>
+<section id="id50">
+<h4>Получение элементов корзины<a class="headerlink" href="#id50" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cart_items</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Получает все товары в корзине текущего пользователя.</p>
+<p><strong>Особенности:</strong>
+- <code class="docutils literal notranslate"><span class="pre">request.user</span></code> - текущий авторизованный пользователь
+- <code class="docutils literal notranslate"><span class="pre">filter(user=request.user)</span></code> - только элементы корзины этого пользователя
+- <strong>Производительность:</strong> Рассмотрите <code class="docutils literal notranslate"><span class="pre">select_related('product')</span></code> для избежания N+1 запросов</p>
+</section>
+<section id="id51">
+<h4>Подсчет общей суммы<a class="headerlink" href="#id51" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">total_amount</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_total</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Вычисляет общую стоимость всех товаров в корзине.</p>
+<p><strong>Логика:</strong>
+- <code class="docutils literal notranslate"><span class="pre">item.get_total()</span></code> - вызывает метод модели CartItem для расчета стоимости элемента
+- <code class="docutils literal notranslate"><span class="pre">sum()</span></code> - встроенная функция Python для суммирования
+- <strong>Генератор:</strong> Использует generator expression для эффективного вычисления</p>
+</section>
+<section id="get-total-cartitem">
+<h4>Метод get_total() модели CartItem<a class="headerlink" href="#get-total-cartitem" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># В модели CartItem (напоминание)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_total</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">price</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">price</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span>
+    <span class="k">return</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Вычисляет стоимость одного элемента корзины.</p>
+<p><strong>Преимущества:</strong>
+- Логика расчета инкапсулирована в модели
+- Можно переиспользовать в других местах
+- Обрабатывает случаи с отсутствующими данными</p>
+</section>
+<section id="id52">
+<h4>Подготовка контекста<a class="headerlink" href="#id52" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;cart_items&#39;</span><span class="p">:</span> <span class="n">cart_items</span><span class="p">,</span>
+    <span class="s1">&#39;total_amount&#39;</span><span class="p">:</span> <span class="n">total_amount</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Собирает данные для отображения в корзине.</p>
+<p><strong>Структура:</strong>
+- <code class="docutils literal notranslate"><span class="pre">cart_items</span></code> - список элементов корзины для отображения в таблице
+- <code class="docutils literal notranslate"><span class="pre">total_amount</span></code> - общая сумма для отображения в итоговой строке</p>
+</section>
+<section id="id53">
+<h4>Возврат ответа<a class="headerlink" href="#id53" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/cart.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Отображает страницу корзины с товарами и общей суммой.</p>
+</section>
+<section id="id54">
+<h4>Оптимизации и улучшения<a class="headerlink" href="#id54" title="Ссылка на этот заголовок"></a></h4>
+<p><strong>Оптимизация запросов:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cart_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">cart_items</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+        <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;product&#39;</span><span class="p">)</span>
+
+    <span class="n">total_amount</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_total</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;cart_items&#39;</span><span class="p">:</span> <span class="n">cart_items</span><span class="p">,</span>
+        <span class="s1">&#39;total_amount&#39;</span><span class="p">:</span> <span class="n">total_amount</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/cart.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Добавление проверки пустой корзины:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cart_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">cart_items</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cart_items</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Ваша корзина пуста&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;catalog&#39;</span><span class="p">)</span>
+
+    <span class="n">total_amount</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_total</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;cart_items&#39;</span><span class="p">:</span> <span class="n">cart_items</span><span class="p">,</span>
+        <span class="s1">&#39;total_amount&#39;</span><span class="p">:</span> <span class="n">total_amount</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/cart.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id55">
+<h4>Особенности реализации<a class="headerlink" href="#id55" title="Ссылка на этот заголовок"></a></h4>
+<p><strong>Безопасность:</strong> Доступ только для авторизованных пользователей</p>
+<p><strong>Производительность:</strong> Один запрос к базе данных для получения элементов корзины</p>
+<p><strong>Гибкость:</strong> Легко расширить дополнительной логикой (скидки, доставка и т.д.)</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p><strong>Совет:</strong> Для больших корзин можно вынести подсчет суммы в базу данных с помощью <code class="docutils literal notranslate"><span class="pre">aggregate()</span></code>:
+<code class="docutils literal notranslate"><span class="pre">total_amount</span> <span class="pre">=</span> <span class="pre">cart_items.aggregate(total=Sum(F('product__price')</span> <span class="pre">*</span> <span class="pre">F('quantity')))['total']</span> <span class="pre">or</span> <span class="pre">0</span></code></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>Убедитесь, что метод <code class="docutils literal notranslate"><span class="pre">get_total()</span></code> в модели CartItem корректно обрабатывает случаи, когда товар или цена отсутствуют.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="id56">
+<h2>Представление добавления товара в корзину<a class="headerlink" href="#id56" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">add_to_cart</span></code> добавляет товар в корзину пользователя или увеличивает количество, если товар уже есть.</p>
+<section id="id57">
+<h3>Код представления<a class="headerlink" href="#id57" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_to_cart</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+
+    <span class="c1"># Проверяем, нет ли уже такого товара в корзине</span>
+    <span class="n">cart_item</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span>
+        <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+        <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span>
+        <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Если товар уже был в корзине, увеличиваем количество</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">created</span><span class="p">:</span>
+        <span class="n">cart_item</span><span class="o">.</span><span class="n">quantity</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">cart_item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id58">
+<h3>Разбор кода<a class="headerlink" href="#id58" title="Ссылка на этот заголовок"></a></h3>
+<section id="id59">
+<h4>Защита декоратором<a class="headerlink" href="#id59" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Гарантирует, что только авторизованные пользователи могут добавлять товары в корзину.</p>
+<p><strong>Важность:</strong> Предотвращает добавление товаров анонимными пользователями</p>
+</section>
+<section id="id60">
+<h4>Получение товара<a class="headerlink" href="#id60" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Находит товар по ID или возвращает 404 ошибку.</p>
+<p><strong>Безопасность:</strong> Защищает от добавления несуществующих товаров</p>
+</section>
+<section id="get-or-create">
+<h4>Метод get_or_create<a class="headerlink" href="#get-or-create" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cart_item</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span>
+    <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+    <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span>
+    <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Находит или создает элемент корзины.</p>
+<p><strong>Параметры:</strong>
+- <code class="docutils literal notranslate"><span class="pre">user=request.user</span></code> - пользователь для поиска/создания
+- <code class="docutils literal notranslate"><span class="pre">product=product</span></code> - товар для поиска/создания
+- <code class="docutils literal notranslate"><span class="pre">defaults={'quantity':</span> <span class="pre">1}</span></code> - значения по умолчанию при создании</p>
+<p><strong>Возвращаемые значения:</strong>
+- <code class="docutils literal notranslate"><span class="pre">cart_item</span></code> - найденный или созданный объект
+- <code class="docutils literal notranslate"><span class="pre">created</span></code> - boolean: True если создан новый, False если найден существующий</p>
+</section>
+<section id="id61">
+<h4>Логика увеличения количества<a class="headerlink" href="#id61" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">created</span><span class="p">:</span>
+    <span class="n">cart_item</span><span class="o">.</span><span class="n">quantity</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">cart_item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Увеличивает количество, если товар уже есть в корзине.</p>
+<p><strong>Условие:</strong> <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">created</span></code> - если объект <span class="xref std std-ref">​</span> не был создан (уже существовал)</p>
+<p><strong>Действие:</strong>
+- Увеличивает количество на 1
+- Сохраняет изменения в базе данных</p>
+</section>
+<section id="id62">
+<h4>Редирект на корзину<a class="headerlink" href="#id62" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Перенаправляет пользователя на страницу корзины.</p>
+<p><strong>Пользовательский опыт:</strong> Позволяет сразу увидеть добавленный товар</p>
+</section>
+<section id="id63">
+<h4>Альтернативные реализации<a class="headerlink" href="#id63" title="Ссылка на этот заголовок"></a></h4>
+<p><strong>С обработкой ошибок:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_to_cart</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">product</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">Product</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Товар не найден&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;catalog&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Остальная логика...</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>С сообщениями об успехе:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_to_cart</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+
+    <span class="n">cart_item</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span>
+        <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+        <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span>
+        <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">created</span><span class="p">:</span>
+        <span class="n">cart_item</span><span class="o">.</span><span class="n">quantity</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">cart_item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Количество &quot;</span><span class="si">{</span><span class="n">product</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; увеличено&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Товар &quot;</span><span class="si">{</span><span class="n">product</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; добавлен в корзину&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>С AJAX поддержкой:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_to_cart</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;X-Requested-With&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;XMLHttpRequest&#39;</span><span class="p">:</span>
+        <span class="c1"># AJAX запрос - возвращаем JSON</span>
+        <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+
+        <span class="n">cart_item</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span>
+            <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+            <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span>
+            <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">created</span><span class="p">:</span>
+            <span class="n">cart_item</span><span class="o">.</span><span class="n">quantity</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">cart_item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+            <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;Товар добавлен в корзину&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;cart_count&#39;</span><span class="p">:</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="p">})</span>
+
+    <span class="c1"># Обычный запрос - редирект</span>
+    <span class="c1"># ... обычная логика</span>
+</pre></div>
+</div>
+</section>
+<section id="id64">
+<h4>Особенности реализации<a class="headerlink" href="#id64" title="Ссылка на этот заголовок"></a></h4>
+<p><strong>Эффективность:</strong> Один запрос к базе для поиска/создания</p>
+<p><strong>Удобство:</strong> Автоматическое увеличение количества существующих товаров</p>
+<p><strong>Надежность:</strong> Обработка несуществующих товаров через 404</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p><strong>Совет:</strong> Для улучшения UX можно добавить параметр количества:
+<code class="docutils literal notranslate"><span class="pre">quantity</span> <span class="pre">=</span> <span class="pre">request.POST.get('quantity',</span> <span class="pre">1)</span></code> и использовать его в <code class="docutils literal notranslate"><span class="pre">defaults</span></code></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>Убедитесь, что в модели CartItem установлено <code class="docutils literal notranslate"><span class="pre">unique_together</span></code> для полей <code class="docutils literal notranslate"><span class="pre">user</span></code> и <code class="docutils literal notranslate"><span class="pre">product</span></code>, чтобы <code class="docutils literal notranslate"><span class="pre">get_or_create</span></code> работал корректно.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="id65">
+<h2>Представление обновления количества товара в корзине<a class="headerlink" href="#id65" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">update_cart_item</span></code> обновляет количество конкретного товара в корзине пользователя с использованием формы.</p>
+<section id="id66">
+<h3>Код представления<a class="headerlink" href="#id66" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_cart_item</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">item_id</span><span class="p">):</span>
+    <span class="n">cart_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">CartItem</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CartItemQuantityForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">cart_item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id67">
+<h3>Разбор кода<a class="headerlink" href="#id67" title="Ссылка на этот заголовок"></a></h3>
+<section id="id68">
+<h4>Безопасное получение элемента корзины<a class="headerlink" href="#id68" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cart_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">CartItem</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Находит элемент корзины с двойной проверкой безопасности.</p>
+<p><strong>Условия поиска:</strong>
+- <code class="docutils literal notranslate"><span class="pre">id=item_id</span></code> - по идентификатору элемента
+- <code class="docutils literal notranslate"><span class="pre">user=request.user</span></code> - принадлежность текущему пользователю
+- <strong>Безопасность:</strong> Предотвращает изменение чужих корзин</p>
+</section>
+<section id="id69">
+<h4>Проверка метода запроса<a class="headerlink" href="#id69" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Обеспечивает, что обновление происходит только через POST-запрос.</p>
+<p><strong>Безопасность:</strong> Защищает от CSRF-атак и случайных изменений</p>
+</section>
+<section id="id70">
+<h4>Создание формы с данными<a class="headerlink" href="#id70" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">form</span> <span class="o">=</span> <span class="n">CartItemQuantityForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">cart_item</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Создает форму с данными от пользователя и привязывает к существующему объекту.</p>
+<p><strong>Параметры:</strong>
+- <code class="docutils literal notranslate"><span class="pre">request.POST</span></code> - данные из отправленной формы
+- <code class="docutils literal notranslate"><span class="pre">instance=cart_item</span></code> - объект для обновления (а не создания нового)</p>
+</section>
+<section id="id71">
+<h4>Валидация и сохранение<a class="headerlink" href="#id71" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+    <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Проверяет данные и сохраняет изменения.</p>
+<p><strong>Логика:</strong>
+- <code class="docutils literal notranslate"><span class="pre">form.is_valid()</span></code> - проверяет корректность введенного количества
+- <code class="docutils literal notranslate"><span class="pre">form.save()</span></code> - обновляет объект в базе данных
+- <strong>Автоматически:</strong> Применяет все изменения к <code class="docutils literal notranslate"><span class="pre">cart_item</span></code></p>
+</section>
+<section id="id72">
+<h4>Редирект на корзину<a class="headerlink" href="#id72" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Возвращает пользователя на страницу корзины после обновления.</p>
+</section>
+</section>
+</section>
+<section id="id73">
+<h2>Представление удаления товара из корзины<a class="headerlink" href="#id73" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">remove_from_cart</span></code> удаляет конкретный товар из корзины пользователя.</p>
+<section id="id74">
+<h3>Код представления<a class="headerlink" href="#id74" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_from_cart</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">item_id</span><span class="p">):</span>
+    <span class="n">cart_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">CartItem</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">cart_item</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id75">
+<h3>Разбор кода<a class="headerlink" href="#id75" title="Ссылка на этот заголовок"></a></h3>
+<section id="id76">
+<h4>Защита доступа<a class="headerlink" href="#id76" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Ограничивает доступ только для авторизованных пользователей.</p>
+<p><strong>Важность:</strong> Предотвращает удаление товаров из корзины анонимными пользователями</p>
+</section>
+<section id="id77">
+<h4>Безопасное получение элемента<a class="headerlink" href="#id77" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cart_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">CartItem</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Находит элемент корзины с проверкой принадлежности.</p>
+<p><strong>Условия поиска:</strong>
+- <code class="docutils literal notranslate"><span class="pre">id=item_id</span></code> - идентификатор элемента корзины
+- <code class="docutils literal notranslate"><span class="pre">user=request.user</span></code> - принадлежность текущему пользователю
+- <strong>Безопасность:</strong> Гарантирует, что пользователь может удалять только свои товары</p>
+</section>
+<section id="id78">
+<h4>Удаление элемента<a class="headerlink" href="#id78" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cart_item</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Удаляет элемент корзины из базы данных.</p>
+<p><strong>Действие:</strong>
+- Выполняет SQL DELETE запрос
+- Объект полностью удаляется из базы данных
+- <strong>Атомарность:</strong> Операция выполняется как единое целое</p>
+</section>
+<section id="id79">
+<h4>Редирект на корзину<a class="headerlink" href="#id79" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Перенаправляет пользователя обратно в корзину.</p>
+<p><strong>Пользовательский опыт:</strong> Позволяет сразу увидеть обновленную корзину без удаленного товара</p>
+</section>
+<section id="id80">
+<h4>Альтернативные реализации<a class="headerlink" href="#id80" title="Ссылка на этот заголовок"></a></h4>
+<p><strong>С проверкой метода запроса:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_from_cart</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">item_id</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">cart_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">CartItem</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">cart_item</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>С сообщением об успехе:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_from_cart</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">item_id</span><span class="p">):</span>
+    <span class="n">cart_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">CartItem</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">product_name</span> <span class="o">=</span> <span class="n">cart_item</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">cart_item</span><span class="o">.</span><span class="n">product</span> <span class="k">else</span> <span class="s1">&#39;Товар&#39;</span>
+    <span class="n">cart_item</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">product_name</span><span class="si">}</span><span class="s1"> удален из корзины&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="id81">
+<h2>Представление страницы контактов<a class="headerlink" href="#id81" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">contacts_view</span></code> удаляет конкретный товар из корзины пользователя.</p>
+<section id="id82">
+<h3>Код представления<a class="headerlink" href="#id82" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">contacts_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/contacts.html&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id83">
+<h2>Представление оформления заказа<a class="headerlink" href="#id83" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">checkout_view</span></code> обрабатывает процесс оформления заказа из корзины пользователя.</p>
+<section id="id84">
+<h3>Код представления<a class="headerlink" href="#id84" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">checkout_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">cart_items</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cart_items</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+    <span class="n">total_amount</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_total</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">OrderForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">order</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="n">order</span><span class="o">.</span><span class="n">total_amount</span> <span class="o">=</span> <span class="n">total_amount</span>
+            <span class="n">order</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">cart_item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">:</span>
+                <span class="n">OrderItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+                    <span class="n">product</span><span class="o">=</span><span class="n">cart_item</span><span class="o">.</span><span class="n">product</span><span class="p">,</span>
+                    <span class="n">quantity</span><span class="o">=</span><span class="n">cart_item</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
+                    <span class="n">price</span><span class="o">=</span><span class="n">cart_item</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">price</span>
+                <span class="p">)</span>
+            <span class="n">cart_items</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;order_success&#39;</span><span class="p">,</span> <span class="n">order_id</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">initial_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;shipping_address&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">address</span><span class="p">,</span>
+            <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">phone</span><span class="p">,</span>
+            <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span>
+        <span class="p">}</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">OrderForm</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="n">initial_data</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s1">&#39;cart_items&#39;</span><span class="p">:</span> <span class="n">cart_items</span><span class="p">,</span>
+        <span class="s1">&#39;total_amount&#39;</span><span class="p">:</span> <span class="n">total_amount</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/checkout.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id85">
+<h3>Разбор кода<a class="headerlink" href="#id85" title="Ссылка на этот заголовок"></a></h3>
+<section id="id86">
+<h4>Проверка наличия товаров в корзине<a class="headerlink" href="#id86" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cart_items</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">cart_items</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Проверяет, что в корзине есть товары для оформления.</p>
+<p><strong>Действие:</strong> Если корзина пуста - перенаправляет обратно в корзину</p>
+</section>
+<section id="id87">
+<h4>Подсчет общей суммы<a class="headerlink" href="#id87" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">total_amount</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_total</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Вычисляет общую стоимость заказа на основе товаров в корзине</p>
+</section>
+<section id="id88">
+<h4>Обработка POST-запроса (отправка формы)<a class="headerlink" href="#id88" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">OrderForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Обрабатывает отправленные данные формы заказа</p>
+</section>
+<section id="id89">
+<h4>Создание заказа с дополнительными полями<a class="headerlink" href="#id89" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">order</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+<span class="n">order</span><span class="o">.</span><span class="n">total_amount</span> <span class="o">=</span> <span class="n">total_amount</span>
+<span class="n">order</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Создает объект заказа с автоматическим заполнением полей.</p>
+<p><strong>Логика:</strong>
+- <code class="docutils literal notranslate"><span class="pre">commit=False</span></code> - создает объект без сохранения в БД
+- Заполняет <code class="docutils literal notranslate"><span class="pre">user</span></code> и <code class="docutils literal notranslate"><span class="pre">total_amount</span></code> вручную
+- <code class="docutils literal notranslate"><span class="pre">order.save()</span></code> - сохраняет заказ в базе данных</p>
+</section>
+<section id="id90">
+<h4>Создание элементов заказа<a class="headerlink" href="#id90" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">cart_item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">:</span>
+    <span class="n">OrderItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+        <span class="n">product</span><span class="o">=</span><span class="n">cart_item</span><span class="o">.</span><span class="n">product</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="n">cart_item</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
+        <span class="n">price</span><span class="o">=</span><span class="n">cart_item</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">price</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Переносит товары из корзины в заказ.</p>
+<p><strong>Особенности:</strong>
+- Сохраняет текущую цену товара на момент заказа
+- Создает связь между заказом и товарами</p>
+</section>
+<section id="id91">
+<h4>Очистка корзины и редирект<a class="headerlink" href="#id91" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cart_items</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+<span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;order_success&#39;</span><span class="p">,</span> <span class="n">order_id</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Удаляет товары из корзины и перенаправляет на страницу успеха</p>
+</section>
+<section id="id92">
+<h4>Обработка GET-запроса (показ формы)<a class="headerlink" href="#id92" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">else</span><span class="p">:</span>
+    <span class="n">initial_data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;shipping_address&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">address</span><span class="p">,</span>
+        <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">phone</span><span class="p">,</span>
+        <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span>
+    <span class="p">}</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">OrderForm</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="n">initial_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Подготавливает форму с предзаполненными данными пользователя.</p>
+<p><strong>Удобство:</strong> Автоматически заполняет адрес, телефон и email из профиля</p>
+</section>
+<section id="id93">
+<h4>Отображение страницы оформления<a class="headerlink" href="#id93" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+    <span class="s1">&#39;cart_items&#39;</span><span class="p">:</span> <span class="n">cart_items</span><span class="p">,</span>
+    <span class="s1">&#39;total_amount&#39;</span><span class="p">:</span> <span class="n">total_amount</span>
+<span class="p">}</span>
+<span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/checkout.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Показывает страницу оформления заказа с формой и товарами</p>
+</section>
+</section>
+<section id="id94">
+<h3>Особенности реализации<a class="headerlink" href="#id94" title="Ссылка на этот заголовок"></a></h3>
+<p><strong>Целостность данных:</strong> Сохранение цены товара на момент заказа</p>
+<p><strong>Удобство:</strong> Автозаполнение данных пользователя</p>
+<p><strong>Очистка:</strong> Автоматическое удаление товаров из корзины после оформления</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p><strong>Рекомендация:</strong> Добавьте обработку исключений для случаев, когда товар становится недоступным между добавлением в корзину и оформлением заказа.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>Убедитесь, что метод <code class="docutils literal notranslate"><span class="pre">get_total()</span></code> в модели CartItem корректно вычисляет стоимость, так как от этого зависит итоговая сумма заказа.</p>
+</div>
+</section>
+</section>
+<section id="id95">
+<h2>Представление страницы успешного заказа<a class="headerlink" href="#id95" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">order_success_view</span></code> показывает подтверждение успешно оформленного заказа.</p>
+<section id="id96">
+<h3>Код представления<a class="headerlink" href="#id96" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">order_success_view</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">order_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="n">order</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/order_success.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id97">
+<h3>Разбор кода<a class="headerlink" href="#id97" title="Ссылка на этот заголовок"></a></h3>
+<section id="id98">
+<h4>Безопасное получение заказа<a class="headerlink" href="#id98" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">order_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Находит заказ с проверкой принадлежности пользователю.</p>
+<p><strong>Условия:</strong>
+- <code class="docutils literal notranslate"><span class="pre">id=order_id</span></code> - идентификатор заказа из URL
+- <code class="docutils literal notranslate"><span class="pre">user=request.user</span></code> - гарантирует, что пользователь видит только свои заказы</p>
+</section>
+<section id="id99">
+<h4>Подготовка контекста<a class="headerlink" href="#id99" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="n">order</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Передает объект заказа в шаблон для отображения деталей</p>
+</section>
+<section id="id100">
+<h4>Отображение страницы успеха<a class="headerlink" href="#id100" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/order_success.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Показывает страницу с подтверждением заказа и его деталями</p>
+</section>
+<section id="id101">
+<h4>Особенности реализации<a class="headerlink" href="#id101" title="Ссылка на этот заголовок"></a></h4>
+<p><strong>Безопасность:</strong> Пользователи видят только свои заказы</p>
+<p><strong>Простота:</strong> Минимальный код для отображения информации</p>
+<p><strong>Связь:</strong> Используется после <code class="docutils literal notranslate"><span class="pre">checkout_view</span></code> для показа результатов</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>В шаблоне <code class="docutils literal notranslate"><span class="pre">order_success.html</span></code> можно отображать номер заказа, список товаров, общую сумму и контактную информацию.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="id102">
+<h2>Представление списка заказов<a class="headerlink" href="#id102" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">orders_view</span></code> показывает историю заказов пользователя.</p>
+<section id="id103">
+<h3>Код представления<a class="headerlink" href="#id103" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">orders_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">orders</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-created_at&#39;</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;orders&#39;</span><span class="p">:</span> <span class="n">orders</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/orders.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id104">
+<h3>Разбор кода<a class="headerlink" href="#id104" title="Ссылка на этот заголовок"></a></h3>
+<section id="id105">
+<h4>Получение заказов пользователя<a class="headerlink" href="#id105" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">orders</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-created_at&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Получает все заказы текущего пользователя.</p>
+<p><strong>Сортировка:</strong> <code class="docutils literal notranslate"><span class="pre">-created_at</span></code> - показывает сначала самые новые заказы</p>
+</section>
+<section id="id106">
+<h4>Подготовка контекста<a class="headerlink" href="#id106" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;orders&#39;</span><span class="p">:</span> <span class="n">orders</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Передает список заказов в шаблон для отображения</p>
+</section>
+<section id="id107">
+<h4>Отображение страницы заказов<a class="headerlink" href="#id107" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/orders.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Показывает страницу с историей всех заказов пользователя</p>
+</section>
+<section id="id108">
+<h4>Особенности реализации<a class="headerlink" href="#id108" title="Ссылка на этот заголовок"></a></h4>
+<p><strong>Безопасность:</strong> Пользователь видит только свои заказы</p>
+<p><strong>Удобство:</strong> Сортировка по дате создания (новые сверху)</p>
+<p><strong>Производительность:</strong> Один запрос к базе данных</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>В шаблоне <code class="docutils literal notranslate"><span class="pre">orders.html</span></code> можно отображать номер заказа, дату, статус и общую сумму каждого заказа.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="id109">
+<h2>Представление детальной страницы заказа<a class="headerlink" href="#id109" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">order_detail_view</span></code> показывает подробную информацию о конкретном заказе.</p>
+<section id="id110">
+<h3>Код представления<a class="headerlink" href="#id110" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">order_detail_view</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">order_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">order_items</span> <span class="o">=</span> <span class="n">OrderItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="n">order</span><span class="p">,</span>
+        <span class="s1">&#39;order_items&#39;</span><span class="p">:</span> <span class="n">order_items</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/order_detail.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id111">
+<h3>Разбор кода<a class="headerlink" href="#id111" title="Ссылка на этот заголовок"></a></h3>
+<section id="id112">
+<h4>Безопасное получение заказа<a class="headerlink" href="#id112" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">order_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Находит заказ с проверкой принадлежности пользователю.</p>
+<p><strong>Безопасность:</strong> Предотвращает просмотр чужих заказов</p>
+</section>
+<section id="id113">
+<h4>Получение элементов заказа<a class="headerlink" href="#id113" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">order_items</span> <span class="o">=</span> <span class="n">OrderItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Получает все товары, входящие в этот заказ.</p>
+<p><strong>Связь:</strong> Использует связь между Order и OrderItem</p>
+</section>
+<section id="id114">
+<h4>Подготовка контекста<a class="headerlink" href="#id114" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="n">order</span><span class="p">,</span>
+    <span class="s1">&#39;order_items&#39;</span><span class="p">:</span> <span class="n">order_items</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Передает заказ и его товары в шаблон.</p>
+<p><strong>Структура:</strong>
+- <code class="docutils literal notranslate"><span class="pre">order</span></code> - основная информация о заказе
+- <code class="docutils literal notranslate"><span class="pre">order_items</span></code> - список товаров в заказе</p>
+</section>
+<section id="id115">
+<h4>Отображение детальной страницы<a class="headerlink" href="#id115" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/order_detail.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Показывает страницу с полной информацией о заказе</p>
+</section>
+<section id="id116">
+<h4>Особенности реализации<a class="headerlink" href="#id116" title="Ссылка на этот заголовок"></a></h4>
+<p><strong>Безопасность:</strong> Двойная проверка принадлежности заказа</p>
+<p><strong>Полнота:</strong> Отображает как основную информацию, так и список товаров</p>
+<p><strong>Производительность:</strong> Два запроса к базе данных</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Для оптимизации можно использовать <code class="docutils literal notranslate"><span class="pre">select_related()</span></code> или <code class="docutils literal notranslate"><span class="pre">prefetch_related()</span></code> если нужно загрузить связанные данные о товарах.</p>
+</div>
+</section>
+</section>
+</section>
+<section id="id117">
+<h2>Представление профиля пользователя<a class="headerlink" href="#id117" title="Ссылка на этот заголовок"></a></h2>
+<p>Представление <code class="docutils literal notranslate"><span class="pre">profile_view</span></code> отображает и обновляет профиль пользователя.</p>
+<section id="id118">
+<h3>Код представления<a class="headerlink" href="#id118" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">profile_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">last_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;last_name&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">phone</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">phone</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">address</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">city</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">city</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">country</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">country</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;avatar&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">:</span>
+            <span class="n">user</span><span class="o">.</span><span class="n">avatar</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">[</span><span class="s1">&#39;avatar&#39;</span><span class="p">]</span>
+
+        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">)</span>
+
+    <span class="n">orders</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-created_at&#39;</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+        <span class="s1">&#39;orders&#39;</span><span class="p">:</span> <span class="n">orders</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/profile.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id119">
+<h3>Разбор кода<a class="headerlink" href="#id119" title="Ссылка на этот заголовок"></a></h3>
+<section id="id120">
+<h4>Получение текущего пользователя<a class="headerlink" href="#id120" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Получает объект текущего авторизованного пользователя</p>
+</section>
+<section id="id121">
+<h4>Обработка POST-запроса (обновление профиля)<a class="headerlink" href="#id121" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Обрабатывает отправку формы редактирования профиля</p>
+</section>
+<section id="id122">
+<h4>Обновление полей пользователя<a class="headerlink" href="#id122" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">last_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;last_name&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">phone</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">phone</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">address</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">city</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">city</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">country</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">country</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Обновляет данные пользователя из формы.</p>
+<p><strong>Логика:</strong> <code class="docutils literal notranslate"><span class="pre">request.POST.get('field',</span> <span class="pre">user.field)</span></code> - использует новое значение или оставляет старое</p>
+</section>
+<section id="id123">
+<h4>Обработка загрузки аватара<a class="headerlink" href="#id123" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s1">&#39;avatar&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">:</span>
+    <span class="n">user</span><span class="o">.</span><span class="n">avatar</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">[</span><span class="s1">&#39;avatar&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Обновляет аватар пользователя если файл был загружен</p>
+</section>
+<section id="id124">
+<h4>Сохранение изменений<a class="headerlink" href="#id124" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Сохраняет изменения в базе и обновляет страницу</p>
+</section>
+<section id="id125">
+<h4>Получение истории заказов<a class="headerlink" href="#id125" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">orders</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-created_at&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Получает заказы пользователя для отображения в профиле</p>
+</section>
+<section id="id126">
+<h4>Подготовка контекста<a class="headerlink" href="#id126" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+    <span class="s1">&#39;orders&#39;</span><span class="p">:</span> <span class="n">orders</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Передает данные пользователя и его заказы в шаблон</p>
+</section>
+<section id="id127">
+<h4>Отображение страницы профиля<a class="headerlink" href="#id127" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/profile.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Показывает страницу профиля с формой редактирования и историей заказов</p>
+<p>Особенности реализации
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ы</p>
+<p><strong>Гибкость:</strong> Позволяет обновлять отдельные поля без потери остальных данных</p>
+<p><strong>Удобство:</strong> Сочетает редактирование профиля и просмотр истории заказов</p>
+<p><strong>Безопасность:</strong> Работает только с текущим пользователем</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Для улучшения безопасностаи добавьте валидацию email и проверку уникальности.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>Прямая работа с <code class="docutils literal notranslate"><span class="pre">request.POST</span></code> без формы может быть уязвима. Рекомендуется использовать ModelForm для валидации данных.</p>
+</div>
+</section>
+<section id="id128">
+<h4>Импорт<a class="headerlink" href="#id128" title="Ссылка на этот заголовок"></a></h4>
+<p>Не забывайте про импорт!
+Обычный импорт выглядит таким образом:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">login</span><span class="p">,</span> <span class="n">logout</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.backends</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelBackend</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.db.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Q</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CustomUserCreationForm</span><span class="p">,</span>
+    <span class="n">PhoneAuthForm</span><span class="p">,</span>
+    <span class="n">EmailAuthForm</span><span class="p">,</span>
+    <span class="n">UsernameAuthForm</span><span class="p">,</span>
+    <span class="n">CartItemQuantityForm</span><span class="p">,</span>
+    <span class="n">OrderForm</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Category</span><span class="p">,</span>
+    <span class="n">Product</span><span class="p">,</span>
+    <span class="n">CartItem</span><span class="p">,</span>
+    <span class="n">Order</span><span class="p">,</span>
+    <span class="n">OrderItem</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
+        <a href="models.html" class="btn btn-neutral float-left" title="Создание моделей базы данных" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="templates.html" class="btn btn-neutral float-right" title="Создание HTML шаблонов" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2025, Irsp-122. </p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,401 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Работа с формами в Django &mdash; документация Проект Django на русском 1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5d928502" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e35015f7"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=9bfe3ffa"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="next" title="Настройка админ-панели Django" href="admin.html" />
+    <link rel="prev" title="Настройка URL-маршрутов" href="urls.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Проект Django на русском
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <p class="caption" role="heading"><span class="caption-text">Пошаговое руководство:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Настройка окружения и установка Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project-structure.html">Создание структуры проекта ekz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Создание моделей базы данных</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">Создание представлений (Views)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Создание HTML шаблонов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Работа с формами в Django</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Основные концепции форм в Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#customusercreationform">Класс CustomUserCreationForm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clean-phone">Метод clean_phone для валидации номера телефона</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#phoneauthform">Класс PhoneAuthForm для аутентификации по телефону</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clean">Метод clean для комплексной валидации</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-user">Метод get_user для получения пользователя</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#emailauthform-usernameauthform">Классы EmailAuthForm и UsernameAuthForm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modelform">Формы для работы с моделями (ModelForm)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#categoryform">Класс CategoryForm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#productform">Класс ProductForm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cartitemform-cartitemquantityform">Классы CartItemForm и CartItemQuantityForm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#orderform">Класс OrderForm для оформления заказов</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clean-phone-orderform">Метод clean_phone для OrderForm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Принципы работы валидации в Django формах</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Использование форм в представлениях</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Импорт</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="admin.html">Настройка админ-панели Django</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Проект Django на русском</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Работа с формами в Django</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="django">
+<h1>Работа с формами в Django<a class="headerlink" href="#django" title="Ссылка на этот заголовок"></a></h1>
+<p>В этом разделе мы подробно разберем создание и использование форм в Django приложении. Формы - это мощный инструмент для валидации пользовательского ввода, обработки данных и взаимодействия с моделями.</p>
+<section id="id1">
+<h2>Основные концепции форм в Django<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Django формы</strong> выполняют три основные функции:
+1. <strong>Подготовка HTML</strong> - генерация HTML-разметки для полей ввода
+2. <strong>Валидация данных</strong> - проверка корректности введенных пользователем данных
+3. <strong>Обработка данных</strong> - преобразование и сохранение данных в базу</p>
+</section>
+<section id="customusercreationform">
+<h2>Класс CustomUserCreationForm<a class="headerlink" href="#customusercreationform" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CustomUserCreationForm</span><span class="p">(</span><span class="n">UserCreationForm</span><span class="p">):</span>
+    <span class="n">phone</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;placeholder&#39;</span><span class="p">:</span> <span class="s1">&#39;+7XXXXXXXXXX&#39;</span><span class="p">}),</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s1">&#39;Введите номер телефона в формате +7XXXXXXXXXX&#39;</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CustomUser</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;phone&#39;</span><span class="p">,</span> <span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;password1&#39;</span><span class="p">,</span> <span class="s1">&#39;password2&#39;</span><span class="p">,</span> <span class="s1">&#39;avatar&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Наследование:</strong> Класс наследуется от <code class="docutils literal notranslate"><span class="pre">UserCreationForm</span></code> - стандартной формы Django для создания пользователей, что дает нам готовую логику для работы с паролями.</p>
+<p><strong>Дополнительное поле:</strong> Добавлено поле <code class="docutils literal notranslate"><span class="pre">phone</span></code> с кастомными атрибутами:
+- <code class="docutils literal notranslate"><span class="pre">widget=forms.TextInput</span></code> - определяет тип HTML-инпута
+- <code class="docutils literal notranslate"><span class="pre">attrs={'placeholder':</span> <span class="pre">'+7XXXXXXXXXX'}</span></code> - добавляет атрибут placeholder для подсказки
+- <code class="docutils literal notranslate"><span class="pre">help_text</span></code> - текст помощи, отображаемый под полем</p>
+<p><strong>Метакласс Meta:</strong> Определяет связь с моделью <code class="docutils literal notranslate"><span class="pre">CustomUser</span></code> и перечисляет поля, которые должны отображаться в форме.</p>
+<section id="clean-phone">
+<h3>Метод clean_phone для валидации номера телефона<a class="headerlink" href="#clean-phone" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">clean_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">phone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">phone</span><span class="p">:</span>
+        <span class="c1"># Проверка формата номера телефона для России</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\+7\d</span><span class="si">{10}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">phone</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;Номер телефона должен быть в формате +7XXXXXXXXXX&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">phone</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Кастомный метод валидации для поля <code class="docutils literal notranslate"><span class="pre">phone</span></code>.</p>
+<p><strong>Логика работы:</strong>
+1. Получает значение поля из <code class="docutils literal notranslate"><span class="pre">cleaned_data</span></code>
+2. Проверяет наличие значения
+3. Использует регулярное выражение <code class="docutils literal notranslate"><span class="pre">r'^\+7\d{10}$'</span></code> для проверки формата
+4. Если формат не соответствует - выбрасывает <code class="docutils literal notranslate"><span class="pre">ValidationError</span></code>
+5. Возвращает валидное значение</p>
+</section>
+</section>
+<section id="phoneauthform">
+<h2>Класс PhoneAuthForm для аутентификации по телефону<a class="headerlink" href="#phoneauthform" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">PhoneAuthForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">phone</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;placeholder&#39;</span><span class="p">:</span> <span class="s1">&#39;+7XXXXXXXXXX&#39;</span><span class="p">}),</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s1">&#39;Введите номер телефона в формате +7XXXXXXXXXX&#39;</span>
+    <span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">PasswordInput</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Базовая форма:</strong> Наследуется от <code class="docutils literal notranslate"><span class="pre">forms.Form</span></code> (не связана с конкретной моделью).</p>
+<p><strong>Поля формы:</strong>
+- <code class="docutils literal notranslate"><span class="pre">phone</span></code> - текстовое поле с подсказкой о формате
+- <code class="docutils literal notranslate"><span class="pre">password</span></code> - поле пароля с виджетом <code class="docutils literal notranslate"><span class="pre">PasswordInput</span></code> (скрывает ввод)</p>
+<section id="clean">
+<h3>Метод clean для комплексной валидации<a class="headerlink" href="#clean" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">cleaned_data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+    <span class="n">phone</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">phone</span> <span class="ow">and</span> <span class="n">password</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">phone</span><span class="o">=</span><span class="n">phone</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Неверный телефон или пароль&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cleaned_data</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Метод <code class="docutils literal notranslate"><span class="pre">clean()</span></code> выполняет валидацию, которая зависит от нескольких полей.</p>
+<p><strong>Логика работы:</strong>
+1. Вызывает родительский <code class="docutils literal notranslate"><span class="pre">clean()</span></code> для базовой валидации
+2. Получает значения полей <code class="docutils literal notranslate"><span class="pre">phone</span></code> и <code class="docutils literal notranslate"><span class="pre">password</span></code>
+3. Если оба поля заполнены - пытается аутентифицировать пользователя
+4. Если аутентификация неудачна - выбрасывает ошибку
+5. Сохраняет объект пользователя в атрибуте <code class="docutils literal notranslate"><span class="pre">self.user</span></code></p>
+</section>
+<section id="get-user">
+<h3>Метод get_user для получения пользователя<a class="headerlink" href="#get-user" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Утилитарный метод:</strong> Возвращает аутентифицированного пользователя или <code class="docutils literal notranslate"><span class="pre">None</span></code> если аутентификация не выполнена.</p>
+</section>
+</section>
+<section id="emailauthform-usernameauthform">
+<h2>Классы EmailAuthForm и UsernameAuthForm<a class="headerlink" href="#emailauthform-usernameauthform" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">EmailAuthForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">PasswordInput</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cleaned_data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">email</span> <span class="ow">and</span> <span class="n">password</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Неверный email или пароль&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cleaned_data</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Особенности EmailAuthForm:</strong>
+- Использует <code class="docutils literal notranslate"><span class="pre">EmailField()</span></code> с автоматической валидацией email формата
+- Аутентификация происходит по полю <code class="docutils literal notranslate"><span class="pre">email</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">UsernameAuthForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">PasswordInput</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cleaned_data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">)</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">username</span> <span class="ow">and</span> <span class="n">password</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Неверный логин или пароль&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cleaned_data</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Особенности UsernameAuthForm:</strong>
+- Стандартная аутентификация по имени пользователя
+- Использует поле <code class="docutils literal notranslate"><span class="pre">username</span></code> для поиска пользователя</p>
+</section>
+<section id="modelform">
+<h2>Формы для работы с моделями (ModelForm)<a class="headerlink" href="#modelform" title="Ссылка на этот заголовок"></a></h2>
+<section id="categoryform">
+<h3>Класс CategoryForm<a class="headerlink" href="#categoryform" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CategoryForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Category</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>ModelForm:</strong> Наследуется от <code class="docutils literal notranslate"><span class="pre">forms.ModelForm</span></code>, автоматически создает поля на основе модели.</p>
+<p><strong>Автоматизация:</strong> Django автоматически:
+- Создает соответствующие поля формы на основе полей модели
+- Применяет валидаторы модели
+- Обрабатывает сохранение в базу данных</p>
+</section>
+<section id="productform">
+<h3>Класс ProductForm<a class="headerlink" href="#productform" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ProductForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Product</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Поля товара:</strong> Форма включает все основные поля модели Product для создания и редактирования товаров.</p>
+</section>
+<section id="cartitemform-cartitemquantityform">
+<h3>Классы CartItemForm и CartItemQuantityForm<a class="headerlink" href="#cartitemform-cartitemquantityform" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CartItemForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CartItem</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;product&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">]</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CartItemQuantityForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CartItem</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Специализация:</strong>
+- <code class="docutils literal notranslate"><span class="pre">CartItemForm</span></code> - для полного управления элементами корзины
+- <code class="docutils literal notranslate"><span class="pre">CartItemQuantityForm</span></code> - специализированная форма только для изменения количества</p>
+</section>
+</section>
+<section id="orderform">
+<h2>Класс OrderForm для оформления заказов<a class="headerlink" href="#orderform" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OrderForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="n">phone</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;placeholder&#39;</span><span class="p">:</span> <span class="s1">&#39;+7XXXXXXXXXX&#39;</span><span class="p">}),</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s1">&#39;Введите номер телефона в формате +7XXXXXXXXXX&#39;</span>
+    <span class="p">)</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Order</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;shipping_address&#39;</span><span class="p">,</span> <span class="s1">&#39;phone&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Переопределение поля:</strong> Поле <code class="docutils literal notranslate"><span class="pre">phone</span></code> переопределено для добавления кастомных атрибутов, хотя оно уже существует в модели.</p>
+<section id="clean-phone-orderform">
+<h3>Метод clean_phone для OrderForm<a class="headerlink" href="#clean-phone-orderform" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">clean_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">phone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">phone</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\+7\d</span><span class="si">{10}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">phone</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;Номер телефона должен быть в формате +7XXXXXXXXXX&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">phone</span>
+</pre></div>
+</div>
+<p><strong>Консистентность:</strong> Использует ту же логику валидации, что и в <code class="docutils literal notranslate"><span class="pre">CustomUserCreationForm</span></code> для обеспечения единообразия данных.</p>
+</section>
+</section>
+<section id="id2">
+<h2>Принципы работы валидации в Django формах<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Уровни валидации:</strong>
+1. <strong>Валидация поля</strong> - методы <code class="docutils literal notranslate"><span class="pre">clean_&lt;fieldname&gt;()</span></code>
+2. <strong>Валидация формы</strong> - метод <code class="docutils literal notranslate"><span class="pre">clean()</span></code> для проверки нескольких полей
+3. <strong>Валидация модели</strong> - автоматически применяется при сохранении</p>
+<p><strong>Очередность выполнения:</strong>
+1. Валидация отдельных полей (методы <code class="docutils literal notranslate"><span class="pre">clean_&lt;fieldname&gt;</span></code>)
+2. Валидация всей формы (метод <code class="docutils literal notranslate"><span class="pre">clean()</span></code>)
+3. Если есть ошибки - форма не считается валидной</p>
+</section>
+<section id="id3">
+<h2>Использование форм в представлениях<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># В представлении</span>
+<span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">CustomUserCreationForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>  <span class="c1"># Автоматическое сохранение для ModelForm</span>
+        <span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;main_page&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Обработка файлов:</strong> <code class="docutils literal notranslate"><span class="pre">request.FILES</span></code> передается для обработки загружаемых файлов (аватарки, изображения товаров).</p>
+<p><strong>Проверка валидности:</strong> <code class="docutils literal notranslate"><span class="pre">form.is_valid()</span></code> запускает всю цепочку валидации.</p>
+<p><strong>Сохранение:</strong> <code class="docutils literal notranslate"><span class="pre">form.save()</span></code> для ModelForm автоматически создает/обновляет объект в базе данных.</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Все формы используют перевод <code class="docutils literal notranslate"><span class="pre">gettext_lazy</span> <span class="pre">as</span> <span class="pre">_</span></code> для поддержки интернационализации, хотя в текущей реализации переводные строки не используются.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>Регулярное выражение для телефона <code class="docutils literal notranslate"><span class="pre">r'^\+7\d{10}$'</span></code> предполагает строгий российский формат. Для международной поддержки потребуется более гибкая валидация.</p>
+</div>
+</section>
+<section id="id4">
+<h2>Импорт<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
+<p>Не забывайте про импорт!
+Обычный импорт выглядит таким образом:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django</span><span class="w"> </span><span class="kn">import</span> <span class="n">forms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">authenticate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserCreationForm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.core.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CustomUser</span><span class="p">,</span> <span class="n">Product</span><span class="p">,</span> <span class="n">Category</span><span class="p">,</span> <span class="n">CartItem</span><span class="p">,</span> <span class="n">Order</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.utils.translation</span><span class="w"> </span><span class="kn">import</span> <span class="n">gettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
+        <a href="urls.html" class="btn btn-neutral float-left" title="Настройка URL-маршрутов" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="admin.html" class="btn btn-neutral float-right" title="Настройка админ-панели Django" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2025, Irsp-122. </p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

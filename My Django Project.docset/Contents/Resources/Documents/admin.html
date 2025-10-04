@@ -1,0 +1,357 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Настройка админ-панели Django &mdash; документация Проект Django на русском 1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5d928502" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e35015f7"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=9bfe3ffa"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="static-files.html" />
+    <link rel="prev" title="Работа с формами в Django" href="forms.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Проект Django на русском
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <p class="caption" role="heading"><span class="caption-text">Пошаговое руководство:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Настройка окружения и установка Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project-structure.html">Создание структуры проекта ekz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Создание моделей базы данных</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">Создание представлений (Views)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Создание HTML шаблонов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Работа с формами в Django</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Настройка админ-панели Django</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#admin-py">Основной файл admin.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Импорт моделей и модулей администрирования</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Кастомизация админ-класса для пользователя</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Настройка отображения списка пользователей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Настройка поиска</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Настройка сортировки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Кастомизация формы редактирования пользователя</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Регистрация кастомного пользователя</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#category">Регистрация модели Category с декоратором</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#categoryadmin">Базовая настройка CategoryAdmin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#product">Регистрация модели Product</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Настройка отображения товаров</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cartitem">Регистрация модели CartItem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Настройка элементов корзины</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#order">Регистрация модели Order</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Настройка управления заказами</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#orderitem">Регистрация модели OrderItem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Настройка элементов заказа</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">Принципы организации админ-панели</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">Доступ к админ-панели</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">Рекомендации по улучшению</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Проект Django на русском</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Настройка админ-панели Django</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="django">
+<h1>Настройка админ-панели Django<a class="headerlink" href="#django" title="Ссылка на этот заголовок"></a></h1>
+<p>В этом разделе мы настроим административную панель Django для удобного управления данными нашего приложения. Админка предоставляет интерфейс для CRUD операций (Create, Read, Update, Delete) с моделями.</p>
+<section id="admin-py">
+<h2>Основной файл admin.py<a class="headerlink" href="#admin-py" title="Ссылка на этот заголовок"></a></h2>
+<p>Файл <code class="docutils literal notranslate"><span class="pre">front/admin.py</span></code> содержит регистрацию моделей и кастомизацию интерфейса административной панели.</p>
+<section id="id1">
+<h3>Импорт моделей и модулей администрирования<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">admin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserAdmin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CustomUser</span><span class="p">,</span>
+    <span class="n">Category</span><span class="p">,</span>
+    <span class="n">Product</span><span class="p">,</span>
+    <span class="n">CartItem</span><span class="p">,</span>
+    <span class="n">Order</span><span class="p">,</span>
+    <span class="n">OrderItem</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Импортируются стандартные классы администрирования Django и все модели приложения, которые нужно зарегистрировать в админ-панели.</p>
+</section>
+</section>
+<section id="id2">
+<h2>Кастомизация админ-класса для пользователя<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CustomUserAdmin</span><span class="p">(</span><span class="n">UserAdmin</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>Класс <code class="docutils literal notranslate"><span class="pre">CustomUserAdmin</span></code> наследуется от <code class="docutils literal notranslate"><span class="pre">UserAdmin</span></code> - стандартного административного класса Django для управления пользователями. Это позволяет сохранить всю базовую функциональность и добавить кастомные поля.</p>
+<section id="id3">
+<h3>Настройка отображения списка пользователей<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">,</span> <span class="s1">&#39;phone&#39;</span><span class="p">,</span> <span class="s1">&#39;is_staff&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>list_display:</strong> Определяет какие поля отображаются в списке пользователей в админ-панели. Добавлено поле <code class="docutils literal notranslate"><span class="pre">phone</span></code> для отображения номера телефона.</p>
+</section>
+<section id="id4">
+<h3>Настройка поиска<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">search_fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">,</span> <span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>search_fields:</strong> Поля по которым осуществляется поиск в админ-панели. Включено поле <code class="docutils literal notranslate"><span class="pre">phone</span></code> для поиска по номеру телефона.</p>
+</section>
+<section id="id5">
+<h3>Настройка сортировки<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ordering</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p><strong>ordering:</strong> Определяет порядок сортировки по умолчанию. Пользователи сортируются по имени пользователя в алфавитном порядке.</p>
+</section>
+<section id="id6">
+<h3>Кастомизация формы редактирования пользователя<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fieldsets</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">)}),</span>
+    <span class="p">(</span><span class="s1">&#39;Personal info&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;phone&#39;</span><span class="p">)}),</span>
+    <span class="p">(</span><span class="s1">&#39;Permissions&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;is_active&#39;</span><span class="p">,</span> <span class="s1">&#39;is_staff&#39;</span><span class="p">,</span> <span class="s1">&#39;is_superuser&#39;</span><span class="p">,</span> <span class="s1">&#39;groups&#39;</span><span class="p">,</span> <span class="s1">&#39;user_permissions&#39;</span><span class="p">)}),</span>
+    <span class="p">(</span><span class="s1">&#39;Important dates&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;last_login&#39;</span><span class="p">,</span> <span class="s1">&#39;date_joined&#39;</span><span class="p">)}),</span>
+    <span class="p">(</span><span class="s1">&#39;Additional info&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;fields&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;birth_date&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;occupation&#39;</span><span class="p">,</span> <span class="s1">&#39;avatar&#39;</span><span class="p">)}),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>fieldsets:</strong> Группирует поля в логические секции для удобства редактирования:</p>
+<ul class="simple">
+<li><p><strong>None</strong> - базовые поля (username, password)</p></li>
+<li><p><strong>Personal info</strong> - персональная информация</p></li>
+<li><p><strong>Permissions</strong> - права доступа и группы</p></li>
+<li><p><strong>Important dates</strong> - важные даты (системные)</p></li>
+<li><p><strong>Additional info</strong> - дополнительные поля кастомной модели</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>Регистрация кастомного пользователя<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">CustomUser</span><span class="p">,</span> <span class="n">CustomUserAdmin</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Регистрирует модель <code class="docutils literal notranslate"><span class="pre">CustomUser</span></code> с кастомным административным классом <code class="docutils literal notranslate"><span class="pre">CustomUserAdmin</span></code>.</p>
+</section>
+</section>
+<section id="category">
+<h2>Регистрация модели Category с декоратором<a class="headerlink" href="#category" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Register Category</span>
+<span class="nd">@admin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Category</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CategoryAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>Альтернативный способ регистрации моделей с использованием декоратора <code class="docutils literal notranslate"><span class="pre">&#64;admin.register()</span></code>. Более современный и читаемый подход.</p>
+<section id="categoryadmin">
+<h3>Базовая настройка CategoryAdmin<a class="headerlink" href="#categoryadmin" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,)</span>
+<span class="n">search_fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p><strong>Минимальная конфигурация:</strong> Для модели Category используется базовая настройка с отображением имени и возможностью поиска по названию.</p>
+</section>
+</section>
+<section id="product">
+<h2>Регистрация модели Product<a class="headerlink" href="#product" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Register Product</span>
+<span class="nd">@admin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Product</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProductAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;created_at&#39;</span><span class="p">)</span>
+    <span class="n">list_filter</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">,)</span>
+    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="id8">
+<h3>Настройка отображения товаров<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h3>
+<p><strong>list_display:</strong> Отображает название товара, категорию, цену и дату создания.</p>
+<p><strong>list_filter:</strong> Добавляет фильтр по категориям в правую панель админки.</p>
+<p><strong>search_fields:</strong> Позволяет искать товары по названию и описанию.</p>
+</section>
+</section>
+<section id="cartitem">
+<h2>Регистрация модели CartItem<a class="headerlink" href="#cartitem" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Register CartItem</span>
+<span class="nd">@admin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">CartItem</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CartItemAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;product&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">)</span>
+    <span class="n">list_filter</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,)</span>
+</pre></div>
+</div>
+<section id="id9">
+<h3>Настройка элементов корзины<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h3>
+<p><strong>list_display:</strong> Показывает пользователя, товар и количество.</p>
+<p><strong>list_filter:</strong> Фильтр по пользователям для быстрого поиска корзин конкретных пользователей.</p>
+</section>
+</section>
+<section id="order">
+<h2>Регистрация модели Order<a class="headerlink" href="#order" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Register Order</span>
+<span class="nd">@admin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Order</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OrderAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;total_amount&#39;</span><span class="p">,</span> <span class="s1">&#39;created_at&#39;</span><span class="p">)</span>
+    <span class="n">list_filter</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;created_at&#39;</span><span class="p">)</span>
+    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;user__username&#39;</span><span class="p">,</span> <span class="s1">&#39;shipping_address&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="id10">
+<h3>Настройка управления заказами<a class="headerlink" href="#id10" title="Ссылка на этот заголовок"></a></h3>
+<p><strong>list_display:</strong> Отображает пользователя, статус заказа, общую сумму и дату создания.</p>
+<p><strong>list_filter:</strong> Двойной фильтр - по статусу заказа и дате создания.</p>
+<p><strong>search_fields:</strong> Поиск по имени пользователя (через связь <code class="docutils literal notranslate"><span class="pre">user__username</span></code>) и адресу доставки.</p>
+</section>
+</section>
+<section id="orderitem">
+<h2>Регистрация модели OrderItem<a class="headerlink" href="#orderitem" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Register OrderItem</span>
+<span class="nd">@admin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">OrderItem</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OrderItemAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;order&#39;</span><span class="p">,</span> <span class="s1">&#39;product&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">)</span>
+    <span class="n">list_filter</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;order&#39;</span><span class="p">,)</span>
+</pre></div>
+</div>
+<section id="id11">
+<h3>Настройка элементов заказа<a class="headerlink" href="#id11" title="Ссылка на этот заголовок"></a></h3>
+<p><strong>list_display:</strong> Показывает заказ, товар, количество и цену.</p>
+<p><strong>list_filter:</strong> Фильтр по заказам для группировки элементов.</p>
+</section>
+</section>
+<section id="id12">
+<h2>Принципы организации админ-панели<a class="headerlink" href="#id12" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Логическая группировка:</strong> Модели сгруппированы по функциональности:
+- Пользователи и аутентификация
+- Каталог товаров (Category, Product)
+- Корзина и заказы (CartItem, Order, OrderItem)</p>
+<p><strong>Оптимальная производительность:</strong> Использование <code class="docutils literal notranslate"><span class="pre">list_filter</span></code> и <code class="docutils literal notranslate"><span class="pre">search_fields</span></code> улучшает пользовательский опыт при работе с большими объемами данных.</p>
+<p><strong>Безопасность:</strong> Сохранены все стандартные проверки прав доступа Django.</p>
+</section>
+<section id="id13">
+<h2>Доступ к админ-панели<a class="headerlink" href="#id13" title="Ссылка на этот заголовок"></a></h2>
+<p>После настройки административная панель доступна по адресу:
+<code class="docutils literal notranslate"><span class="pre">http://localhost:8000/admin/</span></code></p>
+<p>Для доступа необходимо создать суперпользователя:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>manage.py<span class="w"> </span>createsuperuser
+</pre></div>
+</div>
+</section>
+<section id="id14">
+<h2>Рекомендации по улучшению<a class="headerlink" href="#id14" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Inline администрирование:</strong> Для моделей со связями можно использовать <code class="docutils literal notranslate"><span class="pre">TabularInline</span></code> или <code class="docutils literal notranslate"><span class="pre">StackedInline</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OrderItemInline</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">TabularInline</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">OrderItem</span>
+    <span class="n">extra</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">OrderAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">inlines</span> <span class="o">=</span> <span class="p">[</span><span class="n">OrderItemInline</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Кастомные действия:</strong> Добавление массовых операций:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_confirmed</span><span class="p">(</span><span class="n">modeladmin</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">queryset</span><span class="p">):</span>
+    <span class="n">queryset</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;confirmed&#39;</span><span class="p">)</span>
+<span class="n">make_confirmed</span><span class="o">.</span><span class="n">short_description</span> <span class="o">=</span> <span class="s2">&quot;Подтвердить выбранные заказы&quot;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">OrderAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span><span class="n">make_confirmed</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Визуальные улучшения:</strong> Использование <code class="docutils literal notranslate"><span class="pre">list_display_links</span></code>, <code class="docutils literal notranslate"><span class="pre">readonly_fields</span></code>, <code class="docutils literal notranslate"><span class="pre">prepopulated_fields</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Админ-панель Django автоматически обеспечивает проверку прав доступа based на роли пользователя (staff, superuser).</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>Не забывайте выполнять миграции после добавления новых полей в модели: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">makemigrations</span> <span class="pre">&amp;&amp;</span> <span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span></code></p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
+        <a href="forms.html" class="btn btn-neutral float-left" title="Работа с формами в Django" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="static-files.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2025, Irsp-122. </p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

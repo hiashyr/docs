@@ -1,0 +1,14 @@
+/* Скрываем кнопки навигации "Следующая" и "Предыдущая" */
+.rst-footer-buttons {
+    display: none !important;
+}
+
+/* Дополнительно скрываем связанные страницы в боковой панели */
+.related-pages {
+    display: none !important;
+}
+
+/* Скрываем нижнюю навигацию */
+.footer {
+    display: none !important;
+}

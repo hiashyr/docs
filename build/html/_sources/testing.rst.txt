@@ -269,7 +269,9 @@ views.py:
         
         return render(request, 'pages/profile.html', context)
 
-Urls:
+==== END OF BLOCK ====
+
+urls.py:
 
 .. code-block:: python
 
@@ -309,193 +311,7 @@ Urls:
     if settings.DEBUG:
         urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-models.py:
-
-.. code-block:: python
-    from django.contrib.auth.models import AbstractUser
-    from django.db import models
-    from django.utils.translation import gettext_lazy as _
-
-    class CustomUser(AbstractUser):
-        # Переопределение стандартных полей
-        first_name = models.CharField(
-            _('first name'),
-            max_length=150,
-            null=True,
-            blank=True
-        )
-        last_name = models.CharField(
-            _('last name'),
-            max_length=150,
-            null=True,
-            blank=True
-        )
-        
-        # Дополнительные поля
-        phone = models.CharField(
-            _('phone number'),
-            max_length=20,
-            blank=True,
-            null=True
-        )
-        
-        address = models.TextField(
-            _('address'),
-            blank=True
-        )
-        
-        age = models.IntegerField(
-            _('age'),
-            null=True,
-            blank=True
-        )
-        
-        birth_date = models.DateField(
-            _('birth date'),
-            null=True,
-            blank=True
-        )
-        
-        GENDER_CHOICES = [
-            ('male', _('Male')),
-            ('female', _('Female')),
-            ('other', _('Other')),
-        ]
-        gender = models.CharField(
-            _('gender'),
-            max_length=10,
-            choices=GENDER_CHOICES,
-            blank=True
-        )
-        
-        city = models.CharField(
-            _('city'),
-            max_length=100,
-            blank=True
-        )
-        
-        country = models.CharField(
-            _('country'),
-            max_length=100,
-            blank=True
-        )
-        
-        occupation = models.CharField(
-            _('occupation'),
-            max_length=100,
-            blank=True
-        )
-        
-        avatar = models.ImageField(
-            _('avatar'),
-            upload_to='avatars/',
-            blank=True,
-            null=True
-        )
-        
-        class Meta:
-            verbose_name = _('user')
-            verbose_name_plural = _('users')
-        
-        def get_full_name(self):
-            """Возвращает полное имя пользователя."""
-            return f'{self.first_name} {self.last_name}'
-        
-        def __str__(self):
-            full_name = self.get_full_name()
-            if full_name.strip():
-                return full_name
-            return self.username
-
-    # 1. Модели для каталога
-    class Category(models.Model):
-        name = models.CharField(_('name'), max_length=100, blank=True, null=True)
-        description = models.TextField(_('description'), blank=True, null=True)
-        image = models.ImageField(_('image'), upload_to='categories/', blank=True, null=True)
-        
-        class Meta:
-            verbose_name = _('category')
-            verbose_name_plural = _('categories')
-        
-        def __str__(self):
-            return self.name or ''
-
-    class Product(models.Model):
-        name = models.CharField(_('name'), max_length=200, blank=True, null=True)
-        description = models.TextField(_('description'), blank=True, null=True)
-        price = models.DecimalField(_('price'), max_digits=10, decimal_places=2, blank=True, null=True)
-        image = models.ImageField(_('image'), upload_to='products/', blank=True, null=True)
-        category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True, related_name='products')
-        created_at = models.DateTimeField(_('created at'), auto_now_add=True)
-        
-        class Meta:
-            verbose_name = _('product')
-            verbose_name_plural = _('products')
-        
-        def __str__(self):
-            return self.name or ''
-
-    # 2. Модель для корзины
-    class CartItem(models.Model):
-        user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='cart_items', blank=True, null=True)
-        product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
-        quantity = models.PositiveIntegerField(_('quantity'), default=1, blank=True, null=True)
-        added_at = models.DateTimeField(_('added at'), auto_now_add=True)
-        
-        class Meta:
-            verbose_name = _('cart item')
-            verbose_name_plural = _('cart items')
-        
-        def __str__(self):
-            return f"{self.quantity} x {self.product.name if self.product else ''}"
-        
-        def get_total(self):
-            if self.product and self.product.price and self.quantity:
-                return self.product.price * self.quantity
-            return 0
-
-    # 3. Модели для заказов
-    class Order(models.Model):
-        ORDER_STATUS_CHOICES = [
-            ('pending', _('Pending')),
-            ('processing', _('Processing')),
-            ('shipped', _('Shipped')),
-            ('delivered', _('Delivered')),
-            ('cancelled', _('Cancelled')),
-        ]
-        
-        user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, related_name='orders', blank=True, null=True)
-        status = models.CharField(_('status'), max_length=20, choices=ORDER_STATUS_CHOICES, default='pending', blank=True, null=True)
-        created_at = models.DateTimeField(_('created at'), auto_now_add=True)
-        shipping_address = models.TextField(_('shipping address'), blank=True, null=True)
-        phone = models.CharField(_('phone'), max_length=20, blank=True, null=True)
-        email = models.EmailField(_('email'), blank=True, null=True)
-        total_amount = models.DecimalField(_('total amount'), max_digits=10, decimal_places=2, blank=True, null=True)
-        
-        class Meta:
-            verbose_name = _('order')
-            verbose_name_plural = _('orders')
-        
-        def __str__(self):
-            return f"Order #{self.id} - {self.user.username if self.user else ''}"
-
-    class OrderItem(models.Model):
-        order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', blank=True, null=True)
-        product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
-        quantity = models.PositiveIntegerField(_('quantity'), default=1, blank=True, null=True)
-        price = models.DecimalField(_('price'), max_digits=10, decimal_places=2, blank=True, null=True)
-        
-        class Meta:
-            verbose_name = _('order item')
-            verbose_name_plural = _('order items')
-        
-        def __str__(self):
-            return f"{self.quantity} x {self.product.name if self.product else ''}"
-        
-        def get_total(self):
-            if self.price and self.quantity:
-                return self.price * self.quantity
-            return
+==== END OF BLOCK ====
 
 forms.py:
 
@@ -630,6 +446,8 @@ forms.py:
                     raise ValidationError('Номер телефона должен быть в формате +7XXXXXXXXXX')
             return phone
 
+==== END OF BLOCK ====
+
 backends.py:
 
 .. code-block:: python
@@ -687,6 +505,8 @@ backends.py:
                 return None
 
 
+==== END OF BLOCK ====
+
 base.html:
 
 .. code-block:: django
@@ -734,129 +554,7 @@ base.html:
 
     </html>
 
-login.html:
-
-.. code-block:: python
-    {% extends 'base.html' %}
-
-    {% block content %}
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                        <h2 class="h4 mb-0 text-center">Вход в систему</h2>
-                    </div>
-                    <div class="card-body p-4">
-                        <ul class="nav nav-tabs nav-justified mb-4" id="authTabs" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link {% if active_tab == 'phone' %}active{% endif %}" 
-                                href="?tab=phone" id="phone-tab">
-                                    <i class="bi bi-phone me-2"></i>По телефону
-                                </a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link {% if active_tab == 'email' %}active{% endif %}" 
-                                href="?tab=email" id="email-tab">
-                                    <i class="bi bi-envelope me-2"></i>По email
-                                </a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link {% if active_tab == 'username' %}active{% endif %}" 
-                                href="?tab=username" id="login-tab">
-                                    <i class="bi bi-person me-2"></i>По логину
-                                </a>
-                            </li>
-                        </ul>
-
-                        <div class="tab-content">
-                            <!-- Вход по телефону -->
-                            <div class="tab-pane fade {% if active_tab == 'phone' %}show active{% endif %}" id="phone">
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="auth_type" value="phone">
-                                    
-                                    <div class="mb-3">
-                                        <label for="phone" class="form-label">Номер телефона</label>
-                                        <input type="tel" class="form-control" id="phone" name="phone" 
-                                            value="{{ form.phone.value|default_if_none:'' }}" required>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Пароль</label>
-                                        <input type="password" class="form-control" id="password" name="password" required>
-                                    </div>
-                                    
-                                    <div class="d-grid gap-2">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="bi bi-box-arrow-in-right me-2"></i>Войти
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                            
-                            <!-- Вход по email -->
-                            <div class="tab-pane fade {% if active_tab == 'email' %}show active{% endif %}" id="email">
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="auth_type" value="email">
-                                    
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email" 
-                                            value="{{ form.email.value|default_if_none:'' }}" required>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Пароль</label>
-                                        <input type="password" class="form-control" id="password" name="password" required>
-                                    </div>
-                                    
-                                    <div class="d-grid gap-2">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="bi bi-box-arrow-in-right me-2"></i>Войти
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                            
-                            <!-- Вход по логину -->
-                            <div class="tab-pane fade {% if active_tab == 'username' %}show active{% endif %}" id="login">
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="auth_type" value="username">
-                                    
-                                    <div class="mb-3">
-                                        <label for="username" class="form-label">Логин</label>
-                                        <input type="text" class="form-control" id="username" name="username" 
-                                            value="{{ form.username.value|default_if_none:'' }}" required>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Пароль</label>
-                                        <input type="password" class="form-control" id="password" name="password" required>
-                                    </div>
-                                    
-                                    <div class="d-grid gap-2">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="bi bi-box-arrow-in-right me-2"></i>Войти
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 text-center">
-                            <a href="#" class="text-decoration-none">Забыли пароль?</a>
-                            <span class="mx-2">|</span>
-                            <a href="{% url 'register' %}" class="text-decoration-none">Регистрация</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endblock %}
+==== END OF BLOCK ====
 
 register.html:
 
@@ -1230,6 +928,8 @@ register.html:
     </script>
     {% endblock %}
 
+==== END OF BLOCK ====
+
 catalog.html:
 
 .. code-block:: python
@@ -1329,6 +1029,8 @@ catalog.html:
     {% endblock %}
 
 
+==== END OF BLOCK ====
+
 checkout.html
 
 .. code-block:: python
@@ -1417,6 +1119,8 @@ checkout.html
     </div>
     {% endblock %}
 
+==== END OF BLOCK ====
+
 contacts.html:
 
 .. code-block:: python
@@ -1447,6 +1151,8 @@ contacts.html:
         </div>
     </div>
     {% endblock %}
+
+==== END OF BLOCK ====
 
 main_page.html:
 
@@ -1575,7 +1281,9 @@ main_page.html:
     </div>
     {% endblock %}
 
-order_detail.html:
+==== END OF BLOCK ====o
+
+rder_detail.html:
 
 .. code-block:: python
 
@@ -1709,6 +1417,9 @@ order_detail.html:
     </div>
     {% endblock %}
 
+
+==== END OF BLOCK ====
+
 order_success.html:
 
 .. code-block:: python
@@ -1764,6 +1475,7 @@ order_success.html:
     </div>
     {% endblock %}
 
+==== END OF BLOCK ====
 
 orders.html:
 
@@ -1823,6 +1535,8 @@ orders.html:
     </div>
     {% endif %}
     {% endblock %}
+
+==== END OF BLOCK ====
 
 product_detail.html:
 
@@ -1884,6 +1598,8 @@ product_detail.html:
         </div>
     </div>
     {% endblock %}
+
+==== END OF BLOCK ====
 
 profile.html:
 
@@ -2100,6 +1816,8 @@ profile.html:
     </script>
     {% endblock %}
 
+==== END OF BLOCK ====
+
 admin.py:
 
 .. code-block:: python
@@ -2163,6 +1881,8 @@ admin.py:
         list_display = ('order', 'product', 'quantity', 'price')
         list_filter = ('order',)
 
+==== END OF BLOCK ====
+
 header.html:
 
 .. code-block:: python
@@ -2223,6 +1943,8 @@ header.html:
             </div>
         </div>
     </header>
+
+==== END OF BLOCK ====
 
 cart.html:
 
@@ -2318,6 +2040,7 @@ cart.html:
         </div>
     {% endif %}
     {% endblock %}
+
 
 styles.css
 
@@ -2605,3 +2328,456 @@ styles.css
         margin-left: 2vw;
         font-size: 1.5vw;
     }
+
+==== END OF BLOCK ====
+
+login.html:
+
+.. code-block:: python
+
+    {% extends 'base.html' %}
+
+    {% block content %}
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="h4 mb-0 text-center">Вход в систему</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <ul class="nav nav-tabs nav-justified mb-4" id="authTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link {% if active_tab == 'phone' %}active{% endif %}" 
+                                href="?tab=phone" id="phone-tab">
+                                    <i class="bi bi-phone me-2"></i>По телефону
+                                </a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link {% if active_tab == 'email' %}active{% endif %}" 
+                                href="?tab=email" id="email-tab">
+                                    <i class="bi bi-envelope me-2"></i>По email
+                                </a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link {% if active_tab == 'username' %}active{% endif %}" 
+                                href="?tab=username" id="login-tab">
+                                    <i class="bi bi-person me-2"></i>По логину
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <!-- Вход по телефону -->
+                            <div class="tab-pane fade {% if active_tab == 'phone' %}show active{% endif %}" id="phone">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="auth_type" value="phone">
+                                    
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Номер телефона</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone" 
+                                            value="{{ form.phone.value|default_if_none:'' }}" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Пароль</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-box-arrow-in-right me-2"></i>Войти
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Вход по email -->
+                            <div class="tab-pane fade {% if active_tab == 'email' %}show active{% endif %}" id="email">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="auth_type" value="email">
+                                    
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" 
+                                            value="{{ form.email.value|default_if_none:'' }}" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Пароль</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-box-arrow-in-right me-2"></i>Войти
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Вход по логину -->
+                            <div class="tab-pane fade {% if active_tab == 'username' %}show active{% endif %}" id="login">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="auth_type" value="username">
+                                    
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Логин</label>
+                                        <input type="text" class="form-control" id="username" name="username" 
+                                            value="{{ form.username.value|default_if_none:'' }}" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Пароль</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-box-arrow-in-right me-2"></i>Войти
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 text-center">
+                            <a href="#" class="text-decoration-none">Забыли пароль?</a>
+                            <span class="mx-2">|</span>
+                            <a href="{% url 'register' %}" class="text-decoration-none">Регистрация</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+==== END OF BLOCK ====
+
+models.py:
+
+.. code-block:: python
+
+    from django.contrib.auth.models import AbstractUser
+    from django.db import models
+    from django.utils.translation import gettext_lazy as _
+
+    class CustomUser(AbstractUser):
+        # Переопределение стандартных полей
+        first_name = models.CharField(
+            _('first name'),
+            max_length=150,
+            null=True,
+            blank=True
+        )
+        last_name = models.CharField(
+            _('last name'),
+            max_length=150,
+            null=True,
+            blank=True
+        )
+        
+        # Дополнительные поля
+        phone = models.CharField(
+            _('phone number'),
+            max_length=20,
+            blank=True,
+            null=True
+        )
+        
+        address = models.TextField(
+            _('address'),
+            blank=True
+        )
+        
+        age = models.IntegerField(
+            _('age'),
+            null=True,
+            blank=True
+        )
+        
+        birth_date = models.DateField(
+            _('birth date'),
+            null=True,
+            blank=True
+        )
+        
+        GENDER_CHOICES = [
+            ('male', _('Male')),
+            ('female', _('Female')),
+            ('other', _('Other')),
+        ]
+        gender = models.CharField(
+            _('gender'),
+            max_length=10,
+            choices=GENDER_CHOICES,
+            blank=True
+        )
+        
+        city = models.CharField(
+            _('city'),
+            max_length=100,
+            blank=True
+        )
+        
+        country = models.CharField(
+            _('country'),
+            max_length=100,
+            blank=True
+        )
+        
+        occupation = models.CharField(
+            _('occupation'),
+            max_length=100,
+            blank=True
+        )
+        
+        avatar = models.ImageField(
+            _('avatar'),
+            upload_to='avatars/',
+            blank=True,
+            null=True
+        )
+        
+        class Meta:
+            verbose_name = _('user')
+            verbose_name_plural = _('users')
+        
+        def get_full_name(self):
+            """Возвращает полное имя пользователя."""
+            return f'{self.first_name} {self.last_name}'
+        
+        def __str__(self):
+            full_name = self.get_full_name()
+            if full_name.strip():
+                return full_name
+            return self.username
+
+    # 1. Модели для каталога
+    class Category(models.Model):
+        name = models.CharField(_('name'), max_length=100, blank=True, null=True)
+        description = models.TextField(_('description'), blank=True, null=True)
+        image = models.ImageField(_('image'), upload_to='categories/', blank=True, null=True)
+        
+        class Meta:
+            verbose_name = _('category')
+            verbose_name_plural = _('categories')
+        
+        def __str__(self):
+            return self.name or ''
+
+    class Product(models.Model):
+        name = models.CharField(_('name'), max_length=200, blank=True, null=True)
+        description = models.TextField(_('description'), blank=True, null=True)
+        price = models.DecimalField(_('price'), max_digits=10, decimal_places=2, blank=True, null=True)
+        image = models.ImageField(_('image'), upload_to='products/', blank=True, null=True)
+        category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True, related_name='products')
+        created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+        
+        class Meta:
+            verbose_name = _('product')
+            verbose_name_plural = _('products')
+        
+        def __str__(self):
+            return self.name or ''
+
+    # 2. Модель для корзины
+    class CartItem(models.Model):
+        user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='cart_items', blank=True, null=True)
+        product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+        quantity = models.PositiveIntegerField(_('quantity'), default=1, blank=True, null=True)
+        added_at = models.DateTimeField(_('added at'), auto_now_add=True)
+        
+        class Meta:
+            verbose_name = _('cart item')
+            verbose_name_plural = _('cart items')
+        
+        def __str__(self):
+            return f"{self.quantity} x {self.product.name if self.product else ''}"
+        
+        def get_total(self):
+            if self.product and self.product.price and self.quantity:
+                 return self.product.price * self.quantity
+            return 0
+
+    # 3. Модели для заказов
+    class Order(models.Model):
+        ORDER_STATUS_CHOICES = [
+            ('pending', _('Pending')),
+            ('processing', _('Processing')),
+            ('shipped', _('Shipped')),
+            ('delivered', _('Delivered')),
+            ('cancelled', _('Cancelled')),
+        ]
+        
+        user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, related_name='orders', blank=True, null=True)
+        status = models.CharField(_('status'), max_length=20, choices=ORDER_STATUS_CHOICES, default='pending', blank=True, null=True)
+        created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+        shipping_address = models.TextField(_('shipping address'), blank=True, null=True)
+        phone = models.CharField(_('phone'), max_length=20, blank=True, null=True)
+        email = models.EmailField(_('email'), blank=True, null=True)
+        total_amount = models.DecimalField(_('total amount'), max_digits=10, decimal_places=2, blank=True, null=True)
+        
+        class Meta:
+            verbose_name = _('order')
+            verbose_name_plural = _('orders')
+        
+        def __str__(self):
+            return f"Order #{self.id} - {self.user.username if self.user else ''}"
+
+    class OrderItem(models.Model):
+        order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', blank=True, null=True)
+        product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
+        quantity = models.PositiveIntegerField(_('quantity'), default=1, blank=True, null=True)
+        price = models.DecimalField(_('price'), max_digits=10, decimal_places=2, blank=True, null=True)
+        
+        class Meta:
+            verbose_name = _('order item')
+            verbose_name_plural = _('order items')
+        
+        def __str__(self):
+            return f"{self.quantity} x {self.product.name if self.product else ''}"
+        
+        def get_total(self):
+            if self.price and self.quantity:
+                return self.price * self.quantity
+            return
+
+    
+order_detail.html:
+
+.. code-block:: python
+
+    {% extends 'base.html' %}
+
+    {% block title %}Заказ #{{ order.id }} - МОЙ НЕ САМ{% endblock %}
+
+    {% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'orders' %}">Мои заказы</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Заказ #{{ order.id }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Товары в заказе</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" style="width: 100px;">Фото</th>
+                                    <th scope="col">Товар</th>
+                                    <th scope="col" style="width: 100px;">Цена</th>
+                                    <th scope="col" style="width: 100px;">Кол-во</th>
+                                    <th scope="col" style="width: 100px;">Сумма</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order_items %}
+                                <tr>
+                                    <td>
+                                        {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-thumbnail" style="max-width: 80px; max-height: 80px;">
+                                        {% else %}
+                                        <div class="bg-light text-center" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                                            <span class="text-muted small">Нет фото</span>
+                                        </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'product_detail' item.product.id %}" class="text-decoration-none">
+                                            <h6 class="mb-1">{{ item.product.name }}</h6>
+                                        </a>
+                                        {% if item.product.category %}
+                                        <span class="text-muted small">{{ item.product.category.name }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.price }} ₽</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td class="fw-bold">{{ item.get_total }} ₽</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <td colspan="4" class="text-end fw-bold">Итого:</td>
+                                    <td class="fw-bold">{{ order.total_amount }} ₽</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Информация о заказе</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Номер заказа:</span>
+                            <span class="fw-bold">{{ order.id }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Дата:</span>
+                            <span>{{ order.created_at|date:"d.m.Y H:i" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Статус:</span>
+                            <span>
+                                {% if order.status == 'pending' %}
+                                <span class="badge bg-warning">Ожидает обработки</span>
+                                {% elif order.status == 'processing' %}
+                                <span class="badge bg-info">В обработке</span>
+                                {% elif order.status == 'shipped' %}
+                                <span class="badge bg-primary">Отправлен</span>
+                                {% elif order.status == 'delivered' %}
+                                <span class="badge bg-success">Доставлен</span>
+                                {% elif order.status == 'cancelled' %}
+                                <span class="badge bg-danger">Отменен</span>
+                                {% else %}
+                                <span class="badge bg-secondary">{{ order.get_status_display }}</span>
+                                {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Данные доставки</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <h6 class="mb-1">Адрес доставки:</h6>
+                            <p class="mb-0">{{ order.shipping_address }}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h6 class="mb-1">Телефон:</h6>
+                            <p class="mb-0">{{ order.phone }}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h6 class="mb-1">Email:</h6>
+                            <p class="mb-0">{{ order.email }}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

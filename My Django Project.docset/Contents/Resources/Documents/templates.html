@@ -1,0 +1,1416 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Создание HTML шаблонов &mdash; документация Проект Django на русском 1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5d928502" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e35015f7"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=9bfe3ffa"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="next" title="Настройка URL-маршрутов" href="urls.html" />
+    <link rel="prev" title="Создание представлений (Views)" href="views.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Проект Django на русском
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <p class="caption" role="heading"><span class="caption-text">Пошаговое руководство:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Настройка окружения и установка Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project-structure.html">Создание структуры проекта ekz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Создание моделей базы данных</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">Создание представлений (Views)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Создание HTML шаблонов</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#header">Шаблон header (шапка сайта)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Загрузка статических файлов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Структура header</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Логотип и название сайта</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Навигационное меню</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Блок для авторизованных пользователей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Кнопка админки для суперпользователей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Профиль пользователя</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Выход из системы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Блок для неавторизованных пользователей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Особенности шаблона</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cart-html">Шаблон корзины (cart.html)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Наследование базового шаблона и установка заголовка</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Основной заголовок страницы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Проверка наличия товаров в корзине</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Создание карточки для отображения товаров</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Организация адаптивной таблицы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Определение структуры таблицы - заголовки столбцов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Начало тела таблицы и итерация по элементам корзины</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Отображение изображения товара с обработкой отсутствующего изображения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Отображение информации о товаре с ссылкой на детальную страницу</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">Отображение цены за единицу товара</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">Интерактивная форма для изменения количества товара</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Отображение общей стоимости позиции</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">Кнопка для удаления товара из корзины</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">Завершение строки товара и цикла по элементам</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">Подвал таблицы с расчетом общей суммы заказа</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26">Завершение структуры таблицы и карточки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">Навигационные кнопки в подвале карточки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">Завершение карточки и условного оператора</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">Альтернативное сообщение для пустой корзины</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30">Завершение основного блока содержимого</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#contacts-html">Шаблон страницы контактов (contacts.html)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id31">Наследование базового шаблона и заголовок</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id32">Основной контейнер и заголовок страницы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id33">Начало сетки строки</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id34">Колонка с контактной информацией</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id35">Колонка с картой</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id36">Завершение сетки и контейнера</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#content">Завершение блока content</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#login-html">Шаблон страницы авторизации (login.html)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id37">Наследование и структура страницы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id38">Контейнер и выравнивание формы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id39">Карточка для формы входа</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id40">Навигация по способам входа (табы)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id41">Контейнер с формами для каждого способа входа</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id42">Форма входа по телефону</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#email">Форма входа по email</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id43">Форма входа по логину</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id44">Завершение блока с формами</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id45">Ссылки на восстановление пароля и регистрацию</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id46">Закрытие всех контейнеров и блока content</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#catalog-html">Шаблон страницы каталога (catalog.html)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id47">Наследование и заголовок страницы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id48">Начало блока основного контента</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id49">Боковая панель с фильтрами (левая колонка)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id50">Поле поиска по названию или описанию</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id51">Выпадающий список категорий</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id52">Поля для фильтрации по цене</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id53">Кнопки применения и сброса фильтров</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id54">Закрытие формы и боковой панели</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id55">Основная область с товарами (правая колонка)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id56">Карточка товара</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id57">Обработка отсутствия товаров</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id58">Закрытие блоков и страницы</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#orders-html">Шаблон страницы заказов пользователя (orders.html)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id59">Наследование и заголовок страницы</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id60">Блок основного контента</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id61">Проверка наличия заказов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id62">Таблица заказов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id63">Столбец «Статус заказа»</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id64">Кнопка «Подробнее»</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id65">Обработка отсутствия заказов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id66">Закрытие блоков и страницы</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#base-html">Шаблон базового шаблона сайта (base.html)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id67"><strong>Теоретические основы базового шаблона</strong></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#django">1. Принцип наследования шаблонов Django</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id68">2. Статические файлы и безопасность</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flex">3. Flex-верстка и адаптивность</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id69">4. Блоки шаблона: расширяемость и гибкость</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#include">5. Включение компонентов через include</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bootstrap">6. Bootstrap и иконки</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id70">7. Структура футера</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#best-practices">8. Безопасность и best practices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id71">9. Типовые ошибки при работе с base.html</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id72">10. Преимущества такой структуры</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id73"><strong>Разбор кода по блокам</strong></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id74">Загрузка статических файлов и объявление документа</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#head">Блок &lt;head&gt;: мета-теги, стили и заголовок</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id75">Тело страницы: структура и блоки</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id76">Включение шапки сайта</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id77">Блок основного контента</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id78">Футер сайта</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scripts">Подключение скриптов и блок scripts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id79">Закрытие документа</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#main-page-html">Шаблон главной страницы (main_page.html)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id80"><strong>Теоретические основы главной страницы</strong></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id81">1. Роль главной страницы</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id82">2. Структура шаблона</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#carousel">3. Слайдер (carousel)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id83">4. Блок «Популярные товары»</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id84">5. Блок «Преимущества магазина»</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ux">6. Адаптивность и UX</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id85">7. Безопасность и best practices</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Работа с формами в Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin.html">Настройка админ-панели Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">Работа с Git для локального репозитория</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Проект Django на русском</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Создание HTML шаблонов</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="html">
+<h1>Создание HTML шаблонов<a class="headerlink" href="#html" title="Ссылка на этот заголовок"></a></h1>
+<p>В этом разделе мы создадим HTML шаблоны для нашего приложения. Начнем с шапки сайта (header), которая отображается на всех страницах.</p>
+<section id="header">
+<h2>Шаблон header (шапка сайта)<a class="headerlink" href="#header" title="Ссылка на этот заголовок"></a></h2>
+<p>Шаблон <code class="docutils literal notranslate"><span class="pre">header</span></code> содержит логотип, навигацию и элементы управления пользователем. Он использует Bootstrap для стилизации.</p>
+<section id="id1">
+<h3>Загрузка статических файлов<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">load</span> <span class="nv">static</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p><strong>Назначение:</strong> Загружает теги для работы со статическими файлами.</p>
+<p><strong>Использование:</strong> Позволяет использовать <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">static</span> <span class="pre">%}</span></code> для ссылок на CSS, JS, изображения</p>
+</section>
+<section id="id2">
+<h3>Структура header<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;header class=&quot;bg-light py-3 mb-4 border-bottom&quot;&gt;</span>
+<span class="x">    &lt;div class=&quot;container&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;d-flex justify-content-between align-items-center&quot;&gt;</span>
+</pre></div>
+</div>
+<p><strong>Классы Bootstrap:</strong>
+- <code class="docutils literal notranslate"><span class="pre">bg-light</span></code> - светлый фон
+- <code class="docutils literal notranslate"><span class="pre">py-3</span></code> - вертикальные отступы
+- <code class="docutils literal notranslate"><span class="pre">mb-4</span></code> - нижний отступ
+- <code class="docutils literal notranslate"><span class="pre">border-bottom</span></code> - нижняя граница
+- <code class="docutils literal notranslate"><span class="pre">container</span></code> - центрирующий контейнер
+- <code class="docutils literal notranslate"><span class="pre">d-flex</span> <span class="pre">justify-content-between</span> <span class="pre">align-items-center</span></code> - flex-контейнер с выравниванием</p>
+</section>
+<section id="id3">
+<h3>Логотип и название сайта<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s2">&quot;main_page&quot;</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;d-flex align-items-center text-decoration-none&quot;&gt;</span>
+<span class="x">    &lt;img src=&quot;</span><span class="cp">{%</span> <span class="k">static</span> <span class="s1">&#39;images/logo.png&#39;</span> <span class="cp">%}</span><span class="x">&quot; alt=&quot;Логотип&quot; class=&quot;me-2&quot; style=&quot;max-height: 40px;&quot;&gt;</span>
+<span class="x">    &lt;span class=&quot;fs-4 fw-bold text-primary&quot;&gt;#МОЙНЕСАМ&lt;/span&gt;</span>
+<span class="x">&lt;/a&gt;</span>
+</pre></div>
+</div>
+<p><strong>Элементы:</strong>
+- Ссылка на главную страницу
+- Логотип из статических файлов
+- Название сайта с стилями
+- <code class="docutils literal notranslate"><span class="pre">text-decoration-none</span></code> - убирает подчеркивание ссылки</p>
+</section>
+<section id="id4">
+<h3>Навигационное меню<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;nav class=&quot;navbar navbar-expand-lg navbar-light&quot;&gt;</span>
+<span class="x">    &lt;button class=&quot;navbar-toggler&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#navbarNav&quot; aria-controls=&quot;navbarNav&quot; aria-expanded=&quot;false&quot; aria-label=&quot;Переключить навигацию&quot;&gt;</span>
+<span class="x">        &lt;span class=&quot;navbar-toggler-icon&quot;&gt;&lt;/span&gt;</span>
+<span class="x">    &lt;/button&gt;</span>
+<span class="x">    &lt;div class=&quot;collapse navbar-collapse&quot; id=&quot;navbarNav&quot;&gt;</span>
+<span class="x">        &lt;ul class=&quot;navbar-nav me-auto mb-2 mb-lg-0&quot;&gt;</span>
+<span class="x">            &lt;li class=&quot;nav-item&quot;&gt;</span>
+<span class="x">                &lt;a class=&quot;nav-link&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;catalog&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;Каталог&lt;/a&gt;</span>
+<span class="x">            &lt;/li&gt;</span>
+<span class="x">            &lt;li class=&quot;nav-item&quot;&gt;</span>
+<span class="x">                &lt;a class=&quot;nav-link&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;contacts&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;Контакты&lt;/a&gt;</span>
+<span class="x">            &lt;/li&gt;</span>
+<span class="x">        &lt;/ul&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">&lt;/nav&gt;</span>
+</pre></div>
+</div>
+<p><strong>Особенности:</strong>
+- Адаптивное меню с кнопкой-гамбургером для мобильных устройств
+- <code class="docutils literal notranslate"><span class="pre">navbar-expand-lg</span></code> - меню сворачивается на экранах меньше lg
+- <code class="docutils literal notranslate"><span class="pre">data-bs-toggle=&quot;collapse&quot;</span></code> - Bootstrap JavaScript для сворачивания/разворачивания</p>
+</section>
+<section id="id5">
+<h3>Блок для авторизованных пользователей<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">request.user.is_authenticated</span> <span class="cp">%}</span>
+<span class="x">    &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;cart&#39;</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;btn btn-outline-primary me-2 position-relative&quot;&gt;</span>
+<span class="x">        &lt;i class=&quot;bi bi-cart&quot;&gt;&lt;/i&gt; Корзина</span>
+<span class="x">        &lt;span class=&quot;position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger&quot;&gt;</span>
+<span class="x">            </span><span class="cp">{{</span> <span class="nv">request.user.cart_items.count</span> <span class="cp">}}</span>
+<span class="x">        &lt;/span&gt;</span>
+<span class="x">    &lt;/a&gt;</span>
+</pre></div>
+</div>
+<p><strong>Элементы:</strong>
+- Кнопка корзины с количеством товаров
+- <code class="docutils literal notranslate"><span class="pre">position-relative</span></code> и <code class="docutils literal notranslate"><span class="pre">position-absolute</span></code> для badge с количеством
+- <code class="docutils literal notranslate"><span class="pre">request.user.cart_items.count</span></code> - количество товаров в корзине через related_name</p>
+</section>
+<section id="id6">
+<h3>Кнопка админки для суперпользователей<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">request.user.is_superuser</span> <span class="cp">%}</span>
+<span class="x">&lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s2">&quot;admin:index&quot;</span> <span class="cp">%}</span><span class="x">&quot; target=&quot;_blank&quot; class=&quot;btn btn-outline-primary me-2&quot;&gt;Админ&lt;/a&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p><strong>Условие:</strong> Показывается только суперпользователям
+- <code class="docutils literal notranslate"><span class="pre">target=&quot;_blank&quot;</span></code> - открывает в новой вкладке</p>
+</section>
+<section id="id7">
+<h3>Профиль пользователя<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;profile&#39;</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;btn btn-outline-primary me-2&quot;&gt;</span>
+<span class="x">    &lt;i class=&quot;bi bi-person&quot;&gt;&lt;/i&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">user.first_name</span> <span class="cp">%}</span>
+<span class="x">        </span><span class="cp">{{</span> <span class="nv">user.first_name</span> <span class="cp">}}</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+<span class="x">        Профиль</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="x">&lt;/a&gt;</span>
+</pre></div>
+</div>
+<p><strong>Логика:</strong> Показывает имя пользователя если оно есть, иначе «Профиль»</p>
+</section>
+<section id="id8">
+<h3>Выход из системы<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;form action=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;logout&#39;</span> <span class="cp">%}</span><span class="x">&quot; method=&quot;post&quot; class=&quot;d-inline&quot;&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">csrf_token</span> <span class="cp">%}</span>
+<span class="x">    &lt;button type=&quot;submit&quot; class=&quot;btn btn-outline-danger&quot;&gt;Выйти&lt;/button&gt;</span>
+<span class="x">&lt;/form&gt;</span>
+</pre></div>
+</div>
+<p><strong>Особенности:</strong>
+- Форма с POST-запросом для безопасности
+- <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">csrf_token</span> <span class="pre">%}</span></code> - защита от CSRF-атак
+- <code class="docutils literal notranslate"><span class="pre">d-inline</span></code> - форма отображается в строку</p>
+</section>
+<section id="id9">
+<h3>Блок для неавторизованных пользователей<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+<span class="x">    &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s2">&quot;register&quot;</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;btn btn-outline-primary me-2&quot;&gt;Регистрация&lt;/a&gt;</span>
+<span class="x">    &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s2">&quot;login&quot;</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;btn btn-primary&quot;&gt;Войти&lt;/a&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p><strong>Элементы:</strong> Кнопки регистрации и входа для неавторизованных пользователей</p>
+</section>
+<section id="id10">
+<h3>Особенности шаблона<a class="headerlink" href="#id10" title="Ссылка на этот заголовок"></a></h3>
+<p><strong>Адаптивность:</strong> Меню сворачивается на мобильных устройствах</p>
+<p><strong>Безопасность:</strong> Выход через POST-запрос с CSRF-токеном</p>
+<p><strong>Динамичность:</strong> Разный контент для авторизованных и неавторизованных пользователей</p>
+<p><strong>Доступность:</strong> ARIA-атрибуты для скринридеров</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Убедитесь, что файл логотипа <code class="docutils literal notranslate"><span class="pre">logo.png</span></code> находится в папке <code class="docutils literal notranslate"><span class="pre">static/images/</span></code></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>Для работы иконок Bootstrap Icons нужно подключить CDN или установить пакет в проекте.</p>
+</div>
+</section>
+</section>
+<section id="cart-html">
+<h2>Шаблон корзины (cart.html)<a class="headerlink" href="#cart-html" title="Ссылка на этот заголовок"></a></h2>
+<p>Шаблон <code class="docutils literal notranslate"><span class="pre">cart.html</span></code> отвечает за отображение всех товаров, добавленных пользователем в корзину. Он предоставляет функционал для просмотра товаров, изменения их количества, удаления и перехода к оформлению заказа.</p>
+<section id="id11">
+<h3>Наследование базового шаблона и установка заголовка<a class="headerlink" href="#id11" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;base.html&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span><span class="x">Корзина - МОЙ НЕ САМ</span><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Шаблон наследуется от базового <code class="docutils literal notranslate"><span class="pre">base.html</span></code>, что обеспечивает consistent оформление всех страниц сайта. В блоке <code class="docutils literal notranslate"><span class="pre">title</span></code> устанавливается заголовок страницы, который отображается в браузере. Блок <code class="docutils literal notranslate"><span class="pre">content</span></code> определяет основное содержимое страницы.</p>
+</section>
+<section id="id12">
+<h3>Основной заголовок страницы<a class="headerlink" href="#id12" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;h1 class=&quot;mb-4&quot;&gt;Корзина&lt;/h1&gt;</span>
+</pre></div>
+</div>
+<p>Заголовок первого уровня «Корзина» с классом <code class="docutils literal notranslate"><span class="pre">mb-4</span></code> (margin-bottom: 1.5rem) создает достаточный отступ между заголовком и последующим содержимым.</p>
+</section>
+<section id="id13">
+<h3>Проверка наличия товаров в корзине<a class="headerlink" href="#id13" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">cart_items</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Условный оператор проверяет, содержит ли переменная <code class="docutils literal notranslate"><span class="pre">cart_items</span></code> какие-либо элементы. Эта переменная передается из представления <code class="docutils literal notranslate"><span class="pre">cart_view</span></code> и содержит QuerySet всех товаров в корзине текущего пользователя. Если корзина не пуста, отображается основной интерфейс с товарами.</p>
+</section>
+<section id="id14">
+<h3>Создание карточки для отображения товаров<a class="headerlink" href="#id14" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;card mb-4&quot;&gt;</span>
+<span class="x">    &lt;div class=&quot;card-header bg-primary text-white&quot;&gt;</span>
+<span class="x">        &lt;h5 class=&quot;mb-0&quot;&gt;Товары в корзине&lt;/h5&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+</pre></div>
+</div>
+<p>Создается карточка Bootstrap с классом <code class="docutils literal notranslate"><span class="pre">mb-4</span></code> для нижнего отступа. Заголовок карточки <code class="docutils literal notranslate"><span class="pre">card-header</span></code> имеет синий фон (<code class="docutils literal notranslate"><span class="pre">bg-primary</span></code>) и белый текст, что визуально выделяет раздел с товарами.</p>
+</section>
+<section id="id15">
+<h3>Организация адаптивной таблицы<a class="headerlink" href="#id15" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;card-body p-0&quot;&gt;</span>
+<span class="x">    &lt;div class=&quot;table-responsive&quot;&gt;</span>
+<span class="x">        &lt;table class=&quot;table table-hover mb-0&quot;&gt;</span>
+</pre></div>
+</div>
+<p>В теле карточки создается адаптивная таблица. Класс <code class="docutils literal notranslate"><span class="pre">table-responsive</span></code> обеспечивает горизонтальную прокрутку на мобильных устройствах, а <code class="docutils literal notranslate"><span class="pre">table-hover</span></code> добавляет эффект подсветки строк при наведении курсора. <code class="docutils literal notranslate"><span class="pre">p-0</span></code> убирает внутренние отступы у card-body.</p>
+</section>
+<section id="id16">
+<h3>Определение структуры таблицы - заголовки столбцов<a class="headerlink" href="#id16" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;thead class=&quot;table-light&quot;&gt;</span>
+<span class="x">    &lt;tr&gt;</span>
+<span class="x">        &lt;th scope=&quot;col&quot; style=&quot;width: 100px;&quot;&gt;Фото&lt;/th&gt;</span>
+<span class="x">        &lt;th scope=&quot;col&quot;&gt;Товар&lt;/th&gt;</span>
+<span class="x">        &lt;th scope=&quot;col&quot; style=&quot;width: 150px;&quot;&gt;Цена&lt;/th&gt;</span>
+<span class="x">        &lt;th scope=&quot;col&quot; style=&quot;width: 150px;&quot;&gt;Количество&lt;/th&gt;</span>
+<span class="x">        &lt;th scope=&quot;col&quot; style=&quot;width: 150px;&quot;&gt;Сумма&lt;/th&gt;</span>
+<span class="x">        &lt;th scope=&quot;col&quot; style=&quot;width: 80px;&quot;&gt;Действия&lt;/th&gt;</span>
+<span class="x">    &lt;/tr&gt;</span>
+<span class="x">&lt;/thead&gt;</span>
+</pre></div>
+</div>
+<p>Заголовок таблицы с светло-серым фоном (<code class="docutils literal notranslate"><span class="pre">table-light</span></code>) содержит шесть столбцов с фиксированными ширинами для обеспечения consistent отображения. Столбцы: изображение товара, название, цена за единицу, количество, общая стоимость и действия.</p>
+</section>
+<section id="id17">
+<h3>Начало тела таблицы и итерация по элементам корзины<a class="headerlink" href="#id17" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;tbody&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">cart_items</span> <span class="cp">%}</span>
+<span class="x">    &lt;tr&gt;</span>
+</pre></div>
+</div>
+<p>Начинается тело таблицы, и для каждого элемента в <code class="docutils literal notranslate"><span class="pre">cart_items</span></code> создается новая строка. Переменная <code class="docutils literal notranslate"><span class="pre">item</span></code> представляет собой объект модели <code class="docutils literal notranslate"><span class="pre">CartItem</span></code>, связывающий пользователя с товаром и количеством.</p>
+</section>
+<section id="id18">
+<h3>Отображение изображения товара с обработкой отсутствующего изображения<a class="headerlink" href="#id18" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;td&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">item.product.image</span> <span class="cp">%}</span>
+<span class="x">    &lt;img src=&quot;</span><span class="cp">{{</span> <span class="nv">item.product.image.url</span> <span class="cp">}}</span><span class="x">&quot; alt=&quot;</span><span class="cp">{{</span> <span class="nv">item.product.name</span> <span class="cp">}}</span><span class="x">&quot; class=&quot;img-thumbnail&quot; style=&quot;max-width: 80px; max-height: 80px;&quot;&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+<span class="x">    &lt;div class=&quot;bg-light text-center&quot; style=&quot;width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;&quot;&gt;</span>
+<span class="x">        &lt;span class=&quot;text-muted small&quot;&gt;Нет фото&lt;/span&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="x">&lt;/td&gt;</span>
+</pre></div>
+</div>
+<p>В первой ячейке отображается изображение товара. Если изображение существует, показывается миниатюра с ограничением размеров 80x80 пикселей. Если изображение отсутствует, отображается серая заглушка с текстом «Нет фото», что улучшает пользовательский опыт.</p>
+</section>
+<section id="id19">
+<h3>Отображение информации о товаре с ссылкой на детальную страницу<a class="headerlink" href="#id19" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;td&gt;</span>
+<span class="x">    &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;product_detail&#39;</span> <span class="nv">item.product.id</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;text-decoration-none&quot;&gt;</span>
+<span class="x">        &lt;h6 class=&quot;mb-1&quot;&gt;</span><span class="cp">{{</span> <span class="nv">item.product.name</span> <span class="cp">}}</span><span class="x">&lt;/h6&gt;</span>
+<span class="x">    &lt;/a&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">item.product.category</span> <span class="cp">%}</span>
+<span class="x">    &lt;span class=&quot;text-muted small&quot;&gt;</span><span class="cp">{{</span> <span class="nv">item.product.category.name</span> <span class="cp">}}</span><span class="x">&lt;/span&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="x">&lt;/td&gt;</span>
+</pre></div>
+</div>
+<p>Название товара является ссылкой на его детальную страницу. Класс <code class="docutils literal notranslate"><span class="pre">text-decoration-none</span></code> убирает подчеркивание ссылки для более чистого вида. Если у товара указана категория, она отображается ниже названия серым мелким шрифтом.</p>
+</section>
+<section id="id20">
+<h3>Отображение цены за единицу товара<a class="headerlink" href="#id20" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;td&gt;</span><span class="cp">{{</span> <span class="nv">item.product.price</span> <span class="cp">}}</span><span class="x"> ₽&lt;/td&gt;</span>
+</pre></div>
+</div>
+<p>Цена товара отображается в рублях. Значение берется из поля <code class="docutils literal notranslate"><span class="pre">price</span></code> модели <code class="docutils literal notranslate"><span class="pre">Product</span></code>, связанной с текущим элементом корзины.</p>
+</section>
+<section id="id21">
+<h3>Интерактивная форма для изменения количества товара<a class="headerlink" href="#id21" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;td&gt;</span>
+<span class="x">    &lt;form action=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;update_cart_item&#39;</span> <span class="nv">item.id</span> <span class="cp">%}</span><span class="x">&quot; method=&quot;post&quot; class=&quot;d-flex&quot;&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">csrf_token</span> <span class="cp">%}</span>
+<span class="x">        &lt;input type=&quot;number&quot; name=&quot;quantity&quot; value=&quot;</span><span class="cp">{{</span> <span class="nv">item.quantity</span> <span class="cp">}}</span><span class="x">&quot; min=&quot;1&quot; max=&quot;99&quot; class=&quot;form-control form-control-sm&quot; style=&quot;width: 70px;&quot;&gt;</span>
+<span class="x">        &lt;button type=&quot;submit&quot; class=&quot;btn btn-sm btn-outline-primary ms-2&quot;&gt;</span>
+<span class="x">            Обновить</span>
+<span class="x">        &lt;/button&gt;</span>
+<span class="x">    &lt;/form&gt;</span>
+<span class="x">&lt;/td&gt;</span>
+</pre></div>
+</div>
+<p>Форма с методом POST позволяет пользователю изменять количество товара. CSRF-токен обеспечивает защиту от межсайтовой подделки запросов. Поле ввода ограничивает количество от 1 до 99 единиц. Кнопка «Обновить» отправляет форму на сервер для обработки.</p>
+</section>
+<section id="id22">
+<h3>Отображение общей стоимости позиции<a class="headerlink" href="#id22" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;td class=&quot;fw-bold&quot;&gt;</span><span class="cp">{{</span> <span class="nv">item.get_total</span> <span class="cp">}}</span><span class="x"> ₽&lt;/td&gt;</span>
+</pre></div>
+</div>
+<p>Общая стоимость рассчитывается методом <code class="docutils literal notranslate"><span class="pre">get_total()</span></code> модели <code class="docutils literal notranslate"><span class="pre">CartItem</span></code>, который умножает цену товара на количество. Жирное начертание (<code class="docutils literal notranslate"><span class="pre">fw-bold</span></code>) визуально выделяет эту важную информацию.</p>
+</section>
+<section id="id23">
+<h3>Кнопка для удаления товара из корзины<a class="headerlink" href="#id23" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;td&gt;</span>
+<span class="x">    &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;remove_from_cart&#39;</span> <span class="nv">item.id</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;btn btn-sm btn-outline-danger&quot;&gt;</span>
+<span class="x">        Удалить</span>
+<span class="x">    &lt;/a&gt;</span>
+<span class="x">&lt;/td&gt;</span>
+</pre></div>
+</div>
+<p>Красная контурная кнопка позволяет удалить товар из корзины. Ссылка ведет на представление <code class="docutils literal notranslate"><span class="pre">remove_from_cart</span></code>, передавая ID элемента корзины для идентификации.</p>
+</section>
+<section id="id24">
+<h3>Завершение строки товара и цикла по элементам<a class="headerlink" href="#id24" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;/tr&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Закрывающий тег <code class="docutils literal notranslate"><span class="pre">&lt;/tr&gt;</span></code> завершает строку таблицы для текущего товара, а <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">endfor</span> <span class="pre">%}</span></code> завершает цикл перебора всех элементов корзины.</p>
+</section>
+<section id="id25">
+<h3>Подвал таблицы с расчетом общей суммы заказа<a class="headerlink" href="#id25" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;tfoot class=&quot;table-light&quot;&gt;</span>
+<span class="x">    &lt;tr&gt;</span>
+<span class="x">        &lt;td colspan=&quot;4&quot; class=&quot;text-end fw-bold&quot;&gt;Итого:&lt;/td&gt;</span>
+<span class="x">        &lt;td class=&quot;fw-bold&quot;&gt;</span><span class="cp">{{</span> <span class="nv">total_amount</span> <span class="cp">}}</span><span class="x"> ₽&lt;/td&gt;</span>
+<span class="x">        &lt;td&gt;&lt;/td&gt;</span>
+<span class="x">    &lt;/tr&gt;</span>
+<span class="x">&lt;/tfoot&gt;</span>
+</pre></div>
+</div>
+<p>В подвале таблицы отображается итоговая сумма заказа. Атрибут <code class="docutils literal notranslate"><span class="pre">colspan=&quot;4&quot;</span></code> объединяет первые четыре ячейки для выравнивания надписи «Итого:». Переменная <code class="docutils literal notranslate"><span class="pre">total_amount</span></code> передается из представления и содержит сумму всех <code class="docutils literal notranslate"><span class="pre">item.get_total()</span></code>.</p>
+</section>
+<section id="id26">
+<h3>Завершение структуры таблицы и карточки<a class="headerlink" href="#id26" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">        &lt;/table&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p>Закрывающие теги завершают структуру таблицы, контейнера адаптивности и тела карточки, обеспечивая валидность HTML-разметки.</p>
+</section>
+<section id="id27">
+<h3>Навигационные кнопки в подвале карточки<a class="headerlink" href="#id27" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;card-footer&quot;&gt;</span>
+<span class="x">    &lt;div class=&quot;d-flex justify-content-between&quot;&gt;</span>
+<span class="x">        &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;catalog&#39;</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;btn btn-outline-primary&quot;&gt;</span>
+<span class="x">            Продолжить покупки</span>
+<span class="x">        &lt;/a&gt;</span>
+<span class="x">        &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;checkout&#39;</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;btn btn-success&quot;&gt;</span>
+<span class="x">            Оформить заказ</span>
+<span class="x">        &lt;/a&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p>В подвале карточки расположены две кнопки. Левая кнопка позволяет вернуться к покупкам, правая - зеленого цвета - ведет к оформлению заказа. Flex-контейнер с <code class="docutils literal notranslate"><span class="pre">justify-content-between</span></code> равномерно распределяет кнопки по ширине.</p>
+</section>
+<section id="id28">
+<h3>Завершение карточки и условного оператора<a class="headerlink" href="#id28" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p>Закрывающий тег <code class="docutils literal notranslate"><span class="pre">&lt;/div&gt;</span></code> завершает карточку с товарами. Этот блок выполняется только если в корзине есть товары (условие <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">if</span> <span class="pre">cart_items</span> <span class="pre">%}</span></code>).</p>
+</section>
+<section id="id29">
+<h3>Альтернативное сообщение для пустой корзины<a class="headerlink" href="#id29" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+<span class="x">&lt;div class=&quot;alert alert-info&quot;&gt;</span>
+<span class="x">    &lt;p class=&quot;mb-0&quot;&gt;Ваша корзина пуста. &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;catalog&#39;</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;alert-link&quot;&gt;Перейти в каталог&lt;/a&gt;.&lt;/p&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Если корзина пуста, вместо таблицы с товарами отображается информационное сообщение Bootstrap alert. Сообщение содержит ссылку на каталог товаров, побуждая пользователя начать покупки.</p>
+</section>
+<section id="id30">
+<h3>Завершение основного блока содержимого<a class="headerlink" href="#id30" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Тег <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">endblock</span> <span class="pre">%}</span></code> завершает блок <code class="docutils literal notranslate"><span class="pre">content</span></code>, определяя конец основного содержимого страницы, которое будет вставлено в базовый шаблон.</p>
+</section>
+</section>
+<section id="contacts-html">
+<h2>Шаблон страницы контактов (contacts.html)<a class="headerlink" href="#contacts-html" title="Ссылка на этот заголовок"></a></h2>
+<section id="id31">
+<h3>Наследование базового шаблона и заголовок<a class="headerlink" href="#id31" title="Ссылка на этот заголовок"></a></h3>
+<p>Этот блок определяет базовую структуру страницы и устанавливает заголовок вкладки браузера.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;base.html&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span><span class="x">Контакты - МОЙ НЕ САМ</span><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+<section id="id32">
+<h3>Основной контейнер и заголовок страницы<a class="headerlink" href="#id32" title="Ссылка на этот заголовок"></a></h3>
+<p>Создает основной контейнер с отступами и заголовок страницы. Класс py-5 добавляет вертикальные отступы, mb-4 - нижний отступ для заголовка.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;container py-5&quot;&gt; &lt;h1 class=&quot;mb-4&quot;&gt;Контакты&lt;/h1&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id33">
+<h3>Начало сетки строки<a class="headerlink" href="#id33" title="Ссылка на этот заголовок"></a></h3>
+<p>Инициализирует систему сетки Bootstrap, которая позволяет создавать адаптивные колонки. Строка (row) служит контейнером для колонок.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;row&quot;&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id34">
+<h3>Колонка с контактной информацией<a class="headerlink" href="#id34" title="Ссылка на этот заголовок"></a></h3>
+<p>Левая колонка занимает 6 колонок на средних экранах и больше (col-md-6). Содержит структурированную контактную информацию с кликабельными ссылками для телефона и email.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;col-md-6 mb-4&quot;&gt; &lt;h5&gt;Наш адрес:&lt;/h5&gt; &lt;p&gt;г. ВашГород, ул. Примерная, д. 1&lt;/p&gt; &lt;h5&gt;Телефон:&lt;/h5&gt; &lt;p&gt;&lt;a href=&quot;tel:+79991234567&quot;&gt;+7 (999) 123-45-67&lt;/a&gt;&lt;/p&gt; &lt;h5&gt;Email:&lt;/h5&gt; &lt;p&gt;&lt;a href=&quot;mailto:info@example.com&quot;&gt;info@example.com&lt;/a&gt;&lt;/p&gt; &lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id35">
+<h3>Колонка с картой<a class="headerlink" href="#id35" title="Ссылка на этот заголовок"></a></h3>
+<p>Правая колонка также занимает 6 колонок. Содержит заголовок и iframe с картой. Атрибут frameborder=»0» убирает границу вокруг карты.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;col-md-6 mb-4&quot;&gt; &lt;h5&gt;Мы на карте:&lt;/h5&gt; &lt;div style=&quot;width: 100%&quot;&gt; &lt;!-- Вставьте сюда карту, например, Яндекс или Google --&gt; &lt;iframe src=&quot;https://yandex.ru/map-widget/v1/?um=constructor%3Aexample&quot; width=&quot;100%&quot; height=&quot;300&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt; &lt;/div&gt; &lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id36">
+<h3>Завершение сетки и контейнера<a class="headerlink" href="#id36" title="Ссылка на этот заголовок"></a></h3>
+<p>Закрывающие теги для строки сетки и основного контейнера. Важно соблюдать порядок закрытия тегов для правильной верстки.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;/div&gt; &lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="content">
+<h3>Завершение блока content<a class="headerlink" href="#content" title="Ссылка на этот заголовок"></a></h3>
+<p>Закрывает основной блок контента, который был открыт в начале шаблона.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="login-html">
+<h2>Шаблон страницы авторизации (login.html)<a class="headerlink" href="#login-html" title="Ссылка на этот заголовок"></a></h2>
+<p>Данный шаблон реализует страницу входа с тремя способами авторизации: по телефону, email и логину. Используется наследование от базового шаблона и Bootstrap для стилизации.</p>
+<section id="id37">
+<h3>Наследование и структура страницы<a class="headerlink" href="#id37" title="Ссылка на этот заголовок"></a></h3>
+<p>Шаблон начинается с наследования базового шаблона и объявления блока контента:</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;base.html&#39;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+<section id="id38">
+<h3>Контейнер и выравнивание формы<a class="headerlink" href="#id38" title="Ссылка на этот заголовок"></a></h3>
+<p>Вся форма помещена в контейнер Bootstrap с вертикальным отступом и выравниванием по центру:</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;container py-5&quot;&gt;</span>
+<span class="x">    &lt;div class=&quot;row justify-content-center&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;col-md-8 col-lg-6&quot;&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id39">
+<h3>Карточка для формы входа<a class="headerlink" href="#id39" title="Ссылка на этот заголовок"></a></h3>
+<p>Используется компонент Bootstrap Card для визуального выделения формы:</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;card shadow-sm&quot;&gt;</span>
+<span class="x">    &lt;div class=&quot;card-header bg-primary text-white&quot;&gt;</span>
+<span class="x">        &lt;h2 class=&quot;h4 mb-0 text-center&quot;&gt;Вход в систему&lt;/h2&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">    &lt;div class=&quot;card-body p-4&quot;&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id40">
+<h3>Навигация по способам входа (табы)<a class="headerlink" href="#id40" title="Ссылка на этот заголовок"></a></h3>
+<p>Для выбора способа входа реализованы Bootstrap-навигационные табы. Активный таб определяется переменной active_tab:</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;ul class=&quot;nav nav-tabs nav-justified mb-4&quot; id=&quot;authTabs&quot; role=&quot;tablist&quot;&gt;</span>
+<span class="x">    &lt;li class=&quot;nav-item&quot; role=&quot;presentation&quot;&gt;</span>
+<span class="x">        &lt;a class=&quot;nav-link </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">active_tab</span> <span class="o">==</span> <span class="s1">&#39;phone&#39;</span> <span class="cp">%}</span><span class="x">active</span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x">&quot;</span>
+<span class="x">           href=&quot;?tab=phone&quot; id=&quot;phone-tab&quot;&gt;</span>
+<span class="x">            &lt;i class=&quot;bi bi-phone me-2&quot;&gt;&lt;/i&gt;По телефону</span>
+<span class="x">        &lt;/a&gt;</span>
+<span class="x">    &lt;/li&gt;</span>
+<span class="x">    &lt;li class=&quot;nav-item&quot; role=&quot;presentation&quot;&gt;</span>
+<span class="x">        &lt;a class=&quot;nav-link </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">active_tab</span> <span class="o">==</span> <span class="s1">&#39;email&#39;</span> <span class="cp">%}</span><span class="x">active</span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x">&quot;</span>
+<span class="x">           href=&quot;?tab=email&quot; id=&quot;email-tab&quot;&gt;</span>
+<span class="x">            &lt;i class=&quot;bi bi-envelope me-2&quot;&gt;&lt;/i&gt;По email</span>
+<span class="x">        &lt;/a&gt;</span>
+<span class="x">    &lt;/li&gt;</span>
+<span class="x">    &lt;li class=&quot;nav-item&quot; role=&quot;presentation&quot;&gt;</span>
+<span class="x">        &lt;a class=&quot;nav-link </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">active_tab</span> <span class="o">==</span> <span class="s1">&#39;username&#39;</span> <span class="cp">%}</span><span class="x">active</span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x">&quot;</span>
+<span class="x">           href=&quot;?tab=username&quot; id=&quot;login-tab&quot;&gt;</span>
+<span class="x">            &lt;i class=&quot;bi bi-person me-2&quot;&gt;&lt;/i&gt;По логину</span>
+<span class="x">        &lt;/a&gt;</span>
+<span class="x">    &lt;/li&gt;</span>
+<span class="x">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id41">
+<h3>Контейнер с формами для каждого способа входа<a class="headerlink" href="#id41" title="Ссылка на этот заголовок"></a></h3>
+<p>В зависимости от выбранного таба отображается соответствующая форма. Для этого используются Bootstrap tab-pane и условия Django:</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;tab-content&quot;&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id42">
+<h3>Форма входа по телефону<a class="headerlink" href="#id42" title="Ссылка на этот заголовок"></a></h3>
+<p>Пользователь вводит номер телефона и пароль. Для защиты от CSRF-атак используется {% csrf_token %}. Значение поля phone подставляется из формы, если оно было введено ранее:</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;tab-pane fade </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">active_tab</span> <span class="o">==</span> <span class="s1">&#39;phone&#39;</span> <span class="cp">%}</span><span class="x">show active</span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x">&quot; id=&quot;phone&quot;&gt;</span>
+<span class="x">    &lt;form method=&quot;post&quot;&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">csrf_token</span> <span class="cp">%}</span>
+<span class="x">        &lt;input type=&quot;hidden&quot; name=&quot;auth_type&quot; value=&quot;phone&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;mb-3&quot;&gt;</span>
+<span class="x">            &lt;label for=&quot;phone&quot; class=&quot;form-label&quot;&gt;Номер телефона&lt;/label&gt;</span>
+<span class="x">            &lt;input type=&quot;tel&quot; class=&quot;form-control&quot; id=&quot;phone&quot; name=&quot;phone&quot;</span>
+<span class="x">                   value=&quot;</span><span class="cp">{{</span> <span class="nv">form.phone.value</span><span class="o">|</span><span class="nf">default_if_none</span><span class="s1">:&#39;&#39;</span> <span class="cp">}}</span><span class="x">&quot; required&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">        &lt;div class=&quot;mb-3&quot;&gt;</span>
+<span class="x">            &lt;label for=&quot;password&quot; class=&quot;form-label&quot;&gt;Пароль&lt;/label&gt;</span>
+<span class="x">            &lt;input type=&quot;password&quot; class=&quot;form-control&quot; id=&quot;password&quot; name=&quot;password&quot; required&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">        &lt;div class=&quot;d-grid gap-2&quot;&gt;</span>
+<span class="x">            &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;</span>
+<span class="x">                &lt;i class=&quot;bi bi-box-arrow-in-right me-2&quot;&gt;&lt;/i&gt;Войти</span>
+<span class="x">            &lt;/button&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/form&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="email">
+<h3>Форма входа по email<a class="headerlink" href="#email" title="Ссылка на этот заголовок"></a></h3>
+<p>Пользователь вводит email и пароль. Структура аналогична предыдущей форме, но поля другие:</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;tab-pane fade </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">active_tab</span> <span class="o">==</span> <span class="s1">&#39;email&#39;</span> <span class="cp">%}</span><span class="x">show active</span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x">&quot; id=&quot;email&quot;&gt;</span>
+<span class="x">    &lt;form method=&quot;post&quot;&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">csrf_token</span> <span class="cp">%}</span>
+<span class="x">        &lt;input type=&quot;hidden&quot; name=&quot;auth_type&quot; value=&quot;email&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;mb-3&quot;&gt;</span>
+<span class="x">            &lt;label for=&quot;email&quot; class=&quot;form-label&quot;&gt;Email&lt;/label&gt;</span>
+<span class="x">            &lt;input type=&quot;email&quot; class=&quot;form-control&quot; id=&quot;email&quot; name=&quot;email&quot;</span>
+<span class="x">                   value=&quot;</span><span class="cp">{{</span> <span class="nv">form.email.value</span><span class="o">|</span><span class="nf">default_if_none</span><span class="s1">:&#39;&#39;</span> <span class="cp">}}</span><span class="x">&quot; required&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">        &lt;div class=&quot;mb-3&quot;&gt;</span>
+<span class="x">            &lt;label for=&quot;password&quot; class=&quot;form-label&quot;&gt;Пароль&lt;/label&gt;</span>
+<span class="x">            &lt;input type=&quot;password&quot; class=&quot;form-control&quot; id=&quot;password&quot; name=&quot;password&quot; required&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">        &lt;div class=&quot;d-grid gap-2&quot;&gt;</span>
+<span class="x">            &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;</span>
+<span class="x">                &lt;i class=&quot;bi bi-box-arrow-in-right me-2&quot;&gt;&lt;/i&gt;Войти</span>
+<span class="x">            &lt;/button&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/form&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id43">
+<h3>Форма входа по логину<a class="headerlink" href="#id43" title="Ссылка на этот заголовок"></a></h3>
+<p>Пользователь вводит логин и пароль. Для каждого способа входа используется скрытое поле auth_type для определения типа авторизации на сервере:</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;tab-pane fade </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">active_tab</span> <span class="o">==</span> <span class="s1">&#39;username&#39;</span> <span class="cp">%}</span><span class="x">show active</span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x">&quot; id=&quot;login&quot;&gt;</span>
+<span class="x">    &lt;form method=&quot;post&quot;&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">csrf_token</span> <span class="cp">%}</span>
+<span class="x">        &lt;input type=&quot;hidden&quot; name=&quot;auth_type&quot; value=&quot;username&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;mb-3&quot;&gt;</span>
+<span class="x">            &lt;label for=&quot;username&quot; class=&quot;form-label&quot;&gt;Логин&lt;/label&gt;</span>
+<span class="x">            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;username&quot; name=&quot;username&quot;</span>
+<span class="x">                   value=&quot;</span><span class="cp">{{</span> <span class="nv">form.username.value</span><span class="o">|</span><span class="nf">default_if_none</span><span class="s1">:&#39;&#39;</span> <span class="cp">}}</span><span class="x">&quot; required&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">        &lt;div class=&quot;mb-3&quot;&gt;</span>
+<span class="x">            &lt;label for=&quot;password&quot; class=&quot;form-label&quot;&gt;Пароль&lt;/label&gt;</span>
+<span class="x">            &lt;input type=&quot;password&quot; class=&quot;form-control&quot; id=&quot;password&quot; name=&quot;password&quot; required&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">        &lt;div class=&quot;d-grid gap-2&quot;&gt;</span>
+<span class="x">            &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;</span>
+<span class="x">                &lt;i class=&quot;bi bi-box-arrow-in-right me-2&quot;&gt;&lt;/i&gt;Войти</span>
+<span class="x">            &lt;/button&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/form&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id44">
+<h3>Завершение блока с формами<a class="headerlink" href="#id44" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id45">
+<h3>Ссылки на восстановление пароля и регистрацию<a class="headerlink" href="#id45" title="Ссылка на этот заголовок"></a></h3>
+<p>Внизу карточки размещены ссылки для восстановления пароля и перехода к регистрации:</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;mt-4 text-center&quot;&gt;</span>
+<span class="x">    &lt;a href=&quot;#&quot; class=&quot;text-decoration-none&quot;&gt;Забыли пароль?&lt;/a&gt;</span>
+<span class="x">    &lt;span class=&quot;mx-2&quot;&gt;|&lt;/span&gt;</span>
+<span class="x">    &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;register&#39;</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;text-decoration-none&quot;&gt;Регистрация&lt;/a&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id46">
+<h3>Закрытие всех контейнеров и блока content<a class="headerlink" href="#id46" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">            &lt;/div&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p>&lt;/div&gt;
+{% endblock %}</p>
+<p>—</p>
+<p><strong>Примечания:</strong>
+- Для корректной работы табов требуется подключение Bootstrap JS.
+- Для каждого способа входа используется отдельная форма, но все они отправляются на один и тот же URL.
+- Переменная active_tab должна устанавливаться во view для правильного отображения активного таба.
+- Для безопасности используется {% csrf_token %} в каждой форме.</p>
+<p>Если собрать все блоки, получится полный шаблон страницы авторизации с тремя способами входа.</p>
+</section>
+</section>
+<section id="catalog-html">
+<h2>Шаблон страницы каталога (catalog.html)<a class="headerlink" href="#catalog-html" title="Ссылка на этот заголовок"></a></h2>
+<p>Данный шаблон реализует страницу каталога товаров с фильтрами по категориям, цене и поиску, а также выводит карточки товаров с возможностью перехода к подробной информации и добавления в корзину.</p>
+<section id="id47">
+<h3>Наследование и заголовок страницы<a class="headerlink" href="#id47" title="Ссылка на этот заголовок"></a></h3>
+<p>Шаблон наследует базовый шаблон и задаёт заголовок страницы. Это обеспечивает единый стиль для всех страниц сайта и правильное отображение заголовка во вкладке браузера.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;base.html&#39;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span><span class="x">Каталог товаров - МОЙ НЕ САМ</span><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+<section id="id48">
+<h3>Начало блока основного контента<a class="headerlink" href="#id48" title="Ссылка на этот заголовок"></a></h3>
+<p>Весь контент страницы помещён в блок content. Это позволяет вставлять содержимое в нужное место базового шаблона.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+<span class="x">&lt;div class=&quot;row&quot;&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id49">
+<h3>Боковая панель с фильтрами (левая колонка)<a class="headerlink" href="#id49" title="Ссылка на этот заголовок"></a></h3>
+<p>В левой колонке размещена форма фильтрации товаров. Она позволяет пользователю искать товары по ключевому слову, выбирать категорию и указывать диапазон цен. Все фильтры отправляются методом GET, чтобы их можно было видеть в адресной строке и делиться ссылкой.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;col-md-3&quot;&gt;</span>
+<span class="x">    &lt;div class=&quot;card mb-4&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;card-header bg-primary text-white&quot;&gt;</span>
+<span class="x">            &lt;h5 class=&quot;mb-0&quot;&gt;Фильтры&lt;/h5&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">        &lt;div class=&quot;card-body&quot;&gt;</span>
+<span class="x">            &lt;form method=&quot;get&quot; action=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;catalog&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id50">
+<h3>Поле поиска по названию или описанию<a class="headerlink" href="#id50" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;mb-3&quot;&gt;</span>
+<span class="x">    &lt;label for=&quot;search&quot; class=&quot;form-label&quot;&gt;Поиск&lt;/label&gt;</span>
+<span class="x">    &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;search&quot; name=&quot;q&quot; value=&quot;</span><span class="cp">{{</span> <span class="nv">search_query</span> <span class="cp">}}</span><span class="x">&quot;&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id51">
+<h3>Выпадающий список категорий<a class="headerlink" href="#id51" title="Ссылка на этот заголовок"></a></h3>
+<p>Позволяет выбрать одну из доступных категорий товаров или отобразить все товары.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;mb-3&quot;&gt;</span>
+<span class="x">    &lt;label for=&quot;category&quot; class=&quot;form-label&quot;&gt;Категория&lt;/label&gt;</span>
+<span class="x">    &lt;select class=&quot;form-select&quot; id=&quot;category&quot; name=&quot;category&quot;&gt;</span>
+<span class="x">        &lt;option value=&quot;&quot;&gt;Все категории&lt;/option&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">category</span> <span class="k">in</span> <span class="nv">categories</span> <span class="cp">%}</span>
+<span class="x">        &lt;option value=&quot;</span><span class="cp">{{</span> <span class="nv">category.id</span> <span class="cp">}}</span><span class="x">&quot; </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">selected_category</span> <span class="o">==</span> <span class="nv">category.id</span><span class="o">|</span><span class="nf">stringformat</span><span class="s2">:&quot;s&quot;</span> <span class="cp">%}</span><span class="x">selected</span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x">&gt;</span>
+<span class="x">            </span><span class="cp">{{</span> <span class="nv">category.name</span> <span class="cp">}}</span>
+<span class="x">        &lt;/option&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="x">    &lt;/select&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id52">
+<h3>Поля для фильтрации по цене<a class="headerlink" href="#id52" title="Ссылка на этот заголовок"></a></h3>
+<p>Пользователь может указать минимальную и максимальную цену для поиска товаров в нужном диапазоне.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;mb-3&quot;&gt;</span>
+<span class="x">    &lt;label for=&quot;min_price&quot; class=&quot;form-label&quot;&gt;Минимальная цена&lt;/label&gt;</span>
+<span class="x">    &lt;input type=&quot;number&quot; class=&quot;form-control&quot; id=&quot;min_price&quot; name=&quot;min_price&quot; value=&quot;</span><span class="cp">{{</span> <span class="nv">min_price</span> <span class="cp">}}</span><span class="x">&quot; min=&quot;0&quot;&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+<span class="x">&lt;div class=&quot;mb-3&quot;&gt;</span>
+<span class="x">    &lt;label for=&quot;max_price&quot; class=&quot;form-label&quot;&gt;Максимальная цена&lt;/label&gt;</span>
+<span class="x">    &lt;input type=&quot;number&quot; class=&quot;form-control&quot; id=&quot;max_price&quot; name=&quot;max_price&quot; value=&quot;</span><span class="cp">{{</span> <span class="nv">max_price</span> <span class="cp">}}</span><span class="x">&quot; min=&quot;0&quot;&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id53">
+<h3>Кнопки применения и сброса фильтров<a class="headerlink" href="#id53" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;d-grid gap-2&quot;&gt;</span>
+<span class="x">    &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;Применить фильтры&lt;/button&gt;</span>
+<span class="x">    &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;catalog&#39;</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;btn btn-outline-secondary&quot;&gt;Сбросить фильтры&lt;/a&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id54">
+<h3>Закрытие формы и боковой панели<a class="headerlink" href="#id54" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">            &lt;/form&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id55">
+<h3>Основная область с товарами (правая колонка)<a class="headerlink" href="#id55" title="Ссылка на этот заголовок"></a></h3>
+<p>В правой колонке отображается список товаров в виде карточек. Здесь реализован вывод заголовка, проверка наличия товаров и цикл по всем найденным товарам.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;col-md-9&quot;&gt;</span>
+<span class="x">    &lt;h2 class=&quot;mb-4&quot;&gt;Каталог товаров&lt;/h2&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">products</span> <span class="cp">%}</span>
+<span class="x">    &lt;div class=&quot;row row-cols-1 row-cols-md-3 g-4&quot;&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id56">
+<h3>Карточка товара<a class="headerlink" href="#id56" title="Ссылка на этот заголовок"></a></h3>
+<p>Каждый товар отображается в отдельной карточке. В карточке выводится изображение (или заглушка), название, описание, цена и кнопки действий.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;col&quot;&gt;</span>
+<span class="x">    &lt;div class=&quot;card h-100&quot;&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">product.image</span> <span class="cp">%}</span>
+<span class="x">        &lt;img src=&quot;</span><span class="cp">{{</span> <span class="nv">product.image.url</span> <span class="cp">}}</span><span class="x">&quot; class=&quot;card-img-top&quot; alt=&quot;</span><span class="cp">{{</span> <span class="nv">product.name</span> <span class="cp">}}</span><span class="x">&quot; style=&quot;height: 200px; object-fit: cover;&quot;&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+<span class="x">        &lt;div class=&quot;bg-light text-center py-5&quot;&gt;</span>
+<span class="x">            &lt;span class=&quot;text-muted&quot;&gt;Нет изображения&lt;/span&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="x">        &lt;div class=&quot;card-body&quot;&gt;</span>
+<span class="x">            &lt;h5 class=&quot;card-title&quot;&gt;</span><span class="cp">{{</span> <span class="nv">product.name</span> <span class="cp">}}</span><span class="x">&lt;/h5&gt;</span>
+<span class="x">            &lt;p class=&quot;card-text text-truncate&quot;&gt;</span><span class="cp">{{</span> <span class="nv">product.description</span> <span class="cp">}}</span><span class="x">&lt;/p&gt;</span>
+<span class="x">            &lt;p class=&quot;card-text&quot;&gt;&lt;strong&gt;Цена: </span><span class="cp">{{</span> <span class="nv">product.price</span> <span class="cp">}}</span><span class="x"> ₽&lt;/strong&gt;&lt;/p&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">        &lt;div class=&quot;card-footer d-flex justify-content-between&quot;&gt;</span>
+<span class="x">            &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;product_detail&#39;</span> <span class="nv">product.id</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;btn btn-primary&quot;&gt;Подробнее&lt;/a&gt;</span>
+<span class="x">            </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">request.user.is_authenticated</span> <span class="cp">%}</span>
+<span class="x">            &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;add_to_cart&#39;</span> <span class="nv">product.id</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;btn btn-success&quot;&gt;В корзину&lt;/a&gt;</span>
+<span class="x">            </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id57">
+<h3>Обработка отсутствия товаров<a class="headerlink" href="#id57" title="Ссылка на этот заголовок"></a></h3>
+<p>Если по выбранным фильтрам не найдено ни одного товара, выводится информативное сообщение.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+<span class="x">&lt;div class=&quot;alert alert-info&quot;&gt;</span>
+<span class="x">    Товары не найдены. Попробуйте изменить параметры фильтрации.</span>
+<span class="x">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+<section id="id58">
+<h3>Закрытие блоков и страницы<a class="headerlink" href="#id58" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;/div&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>—</p>
+<p><strong>Примечания:</strong>
+- Для фильтрации используются GET-параметры, что позволяет делиться ссылкой на отфильтрованный каталог.
+- Для каждой карточки товара предусмотрена обработка отсутствия изображения.
+- Кнопка «В корзину» доступна только авторизованным пользователям.
+- При отсутствии товаров выводится информативное сообщение.</p>
+<p>Если собрать все блоки, получится полный шаблон страницы каталога с фильтрами и карточками товаров.</p>
+</section>
+</section>
+<section id="orders-html">
+<h2>Шаблон страницы заказов пользователя (orders.html)<a class="headerlink" href="#orders-html" title="Ссылка на этот заголовок"></a></h2>
+<p>Данный шаблон реализует страницу просмотра всех заказов, оформленных текущим пользователем. Здесь отображается таблица с основными сведениями о каждом заказе, статусами и ссылкой на подробности.</p>
+<section id="id59">
+<h3>Наследование и заголовок страницы<a class="headerlink" href="#id59" title="Ссылка на этот заголовок"></a></h3>
+<p>Шаблон наследует базовый шаблон сайта, что обеспечивает единый стиль и структуру для всех страниц.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;base.html&#39;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span><span class="x">Мои заказы - МОЙ НЕ САМ</span><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+<section id="id60">
+<h3>Блок основного контента<a class="headerlink" href="#id60" title="Ссылка на этот заголовок"></a></h3>
+<p>Весь контент страницы помещён в блок content, чтобы корректно встроиться в базовый шаблон.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+<span class="x">&lt;h1 class=&quot;mb-4&quot;&gt;Мои заказы&lt;/h1&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id61">
+<h3>Проверка наличия заказов<a class="headerlink" href="#id61" title="Ссылка на этот заголовок"></a></h3>
+<p>Перед выводом таблицы выполняется проверка: есть ли у пользователя оформленные заказы. Если заказы есть, отображается таблица, иначе — информационное сообщение.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">orders</span> <span class="cp">%}</span>
+<span class="x">...</span>
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+<span class="x">&lt;div class=&quot;alert alert-info&quot;&gt;</span>
+<span class="x">    &lt;p class=&quot;mb-0&quot;&gt;У вас пока нет заказов. &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;catalog&#39;</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;alert-link&quot;&gt;Перейти в каталог&lt;/a&gt;.&lt;/p&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+<section id="id62">
+<h3>Таблица заказов<a class="headerlink" href="#id62" title="Ссылка на этот заголовок"></a></h3>
+<p>Если заказы есть, они выводятся в виде таблицы с адаптивной версткой (table-responsive). Таблица содержит следующие столбцы:
+- Номер заказа
+- Дата оформления
+- Сумма заказа
+- Статус
+- Действия (ссылка на подробности)</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;table-responsive&quot;&gt;</span>
+<span class="x">    &lt;table class=&quot;table table-hover&quot;&gt;</span>
+<span class="x">        &lt;thead class=&quot;table-light&quot;&gt;</span>
+<span class="x">            &lt;tr&gt;</span>
+<span class="x">                &lt;th scope=&quot;col&quot;&gt;№ заказа&lt;/th&gt;</span>
+<span class="x">                &lt;th scope=&quot;col&quot;&gt;Дата&lt;/th&gt;</span>
+<span class="x">                &lt;th scope=&quot;col&quot;&gt;Сумма&lt;/th&gt;</span>
+<span class="x">                &lt;th scope=&quot;col&quot;&gt;Статус&lt;/th&gt;</span>
+<span class="x">                &lt;th scope=&quot;col&quot;&gt;Действия&lt;/th&gt;</span>
+<span class="x">            &lt;/tr&gt;</span>
+<span class="x">        &lt;/thead&gt;</span>
+<span class="x">        &lt;tbody&gt;</span>
+<span class="x">            </span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">order</span> <span class="k">in</span> <span class="nv">orders</span> <span class="cp">%}</span>
+<span class="x">            &lt;tr&gt;</span>
+<span class="x">                &lt;td&gt;</span><span class="cp">{{</span> <span class="nv">order.id</span> <span class="cp">}}</span><span class="x">&lt;/td&gt;</span>
+<span class="x">                &lt;td&gt;</span><span class="cp">{{</span> <span class="nv">order.created_at</span><span class="o">|</span><span class="nf">date</span><span class="s2">:&quot;d.m.Y H:i&quot;</span> <span class="cp">}}</span><span class="x">&lt;/td&gt;</span>
+<span class="x">                &lt;td&gt;</span><span class="cp">{{</span> <span class="nv">order.total_amount</span> <span class="cp">}}</span><span class="x"> ₽&lt;/td&gt;</span>
+<span class="x">                &lt;td&gt;</span>
+<span class="x">                    ...</span>
+<span class="x">                &lt;/td&gt;</span>
+<span class="x">                &lt;td&gt;</span>
+<span class="x">                    &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;order_detail&#39;</span> <span class="nv">order.id</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;btn btn-sm btn-primary&quot;&gt;Подробнее&lt;/a&gt;</span>
+<span class="x">                &lt;/td&gt;</span>
+<span class="x">            &lt;/tr&gt;</span>
+<span class="x">            </span><span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="x">        &lt;/tbody&gt;</span>
+<span class="x">    &lt;/table&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id63">
+<h3>Столбец «Статус заказа»<a class="headerlink" href="#id63" title="Ссылка на этот заголовок"></a></h3>
+<p>Для каждого заказа отображается его статус с помощью цветных бейджей. Это позволяет быстро визуально оценить состояние заказа:
+- Ожидает обработки (pending) — жёлтый бейдж
+- В обработке (processing) — голубой бейдж
+- Отправлен (shipped) — синий бейдж
+- Доставлен (delivered) — зелёный бейдж
+- Отменен (cancelled) — красный бейдж
+- Прочие статусы — серый бейдж с текстом из get_status_display</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;td&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">order.status</span> <span class="o">==</span> <span class="s1">&#39;pending&#39;</span> <span class="cp">%}</span>
+<span class="x">    &lt;span class=&quot;badge bg-warning&quot;&gt;Ожидает обработки&lt;/span&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">elif</span> <span class="nv">order.status</span> <span class="o">==</span> <span class="s1">&#39;processing&#39;</span> <span class="cp">%}</span>
+<span class="x">    &lt;span class=&quot;badge bg-info&quot;&gt;В обработке&lt;/span&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">elif</span> <span class="nv">order.status</span> <span class="o">==</span> <span class="s1">&#39;shipped&#39;</span> <span class="cp">%}</span>
+<span class="x">    &lt;span class=&quot;badge bg-primary&quot;&gt;Отправлен&lt;/span&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">elif</span> <span class="nv">order.status</span> <span class="o">==</span> <span class="s1">&#39;delivered&#39;</span> <span class="cp">%}</span>
+<span class="x">    &lt;span class=&quot;badge bg-success&quot;&gt;Доставлен&lt;/span&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">elif</span> <span class="nv">order.status</span> <span class="o">==</span> <span class="s1">&#39;cancelled&#39;</span> <span class="cp">%}</span>
+<span class="x">    &lt;span class=&quot;badge bg-danger&quot;&gt;Отменен&lt;/span&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+<span class="x">    &lt;span class=&quot;badge bg-secondary&quot;&gt;</span><span class="cp">{{</span> <span class="nv">order.get_status_display</span> <span class="cp">}}</span><span class="x">&lt;/span&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="x">&lt;/td&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id64">
+<h3>Кнопка «Подробнее»<a class="headerlink" href="#id64" title="Ссылка на этот заголовок"></a></h3>
+<p>В последнем столбце каждой строки находится кнопка, ведущая на страницу с подробной информацией о заказе. Это позволяет пользователю просмотреть состав заказа, адрес доставки и другие детали.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;order_detail&#39;</span> <span class="nv">order.id</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;btn btn-sm btn-primary&quot;&gt;Подробнее&lt;/a&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id65">
+<h3>Обработка отсутствия заказов<a class="headerlink" href="#id65" title="Ссылка на этот заголовок"></a></h3>
+<p>Если у пользователя нет ни одного заказа, выводится информативное сообщение с предложением перейти в каталог товаров.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;alert alert-info&quot;&gt;</span>
+<span class="x">    &lt;p class=&quot;mb-0&quot;&gt;У вас пока нет заказов. &lt;a href=&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;catalog&#39;</span> <span class="cp">%}</span><span class="x">&quot; class=&quot;alert-link&quot;&gt;Перейти в каталог&lt;/a&gt;.&lt;/p&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id66">
+<h3>Закрытие блоков и страницы<a class="headerlink" href="#id66" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>—</p>
+<p><strong>Примечания:</strong>
+- Для каждого заказа отображается его статус с помощью цветных бейджей, что облегчает восприятие информации.
+- Кнопка «Подробнее» позволяет перейти к детальной информации о заказе.
+- Если заказов нет, пользователь получает понятное сообщение и ссылку на каталог.
+- Используется адаптивная таблица для корректного отображения на мобильных устройствах.</p>
+<p>Если собрать все блоки, получится полный шаблон страницы заказов пользователя с таблицей и обработкой всех возможных ситуаций.</p>
+</section>
+</section>
+<section id="base-html">
+<h2>Шаблон базового шаблона сайта (base.html)<a class="headerlink" href="#base-html" title="Ссылка на этот заголовок"></a></h2>
+<p>Этот шаблон определяет фундаментальную структуру всех страниц сайта, реализует подключение стилей, скриптов, выводит шапку, основной контент и футер. Все остальные шаблоны наследуют его и вставляют свой контент в специальные блоки. Такой подход обеспечивает единообразие, повторное использование кода и простоту поддержки.</p>
+<section id="id67">
+<h3><strong>Теоретические основы базового шаблона</strong><a class="headerlink" href="#id67" title="Ссылка на этот заголовок"></a></h3>
+<section id="django">
+<h4>1. Принцип наследования шаблонов Django<a class="headerlink" href="#django" title="Ссылка на этот заголовок"></a></h4>
+<p>Django поддерживает наследование шаблонов: базовый шаблон задаёт каркас, а дочерние шаблоны переопределяют только нужные блоки. Это позволяет:
+- Избежать дублирования кода (DRY)
+- Гарантировать единый стиль и структуру
+- Упростить глобальные изменения (например, смена футера или шапки)</p>
+</section>
+<section id="id68">
+<h4>2. Статические файлы и безопасность<a class="headerlink" href="#id68" title="Ссылка на этот заголовок"></a></h4>
+<p>Тег {% load static %} позволяет подключать CSS, JS и изображения, хранящиеся в static/. Это безопаснее, чем прямые ссылки, и работает с collectstatic на продакшене. Никогда не вставляйте пользовательский ввод в static-пути — это может привести к XSS.</p>
+</section>
+<section id="flex">
+<h4>3. Flex-верстка и адаптивность<a class="headerlink" href="#flex" title="Ссылка на этот заголовок"></a></h4>
+<p>Класс d-flex flex-column h-100 на &lt;body&gt; и mt-auto на футере обеспечивают, что футер всегда прижат к низу, даже если контента мало. Это современный способ построения адаптивных макетов без хака с абсолютным позиционированием.</p>
+</section>
+<section id="id69">
+<h4>4. Блоки шаблона: расширяемость и гибкость<a class="headerlink" href="#id69" title="Ссылка на этот заголовок"></a></h4>
+<ul class="simple">
+<li><p>block title: позволяет задавать уникальный заголовок для каждой страницы</p></li>
+<li><p>block extra_css: подключение дополнительных стилей (например, только для одной страницы)</p></li>
+<li><p>block content: основной контент страницы, всегда переопределяется в дочерних шаблонах</p></li>
+<li><p>block scripts: подключение JS, специфичного для конкретной страницы</p></li>
+</ul>
+</section>
+<section id="include">
+<h4>5. Включение компонентов через include<a class="headerlink" href="#include" title="Ссылка на этот заголовок"></a></h4>
+<p>Шапка сайта (header.html) подключается через include. Это удобно для повторяющихся элементов (меню, логотип, корзина, ссылки на вход/регистрацию). Если потребуется изменить меню — достаточно поправить один файл.</p>
+</section>
+<section id="bootstrap">
+<h4>6. Bootstrap и иконки<a class="headerlink" href="#bootstrap" title="Ссылка на этот заголовок"></a></h4>
+<p>Подключение Bootstrap и Bootstrap Icons через static обеспечивает кроссбраузерность, адаптивность и быстрый старт верстки. Пользовательские стили (styles.css) позволяют доработать внешний вид под нужды проекта.</p>
+</section>
+<section id="id70">
+<h4>7. Структура футера<a class="headerlink" href="#id70" title="Ссылка на этот заголовок"></a></h4>
+<p>Футер содержит контактную информацию и копирайт. Используется Bootstrap-сетка для корректного отображения на разных устройствах. Класс mt-auto гарантирует, что футер не «поднимается» при малом количестве контента.</p>
+</section>
+<section id="best-practices">
+<h4>8. Безопасность и best practices<a class="headerlink" href="#best-practices" title="Ссылка на этот заголовок"></a></h4>
+<ul class="simple">
+<li><p>Никогда не вставляйте пользовательские данные напрямую в &lt;script&gt; или &lt;style&gt; — используйте блоки и фильтры экранирования.</p></li>
+<li><p>Для подключения сторонних библиотек используйте только проверенные источники и храните их в static.</p></li>
+<li><p>Не храните чувствительные данные (ключи, пароли) в шаблонах.</p></li>
+</ul>
+</section>
+<section id="id71">
+<h4>9. Типовые ошибки при работе с base.html<a class="headerlink" href="#id71" title="Ссылка на этот заголовок"></a></h4>
+<ul class="simple">
+<li><p>Неопределённый block content в дочернем шаблоне — страница будет пустой.</p></li>
+<li><p>Ошибка в пути к static-файлу — стили или скрипты не загрузятся.</p></li>
+<li><p>Отсутствие mt-auto на футере — футер «поднимается» вверх.</p></li>
+<li><p>Дублирование блоков (например, два block content) — Django выберет первый.</p></li>
+</ul>
+</section>
+<section id="id72">
+<h4>10. Преимущества такой структуры<a class="headerlink" href="#id72" title="Ссылка на этот заголовок"></a></h4>
+<ul class="simple">
+<li><p>Масштабируемость: легко добавлять новые страницы</p></li>
+<li><p>Поддерживаемость: глобальные изменения делаются в одном месте</p></li>
+<li><p>Безопасность: централизованное подключение стилей и скриптов</p></li>
+<li><p>Гибкость: можно расширять шаблон через блоки без его переписывания</p></li>
+</ul>
+<p>—</p>
+</section>
+</section>
+<section id="id73">
+<h3><strong>Разбор кода по блокам</strong><a class="headerlink" href="#id73" title="Ссылка на этот заголовок"></a></h3>
+<section id="id74">
+<h4>Загрузка статических файлов и объявление документа<a class="headerlink" href="#id74" title="Ссылка на этот заголовок"></a></h4>
+<p>В начале подключается тег {% load static %}, чтобы использовать статические файлы (CSS, JS, изображения). Далее объявляется HTML5-документ с языком ru и классом h-100 для растяжения по высоте.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">load</span> <span class="nv">static</span> <span class="cp">%}</span>
+<span class="x">&lt;!DOCTYPE html&gt;</span>
+<span class="x">&lt;html lang=&quot;ru&quot; class=&quot;h-100&quot;&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="head">
+<h4>Блок &lt;head&gt;: мета-теги, стили и заголовок<a class="headerlink" href="#head" title="Ссылка на этот заголовок"></a></h4>
+<p>В head размещаются:
+- Кодировка UTF-8
+- Мета-тег viewport для адаптивности
+- Заголовок страницы (может быть переопределён в дочерних шаблонах через block title)
+- Подключение Bootstrap, Bootstrap Icons и пользовательских стилей через static
+- Блок extra_css для подключения дополнительных стилей в дочерних шаблонах</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;head&gt;</span>
+<span class="x">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span>
+<span class="x">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span>
+<span class="x">    &lt;title&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span><span class="x">МОЙ НЕ САМ</span><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="x">&lt;/title&gt;</span>
+<span class="x">    &lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">static</span> <span class="s1">&#39;bootstrap.min.css&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;</span>
+<span class="x">    &lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">static</span> <span class="s1">&#39;bootstrap-icons.css&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;</span>
+<span class="x">    &lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">static</span> <span class="s1">&#39;styles.css&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">extra_css</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="x">&lt;/head&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id75">
+<h4>Тело страницы: структура и блоки<a class="headerlink" href="#id75" title="Ссылка на этот заголовок"></a></h4>
+<p>В body используется flex-верстка для растяжения контента на всю высоту экрана. Включается шапка сайта (header.html), основной контент и футер.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;body class=&quot;d-flex flex-column h-100&quot;&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">include</span> <span class="s1">&#39;components/header.html&#39;</span> <span class="cp">%}</span>
+<span class="x">    &lt;main class=&quot;flex-grow-1&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;container mt-4&quot;&gt;</span>
+<span class="x">            </span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/main&gt;</span>
+<span class="x">    ...</span>
+<span class="x">&lt;/body&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id76">
+<h4>Включение шапки сайта<a class="headerlink" href="#id76" title="Ссылка на этот заголовок"></a></h4>
+<p>Шапка подключается через include. Обычно в ней размещается логотип, меню, ссылки на вход/регистрацию и корзину.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">include</span> <span class="s1">&#39;components/header.html&#39;</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+<section id="id77">
+<h4>Блок основного контента<a class="headerlink" href="#id77" title="Ссылка на этот заголовок"></a></h4>
+<p>Весь уникальный контент страниц вставляется в block content. Это основной механизм для наследования и переопределения содержимого в дочерних шаблонах.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;main class=&quot;flex-grow-1&quot;&gt;</span>
+<span class="x">    &lt;div class=&quot;container mt-4&quot;&gt;</span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">&lt;/main&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id78">
+<h4>Футер сайта<a class="headerlink" href="#id78" title="Ссылка на этот заголовок"></a></h4>
+<p>Футер содержит контактную информацию и копирайт. Используется Bootstrap-сетка для разметки. Класс mt-auto прижимает футер к низу экрана, если контента мало.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;footer class=&quot;footer bg-light py-4 mt-auto&quot;&gt;</span>
+<span class="x">    &lt;div class=&quot;container&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;row&quot;&gt;</span>
+<span class="x">            &lt;div class=&quot;col-md-6&quot;&gt;</span>
+<span class="x">                &lt;h5&gt;Контакты&lt;/h5&gt;</span>
+<span class="x">                &lt;p&gt;Телефон: +7 (123) 456-78-90&lt;/p&gt;</span>
+<span class="x">                &lt;p&gt;Email: info@example.com&lt;/p&gt;</span>
+<span class="x">            &lt;/div&gt;</span>
+<span class="x">            &lt;div class=&quot;col-md-6 text-end&quot;&gt;</span>
+<span class="x">                &lt;p&gt;&amp;copy; 2025 Магазин &quot;МОЙ НЕ САМ&quot;. Все права защищены.&lt;/p&gt;</span>
+<span class="x">            &lt;/div&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">&lt;/footer&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="scripts">
+<h4>Подключение скриптов и блок scripts<a class="headerlink" href="#scripts" title="Ссылка на этот заголовок"></a></h4>
+<p>В конце body подключается основной JS Bootstrap и определяется block scripts для подключения дополнительных скриптов в дочерних шаблонах.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;script src=&quot;</span><span class="cp">{%</span> <span class="k">static</span> <span class="s1">&#39;bootstrap.bundle.min.js&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;&lt;/script&gt;</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">scripts</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+<section id="id79">
+<h4>Закрытие документа<a class="headerlink" href="#id79" title="Ссылка на этот заголовок"></a></h4>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>—</p>
+<p><strong>Примечания:</strong>
+- Все страницы сайта наследуют base.html и вставляют свой контент в block content.
+- Для подключения стилей и скриптов используются только статические файлы.
+- Футер всегда прижат к низу экрана благодаря flex-верстке.
+- Блоки extra_css и scripts позволяют расширять шаблон без его изменения.
+- Использование Bootstrap и flex-верстки обеспечивает современный внешний вид и адаптивность.
+- Соблюдение best practices и принципов безопасности защищает сайт от типовых уязвимостей.</p>
+<p>Если собрать все блоки, получится универсальный, безопасный и расширяемый базовый шаблон для всех страниц сайта.</p>
+</section>
+</section>
+</section>
+<section id="main-page-html">
+<h2>Шаблон главной страницы (main_page.html)<a class="headerlink" href="#main-page-html" title="Ссылка на этот заголовок"></a></h2>
+<p>Этот шаблон реализует главную страницу интернет-магазина: слайдер, блок популярных товаров, преимущества магазина. Он служит «витриной» сайта и направляет пользователя к основным разделам.</p>
+<section id="id80">
+<h3><strong>Теоретические основы главной страницы</strong><a class="headerlink" href="#id80" title="Ссылка на этот заголовок"></a></h3>
+<section id="id81">
+<h4>1. Роль главной страницы<a class="headerlink" href="#id81" title="Ссылка на этот заголовок"></a></h4>
+<p>Главная страница — это первое, что видит пользователь. Она должна быть максимально информативной, визуально привлекательной и мотивировать к действию (например, перейти в каталог или оформить заказ).</p>
+</section>
+<section id="id82">
+<h4>2. Структура шаблона<a class="headerlink" href="#id82" title="Ссылка на этот заголовок"></a></h4>
+<p>Шаблон наследует base.html, что обеспечивает единый стиль и повторное использование кода. Весь уникальный контент размещён в block content.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;base.html&#39;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">load</span> <span class="nv">static</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span><span class="x">МОЙ НЕ САМ - Интернет-магазин</span><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+<span class="x">...</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</section>
+<section id="carousel">
+<h4>3. Слайдер (carousel)<a class="headerlink" href="#carousel" title="Ссылка на этот заголовок"></a></h4>
+<p>Слайдер — это динамический элемент, который позволяет показать несколько ключевых предложений или акций. Используется компонент Bootstrap Carousel. Каждый слайд содержит изображение, заголовок, описание и кнопку действия.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div id=&quot;mainSlider&quot; class=&quot;carousel slide mb-5&quot; data-bs-ride=&quot;carousel&quot;&gt;</span>
+<span class="x">    ...</span>
+<span class="x">    &lt;div class=&quot;carousel-inner&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;carousel-item active&quot;&gt;</span>
+<span class="x">            &lt;img src=&quot;...&quot; ...&gt;</span>
+<span class="x">            &lt;div class=&quot;carousel-caption ...&quot;&gt;</span>
+<span class="x">                &lt;h2&gt;...&lt;/h2&gt;</span>
+<span class="x">                &lt;p&gt;...&lt;/p&gt;</span>
+<span class="x">                &lt;a href=&quot;...&quot; class=&quot;btn btn-primary&quot;&gt;...&lt;/a&gt;</span>
+<span class="x">            &lt;/div&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">        ...</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">    ...</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p><strong>Теория:</strong>
+- Слайдер привлекает внимание к акциям и преимуществам.
+- Использование Bootstrap обеспечивает адаптивность и кроссбраузерность.
+- Кнопки на слайдах ведут к ключевым разделам (каталог, акции).</p>
+</section>
+<section id="id83">
+<h4>4. Блок «Популярные товары»<a class="headerlink" href="#id83" title="Ссылка на этот заголовок"></a></h4>
+<p>Этот блок выводит карточки самых популярных товаров. Используется цикл по popular_products. Для каждого товара отображается изображение, название, описание, цена и кнопки действий.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5&quot;&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">product</span> <span class="k">in</span> <span class="nv">popular_products</span> <span class="cp">%}</span>
+<span class="x">    &lt;div class=&quot;col&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;card h-100 product-card&quot;&gt;</span>
+<span class="x">            ...</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">empty</span> <span class="cp">%}</span>
+<span class="x">    &lt;div class=&quot;col-12&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;alert alert-info&quot;&gt;</span>
+<span class="x">            &lt;p&gt;Пока нет товаров для отображения.&lt;/p&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p><strong>Теория:</strong>
+- Карточки товаров — основной способ визуального представления ассортимента.
+- Если товара нет — выводится информативное сообщение.
+- Кнопка «Подробнее» ведёт на страницу товара, «В корзину» — добавляет товар в корзину (только для авторизованных).
+- Использование truncatechars для описания предотвращает «разбегание» карточек.</p>
+</section>
+<section id="id84">
+<h4>5. Блок «Преимущества магазина»<a class="headerlink" href="#id84" title="Ссылка на этот заголовок"></a></h4>
+<p>В этом блоке перечислены ключевые преимущества магазина: быстрая доставка, гарантия качества, поддержка 24/7. Каждый пункт оформлен в виде карточки с иконкой, заголовком и описанием.</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="x">&lt;div class=&quot;row mb-5&quot;&gt;</span>
+<span class="x">    &lt;div class=&quot;col-md-4 mb-4&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;card h-100 text-center p-4&quot;&gt;</span>
+<span class="x">            &lt;div class=&quot;card-body&quot;&gt;</span>
+<span class="x">                &lt;i class=&quot;bi bi-truck display-1 text-primary mb-3&quot;&gt;&lt;/i&gt;</span>
+<span class="x">                &lt;h4&gt;Быстрая доставка&lt;/h4&gt;</span>
+<span class="x">                &lt;p class=&quot;card-text&quot;&gt;Доставляем товары в кратчайшие сроки по всей России.&lt;/p&gt;</span>
+<span class="x">            &lt;/div&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">    ...</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p><strong>Теория:</strong>
+- Преимущества формируют доверие и мотивируют к покупке.
+- Использование иконок делает блок визуально привлекательным.
+- Карточки адаптивны и хорошо смотрятся на разных устройствах.</p>
+</section>
+<section id="ux">
+<h4>6. Адаптивность и UX<a class="headerlink" href="#ux" title="Ссылка на этот заголовок"></a></h4>
+<ul class="simple">
+<li><p>Все элементы используют Bootstrap-сетки и классы для адаптивности.</p></li>
+<li><p>Кнопки и ссылки снабжены понятными подписями и иконками.</p></li>
+<li><p>Вёрстка устойчива к отсутствию данных (нет товаров — есть сообщение).</p></li>
+</ul>
+</section>
+<section id="id85">
+<h4>7. Безопасность и best practices<a class="headerlink" href="#id85" title="Ссылка на этот заголовок"></a></h4>
+<ul class="simple">
+<li><p>Все данные, выводимые из переменных, проходят экранирование по умолчанию.</p></li>
+<li><p>Для изображений товаров предусмотрена заглушка, если файл отсутствует.</p></li>
+<li><p>Кнопка «В корзину» доступна только авторизованным пользователям (проверка request.user.is_authenticated).</p></li>
+</ul>
+<p>—</p>
+<p><strong>Примечания:</strong>
+- Главная страница — ключевой инструмент маркетинга и навигации.
+- Использование слайдера и карточек повышает вовлечённость пользователя.
+- Все блоки адаптивны и корректно отображаются на мобильных устройствах.
+- Шаблон легко расширять: можно добавить новые слайды, преимущества или секции без изменения структуры.</p>
+<p>Если собрать все блоки, получится современная, информативная и удобная главная страница интернет-магазина.</p>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
+        <a href="views.html" class="btn btn-neutral float-left" title="Создание представлений (Views)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="urls.html" class="btn btn-neutral float-right" title="Настройка URL-маршрутов" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2025, Irsp-122. </p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

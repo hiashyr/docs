@@ -1,0 +1,300 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Настройка URL-маршрутов &mdash; документация Проект Django на русском 1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5d928502" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e35015f7"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=9bfe3ffa"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="next" title="Работа с формами в Django" href="forms.html" />
+    <link rel="prev" title="Создание HTML шаблонов" href="templates.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Проект Django на русском
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <p class="caption" role="heading"><span class="caption-text">Пошаговое руководство:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Настройка окружения и установка Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project-structure.html">Создание структуры проекта ekz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Создание моделей базы данных</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">Создание представлений (Views)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Создание HTML шаблонов</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Настройка URL-маршрутов</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#urls-py">Основной файл urls.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Импорт необходимых модулей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Определение основного списка URL-паттернов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Маршруты администрирования и аутентификации</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Маршруты каталога товаров</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Маршруты корзины покупок</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Маршруты заказов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Завершение основного списка URL-паттернов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Обработка медиа-файлов в режиме разработки</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">Структура URL-адресов приложения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">Особенности реализации</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Работа с формами в Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin.html">Настройка админ-панели Django</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Проект Django на русском</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Настройка URL-маршрутов</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="url">
+<h1>Настройка URL-маршрутов<a class="headerlink" href="#url" title="Ссылка на этот заголовок"></a></h1>
+<p>В этом разделе мы настроим систему маршрутизации для нашего Django приложения. URL-конфигурация определяет, какие представления будут обрабатывать запросы по определенным адресам.</p>
+<section id="urls-py">
+<h2>Основной файл urls.py<a class="headerlink" href="#urls-py" title="Ссылка на этот заголовок"></a></h2>
+<p>Файл <code class="docutils literal notranslate"><span class="pre">ekz/urls.py</span></code> содержит все маршруты нашего приложения и связывает URL-адреса с соответствующими представлениями.</p>
+<section id="id1">
+<h3>Импорт необходимых модулей<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">admin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.urls</span><span class="w"> </span><span class="kn">import</span> <span class="n">path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">front</span><span class="w"> </span><span class="kn">import</span> <span class="n">views</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf.urls.static</span><span class="w"> </span><span class="kn">import</span> <span class="n">static</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
+</pre></div>
+</div>
+<p>Импортируются стандартные модули Django: <code class="docutils literal notranslate"><span class="pre">admin</span></code> для админ-панели, <code class="docutils literal notranslate"><span class="pre">path</span></code> для создания маршрутов, модуль представлений из приложения <code class="docutils literal notranslate"><span class="pre">front</span></code>, а также функции для работы со статическими и медиа-файлами.</p>
+</section>
+<section id="id2">
+<h3>Определение основного списка URL-паттернов<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+</pre></div>
+</div>
+<p>Начало списка URL-паттернов. Каждый паттерн связывает определенный URL-адрес с соответствующим представлением.</p>
+</section>
+<section id="id3">
+<h3>Маршруты администрирования и аутентификации<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Администрирование и аутентификация</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;admin&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">main_page</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;main_page&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;register/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">register_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;register&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;login/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">login_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;logout/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">logout_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;logout&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;profile/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">profile_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;profile&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p><strong>Админ-панель:</strong> <code class="docutils literal notranslate"><span class="pre">admin/</span></code> - стандартный маршрут Django административной панели.</p>
+<p><strong>Главная страница:</strong> <code class="docutils literal notranslate"><span class="pre">''</span></code> (корневой URL) отображает главную страницу через <code class="docutils literal notranslate"><span class="pre">main_page</span></code> представление.</p>
+<p><strong>Аутентификация:</strong>
+- <code class="docutils literal notranslate"><span class="pre">register/</span></code> - регистрация новых пользователей
+- <code class="docutils literal notranslate"><span class="pre">login/</span></code> - вход в систему
+- <code class="docutils literal notranslate"><span class="pre">logout/</span></code> - выход из системы
+- <code class="docutils literal notranslate"><span class="pre">profile/</span></code> - личный кабинет пользователя</p>
+</section>
+<section id="id4">
+<h3>Маршруты каталога товаров<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Каталог товаров</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;catalog/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">catalog_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;catalog&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;product/&lt;int:product_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">product_detail_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;product_detail&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p><strong>Каталог товаров:</strong> <code class="docutils literal notranslate"><span class="pre">catalog/</span></code> - отображает список всех товаров с возможностью фильтрации.</p>
+<p><strong>Детальная страница товара:</strong> <code class="docutils literal notranslate"><span class="pre">product/&lt;int:product_id&gt;/</span></code> - динамический маршрут, где <code class="docutils literal notranslate"><span class="pre">product_id</span></code> преобразуется в целое число и передается в представление для отображения информации о конкретном товаре.</p>
+</section>
+<section id="id5">
+<h3>Маршруты корзины покупок<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2. Корзина</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;cart/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">cart_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cart&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;cart/add/&lt;int:product_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">add_to_cart</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;add_to_cart&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;cart/update/&lt;int:item_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">update_cart_item</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;update_cart_item&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;cart/remove/&lt;int:item_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">remove_from_cart</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;remove_from_cart&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p><strong>Просмотр корзины:</strong> <code class="docutils literal notranslate"><span class="pre">cart/</span></code> - отображает содержимое корзины текущего пользователя.</p>
+<p><strong>Управление корзиной:</strong>
+- <code class="docutils literal notranslate"><span class="pre">cart/add/&lt;int:product_id&gt;/</span></code> - добавление товара в корзину
+- <code class="docutils literal notranslate"><span class="pre">cart/update/&lt;int:item_id&gt;/</span></code> - обновление количества товара
+- <code class="docutils literal notranslate"><span class="pre">cart/remove/&lt;int:item_id&gt;/</span></code> - удаление товара из корзины</p>
+<p>Все маршруты корзины используют целочисленные параметры для идентификации товаров и элементов корзины.</p>
+</section>
+<section id="id6">
+<h3>Маршруты заказов<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3. Заказы</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;checkout/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">checkout_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;checkout&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;order/success/&lt;int:order_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">order_success_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;order_success&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;orders/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">orders_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;orders&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;order/&lt;int:order_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">order_detail_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;order_detail&#39;</span><span class="p">),</span>
+<span class="n">path</span><span class="p">(</span><span class="s1">&#39;contacts/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">contacts_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;contacts&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p><strong>Оформление заказа:</strong> <code class="docutils literal notranslate"><span class="pre">checkout/</span></code> - процесс оформления заказа из корзины.</p>
+<p><strong>Управление заказами:</strong>
+- <code class="docutils literal notranslate"><span class="pre">order/success/&lt;int:order_id&gt;/</span></code> - страница подтверждения заказа
+- <code class="docutils literal notranslate"><span class="pre">orders/</span></code> - список всех заказов пользователя
+- <code class="docutils literal notranslate"><span class="pre">order/&lt;int:order_id&gt;/</span></code> - детальная информация о конкретном заказе</p>
+<p><strong>Контакты:</strong> <code class="docutils literal notranslate"><span class="pre">contacts/</span></code> - статическая страница с контактной информацией.</p>
+</section>
+<section id="id7">
+<h3>Завершение основного списка URL-паттернов<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Конец определения основного списка маршрутов. Все основные URL-адреса приложения теперь связаны с соответствующими представлениями.</p>
+</section>
+<section id="id8">
+<h3>Обработка медиа-файлов в режиме разработки<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+    <span class="n">urlpatterns</span> <span class="o">+=</span> <span class="n">static</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_URL</span><span class="p">,</span> <span class="n">document_root</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_ROOT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>В режиме разработки (<code class="docutils literal notranslate"><span class="pre">DEBUG</span> <span class="pre">=</span> <span class="pre">True</span></code>) добавляется обслуживание медиа-файлов. Это позволяет Django раздавать загруженные пользователями файлы (изображения товаров, аватары) непосредственно через development сервер без необходимости настройки веб-сервера.</p>
+</section>
+</section>
+<section id="id9">
+<h2>Структура URL-адресов приложения<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h2>
+<table class="docutils align-default" id="id11">
+<caption><span class="caption-text">Карта URL-адресов</span><a class="headerlink" href="#id11" title="Ссылка на эту таблицу"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 40.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>URL-адрес</p></th>
+<th class="head"><p>Назначение</p></th>
+<th class="head"><p>Представление</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/</span></code></p></td>
+<td><p>Главная страница</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">main_page</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/admin/</span></code></p></td>
+<td><p>Админ-панель</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">admin.site.urls</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/register/</span></code></p></td>
+<td><p>Регистрация</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">register_view</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/login/</span></code></p></td>
+<td><p>Вход в систему</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">login_view</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/catalog/</span></code></p></td>
+<td><p>Каталог товаров</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">catalog_view</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/product/1/</span></code></p></td>
+<td><p>Товар #1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">product_detail_view</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/cart/</span></code></p></td>
+<td><p>Корзина</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cart_view</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/checkout/</span></code></p></td>
+<td><p>Оформление заказа</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">checkout_view</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/orders/</span></code></p></td>
+<td><p>История заказов</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">orders_view</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id10">
+<h2>Особенности реализации<a class="headerlink" href="#id10" title="Ссылка на этот заголовок"></a></h2>
+<p><strong>Именованные маршруты:</strong> Каждый path имеет параметр <code class="docutils literal notranslate"><span class="pre">name=</span></code>, что позволяет ссылаться на маршруты в шаблонах через <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">'name'</span> <span class="pre">%}</span></code> без жесткого кодирования URL.</p>
+<p><strong>Типизированные параметры:</strong> Использование <code class="docutils literal notranslate"><span class="pre">&lt;int:product_id&gt;</span></code> обеспечивает автоматическое преобразование строковых параметров URL в целые числа.</p>
+<p><strong>Логическая группировка:</strong> Маршруты сгруппированы по функциональным блокам с комментариями для улучшения читаемости.</p>
+<p><strong>Безопасность:</strong> В режиме production медиа-файлы должны обслуживаться веб-сервером (Nginx, Apache), а не Django.</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Для использования именованных маршрутов в шаблонах убедитесь, что все необходимые параметры передаются в тег <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">%}</span></code>, например: <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">'product_detail'</span> <span class="pre">product.id</span> <span class="pre">%}</span></code>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Предупреждение</p>
+<p>В production окружении обязательно установите <code class="docutils literal notranslate"><span class="pre">DEBUG</span> <span class="pre">=</span> <span class="pre">False</span></code> и настройте обслуживание статических и медиа-файлов через веб-сервер.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
+        <a href="templates.html" class="btn btn-neutral float-left" title="Создание HTML шаблонов" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="forms.html" class="btn btn-neutral float-right" title="Работа с формами в Django" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2025, Irsp-122. </p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
