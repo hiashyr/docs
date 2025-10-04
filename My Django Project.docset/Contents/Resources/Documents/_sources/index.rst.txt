@@ -36,6 +36,7 @@
    admin
    static-files
    auth
+   git
 
 Справочник
 ----------

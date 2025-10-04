@@ -10,6 +10,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5d928502" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -52,6 +53,8 @@
 <li class="toctree-l1"><a class="reference internal" href="templates.html">Создание HTML шаблонов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forms.html">Работа с формами в Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin.html">Настройка админ-панели Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">Работа с Git для локального репозитория</a></li>
 </ul>
 
         </div>
@@ -92,7 +95,7 @@
 <li><p><a class="reference internal" href="templates.html"><span class="doc">Создание HTML шаблонов</span></a> - Создание шаблонов</p></li>
 <li><p><a class="reference internal" href="urls.html"><span class="doc">Настройка URL-маршрутов</span></a> - Настройка маршрутизации (URLs)</p></li>
 <li><p><a class="reference internal" href="forms.html"><span class="doc">Работа с формами в Django</span></a> - Работа с формами</p></li>
-<li><p><a class="reference internal" href="admin.html"><span class="doc">&lt;no title&gt;</span></a> - Настройка админ-панели</p></li>
+<li><p><a class="reference internal" href="admin.html"><span class="doc">Настройка админ-панели Django</span></a> - Настройка админ-панели</p></li>
 <li><p><a class="reference internal" href="git.html"><span class="doc">Работа с Git для локального репозитория</span></a> - Работа с гитом</p></li>
 </ol>
 </section>
@@ -124,7 +127,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="models.html">Создание моделей базы данных</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="models.html#customuser">Модель CustomUser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="models.html#settings-py">Настройка в settings.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models.html#category">Модель Category</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models.html#product">Модель Product</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models.html#cartitem">Модель CartItem</a></li>
@@ -132,7 +134,6 @@
 <li class="toctree-l2"><a class="reference internal" href="models.html#orderitem">Модель OrderItem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models.html#id30">Импорт</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models.html#id31">Создание миграций</a></li>
-<li class="toctree-l2"><a class="reference internal" href="models.html#id32">Следующий шаг</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="views.html">Создание представлений (Views)</a><ul>
@@ -148,7 +149,6 @@
 <li class="toctree-l2"><a class="reference internal" href="views.html#id73">Представление удаления товара из корзины</a></li>
 <li class="toctree-l2"><a class="reference internal" href="views.html#id81">Представление страницы контактов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="views.html#id83">Представление оформления заказа</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id94">Особенности реализации</a></li>
 <li class="toctree-l2"><a class="reference internal" href="views.html#id95">Представление страницы успешного заказа</a></li>
 <li class="toctree-l2"><a class="reference internal" href="views.html#id102">Представление списка заказов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="views.html#id109">Представление детальной страницы заказа</a></li>
@@ -157,8 +157,13 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="templates.html">Создание HTML шаблонов</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="templates.html#header">Шаблон header (шапка сайта)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="templates.html#id10">Особенности шаблона</a></li>
 <li class="toctree-l2"><a class="reference internal" href="templates.html#cart-html">Шаблон корзины (cart.html)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#contacts-html">Шаблон страницы контактов (contacts.html)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#login-html">Шаблон страницы авторизации (login.html)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#catalog-html">Шаблон страницы каталога (catalog.html)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#orders-html">Шаблон страницы заказов пользователя (orders.html)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#base-html">Шаблон базового шаблона сайта (base.html)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#main-page-html">Шаблон главной страницы (main_page.html)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a><ul>
@@ -177,6 +182,29 @@
 <li class="toctree-l2"><a class="reference internal" href="forms.html#id2">Принципы работы валидации в Django формах</a></li>
 <li class="toctree-l2"><a class="reference internal" href="forms.html#id3">Использование форм в представлениях</a></li>
 <li class="toctree-l2"><a class="reference internal" href="forms.html#id4">Импорт</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="admin.html">Настройка админ-панели Django</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#admin-py">Основной файл admin.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#id2">Кастомизация админ-класса для пользователя</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#category">Регистрация модели Category с декоратором</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#product">Регистрация модели Product</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#cartitem">Регистрация модели CartItem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#order">Регистрация модели Order</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#orderitem">Регистрация модели OrderItem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#id12">Принципы организации админ-панели</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#id13">Доступ к админ-панели</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html#id14">Рекомендации по улучшению</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">Работа с Git для локального репозитория</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="git.html#id1">Начало работы с Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git.html#id3">Базовые операции с файлами</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git.html#django">Типичный рабочий процесс для Django проекта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git.html#id9">Отмена изменений</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git.html#id12">Практические примеры для Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git.html#id14">Полезные команды для ежедневной работы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git.html#git-django">Советы по работе с Git в Django проекте</a></li>
 </ul>
 </li>
 </ul>
@@ -212,7 +240,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Авторские права 2024, Your Name. </p>
+    <p>&#169; Авторские права 2025, Irsp-122. </p>
   </div>
 
    

@@ -10,6 +10,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5d928502" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -74,9 +75,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#str">Метод __str__</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#settings-py">Настройка в settings.py</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#settings-py">Настройка в settings.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#category">Модель Category</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id5">Создание модели</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#name">Поле name</a></li>
@@ -136,11 +137,13 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id30">Импорт</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id31">Создание миграций</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id32">Следующий шаг</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="views.html">Создание представлений (Views)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Создание HTML шаблонов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Работа с формами в Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin.html">Настройка админ-панели Django</a></li>
 </ul>
 
         </div>
@@ -402,14 +405,14 @@
 - Гарантирует, что всегда будет непустое строковое представление</p>
 </section>
 </section>
-</section>
 <section id="settings-py">
-<h2>Настройка в settings.py<a class="headerlink" href="#settings-py" title="Ссылка на этот заголовок"></a></h2>
+<h3>Настройка в settings.py<a class="headerlink" href="#settings-py" title="Ссылка на этот заголовок"></a></h3>
 <p>Чтобы Django использовал нашу кастомную модель, нужно добавить в <code class="docutils literal notranslate"><span class="pre">settings.py</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">AUTH_USER_MODEL</span> <span class="o">=</span> <span class="s1">&#39;user_auth.CustomUser&#39;</span>
 </pre></div>
 </div>
 <p>Эта настройка указывает Django использовать нашу модель вместо стандартной User.</p>
+</section>
 </section>
 <section id="category">
 <h2>Модель Category<a class="headerlink" href="#category" title="Ссылка на этот заголовок"></a></h2>
@@ -918,10 +921,6 @@
 python<span class="w"> </span>manage.py<span class="w"> </span>migrate
 </pre></div>
 </div>
-</section>
-<section id="id32">
-<h2>Следующий шаг<a class="headerlink" href="#id32" title="Ссылка на этот заголовок"></a></h2>
-<p>После создания модели пользователя мы создадим модели для товаров и заказов.</p>
 <div class="admonition note">
 <p class="admonition-title">Примечание</p>
 <p><strong>Важно:</strong> Все дополнительные поля сделаны необязательными, чтобы не нарушать работу существующих пользователей при добавлении полей.</p>
@@ -944,7 +943,7 @@ python<span class="w"> </span>manage.py<span class="w"> </span>migrate
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Авторские права 2024, Your Name. </p>
+    <p>&#169; Авторские права 2025, Irsp-122. </p>
   </div>
 
    

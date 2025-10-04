@@ -1,4 +1,4 @@
-Views:
+views.py:
 
 .. code-block:: python
 
@@ -309,7 +309,7 @@ Urls:
     if settings.DEBUG:
         urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-Models:
+models.py:
 
 .. code-block:: python
     from django.contrib.auth.models import AbstractUser
@@ -733,3 +733,1875 @@ base.html:
     </body>
 
     </html>
+
+login.html:
+
+.. code-block:: python
+    {% extends 'base.html' %}
+
+    {% block content %}
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="h4 mb-0 text-center">Вход в систему</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <ul class="nav nav-tabs nav-justified mb-4" id="authTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link {% if active_tab == 'phone' %}active{% endif %}" 
+                                href="?tab=phone" id="phone-tab">
+                                    <i class="bi bi-phone me-2"></i>По телефону
+                                </a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link {% if active_tab == 'email' %}active{% endif %}" 
+                                href="?tab=email" id="email-tab">
+                                    <i class="bi bi-envelope me-2"></i>По email
+                                </a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link {% if active_tab == 'username' %}active{% endif %}" 
+                                href="?tab=username" id="login-tab">
+                                    <i class="bi bi-person me-2"></i>По логину
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <!-- Вход по телефону -->
+                            <div class="tab-pane fade {% if active_tab == 'phone' %}show active{% endif %}" id="phone">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="auth_type" value="phone">
+                                    
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Номер телефона</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone" 
+                                            value="{{ form.phone.value|default_if_none:'' }}" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Пароль</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-box-arrow-in-right me-2"></i>Войти
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Вход по email -->
+                            <div class="tab-pane fade {% if active_tab == 'email' %}show active{% endif %}" id="email">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="auth_type" value="email">
+                                    
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" 
+                                            value="{{ form.email.value|default_if_none:'' }}" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Пароль</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-box-arrow-in-right me-2"></i>Войти
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Вход по логину -->
+                            <div class="tab-pane fade {% if active_tab == 'username' %}show active{% endif %}" id="login">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="auth_type" value="username">
+                                    
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Логин</label>
+                                        <input type="text" class="form-control" id="username" name="username" 
+                                            value="{{ form.username.value|default_if_none:'' }}" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Пароль</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-box-arrow-in-right me-2"></i>Войти
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 text-center">
+                            <a href="#" class="text-decoration-none">Забыли пароль?</a>
+                            <span class="mx-2">|</span>
+                            <a href="{% url 'register' %}" class="text-decoration-none">Регистрация</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+register.html:
+
+.. code-block:: python
+
+    {% extends "base.html" %}
+
+    {% block content %}
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h2 class="mb-0 text-center">Регистрация</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" enctype="multipart/form-data" novalidate>
+                            {% csrf_token %}
+                            
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>Ошибка!</strong> Пожалуйста, исправьте следующие ошибки:
+                                    <ul>
+                                        {% for field, errors in form.errors.items %}
+                                            {% for error in errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+                            <!-- Личная информация -->
+                            <div class="mb-4">
+                                <h5 class="text-primary mb-3"><i class="bi bi-person-vcard me-2"></i>Личная информация</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="id_first_name" class="form-label">Имя*</label>
+                                        <input type="text" 
+                                            class="form-control {% if form.first_name.errors %}is-invalid{% endif %}" 
+                                            id="id_first_name" 
+                                            name="first_name" 
+                                            value="{{ form.first_name.value|default_if_none:'' }}"
+                                            required>
+                                        {% if form.first_name.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.first_name.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_last_name" class="form-label">Фамилия*</label>
+                                        <input type="text" 
+                                            class="form-control {% if form.last_name.errors %}is-invalid{% endif %}" 
+                                            id="id_last_name" 
+                                            name="last_name"
+                                            value="{{ form.last_name.value|default_if_none:'' }}"
+                                            required>
+                                        {% if form.last_name.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.last_name.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_username" class="form-label">Логин*</label>
+                                        <input type="text" 
+                                            class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+                                            id="id_username" 
+                                            name="username"
+                                            value="{{ form.username.value|default_if_none:'' }}"
+                                            required>
+                                        {% if form.username.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.username.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_email" class="form-label">Email*</label>
+                                        <input type="email" 
+                                            class="form-control {% if form.email.errors %}is-invalid{% endif %}" 
+                                            id="id_email" 
+                                            name="email"
+                                            value="{{ form.email.value|default_if_none:'' }}"
+                                            required>
+                                        {% if form.email.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.email.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Контактные данные -->
+                            <div class="mb-4">
+                                <h5 class="text-primary mb-3"><i class="bi bi-telephone me-2"></i>Контактные данные</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="id_phone" class="form-label">Телефон</label>
+                                        <input type="tel" 
+                                            class="form-control {% if form.phone.errors %}is-invalid{% endif %}" 
+                                            id="id_phone" 
+                                            name="phone"
+                                            value="{{ form.phone.value|default_if_none:'' }}"
+                                            placeholder="+79991234567">
+                                        {% if form.phone.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.phone.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_birth_date" class="form-label">Дата рождения</label>
+                                        <input type="date" 
+                                            class="form-control {% if form.birth_date.errors %}is-invalid{% endif %}" 
+                                            id="id_birth_date" 
+                                            name="birth_date"
+                                            value="{{ form.birth_date.value|default_if_none:''|date:'Y-m-d' }}">
+                                        {% if form.birth_date.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.birth_date.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_gender" class="form-label">Пол</label>
+                                        <select class="form-select {% if form.gender.errors %}is-invalid{% endif %}" 
+                                                id="id_gender" 
+                                                name="gender">
+                                            <option value="" selected>Не указан</option>
+                                            <option value="male" {% if form.gender.value == 'male' %}selected{% endif %}>Мужской</option>
+                                            <option value="female" {% if form.gender.value == 'female' %}selected{% endif %}>Женский</option>
+                                            <option value="other" {% if form.gender.value == 'other' %}selected{% endif %}>Другое</option>
+                                        </select>
+                                        {% if form.gender.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.gender.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_age" class="form-label">Возраст</label>
+                                        <input type="number" 
+                                            class="form-control {% if form.age.errors %}is-invalid{% endif %}" 
+                                            id="id_age" 
+                                            name="age"
+                                            value="{{ form.age.value|default_if_none:'' }}"
+                                            min="0" max="120">
+                                        {% if form.age.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.age.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Адрес -->
+                            <div class="mb-4">
+                                <h5 class="text-primary mb-3"><i class="bi bi-geo-alt me-2"></i>Адрес</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="id_country" class="form-label">Страна</label>
+                                        <input type="text" 
+                                            class="form-control {% if form.country.errors %}is-invalid{% endif %}" 
+                                            id="id_country" 
+                                            name="country"
+                                            value="{{ form.country.value|default_if_none:'' }}">
+                                        {% if form.country.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.country.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_city" class="form-label">Город</label>
+                                        <input type="text" 
+                                            class="form-control {% if form.city.errors %}is-invalid{% endif %}" 
+                                            id="id_city" 
+                                            name="city"
+                                            value="{{ form.city.value|default_if_none:'' }}">
+                                        {% if form.city.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.city.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="id_address" class="form-label">Адрес</label>
+                                        <input type="text" 
+                                            class="form-control {% if form.address.errors %}is-invalid{% endif %}" 
+                                            id="id_address" 
+                                            name="address"
+                                            value="{{ form.address.value|default_if_none:'' }}">
+                                        {% if form.address.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.address.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Профессиональная информация -->
+                            <div class="mb-4">
+                                <h5 class="text-primary mb-3"><i class="bi bi-briefcase me-2"></i>Профессиональная информация</h5>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="id_occupation" class="form-label">Профессия</label>
+                                        <input type="text" 
+                                            class="form-control {% if form.occupation.errors %}is-invalid{% endif %}" 
+                                            id="id_occupation" 
+                                            name="occupation"
+                                            value="{{ form.occupation.value|default_if_none:'' }}">
+                                        {% if form.occupation.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.occupation.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Аватар и пароль -->
+                            <div class="mb-4">
+                                <h5 class="text-primary mb-3"><i class="bi bi-shield-lock me-2"></i>Безопасность</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="id_avatar" class="form-label">Аватар</label>
+                                            <input type="file" class="form-control" id="id_avatar" name="avatar" accept="image/*">
+                                            <div class="form-text">{{ form.avatar.help_text }}</div>
+                                            {% if form.avatar.errors %}
+                                                <div class="invalid-feedback d-block">
+                                                    {% for error in form.avatar.errors %}
+                                                        {{ error }}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        <div class="form-text">JPG, PNG или GIF (макс. 5MB)</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_password1" class="form-label">Пароль*</label>
+                                        <input type="password" 
+                                            class="form-control {% if form.password1.errors %}is-invalid{% endif %}" 
+                                            id="id_password1" 
+                                            name="password1"
+                                            required>
+                                        {% if form.password1.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.password1.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_password2" class="form-label">Подтверждение пароля*</label>
+                                        <input type="password" 
+                                            class="form-control {% if form.password2.errors %}is-invalid{% endif %}" 
+                                            id="id_password2" 
+                                            name="password2"
+                                            required>
+                                        {% if form.password2.errors %}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.password2.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Кнопка отправки -->
+                            <div class="d-grid mt-4">
+                                <button class="btn btn-primary btn-lg py-3" type="submit">
+                                    <i class="bi bi-person-plus me-2"></i>Зарегистрироваться
+                                </button>
+                            </div>
+
+                            <div class="mt-4 text-center">
+                                <p class="mb-0">Уже есть аккаунт? <a href="{% url 'login' %}" class="text-decoration-none">Войти</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block extra_js %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Валидация паролей
+        const password1 = document.getElementById('id_password1');
+        const password2 = document.getElementById('id_password2');
+        
+        if (password1 && password2) {
+            password1.addEventListener('input', function() {
+                if (password1.value.length < 8) {
+                    password1.setCustomValidity('Пароль должен содержать минимум 8 символов');
+                } else {
+                    password1.setCustomValidity('');
+                }
+            });
+            
+            password2.addEventListener('input', function() {
+                if (password1.value !== password2.value) {
+                    password2.setCustomValidity('Пароли не совпадают');
+                } else {
+                    password2.setCustomValidity('');
+                }
+            });
+        }
+
+        // Маска для телефона
+        const phoneInput = document.getElementById('id_phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                let val = this.value.replace(/\D/g, '');
+                if (val.startsWith('7')) {
+                    val = '+' + val;
+                } else if (val.startsWith('8')) {
+                    val = '+7' + val.slice(1);
+                } else if (val.length === 10 && val[0] === '9') {
+                    val = '+7' + val;
+                } else if (!val.startsWith('7') && !val.startsWith('8') && !val.startsWith('9')) {
+                    val = '+' + val;
+                }
+                this.value = val.slice(0, 12);
+            });
+        }
+
+        // Валидация формы при отправке
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        });
+    });
+    </script>
+    {% endblock %}
+
+catalog.html:
+
+.. code-block:: python
+
+    {% extends 'base.html' %}
+
+    {% block title %}Каталог товаров - МОЙ НЕ САМ{% endblock %}
+
+    {% block content %}
+    <div class="row">
+        <!-- Боковая панель с фильтрами -->
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Фильтры</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" action="{% url 'catalog' %}">
+                        <!-- Поиск -->
+                        <div class="mb-3">
+                            <label for="search" class="form-label">Поиск</label>
+                            <input type="text" class="form-control" id="search" name="q" value="{{ search_query }}">
+                        </div>
+                        
+                        <!-- Категории -->
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Категория</label>
+                            <select class="form-select" id="category" name="category">
+                                <option value="">Все категории</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ category.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <!-- Цена -->
+                        <div class="mb-3">
+                            <label for="min_price" class="form-label">Минимальная цена</label>
+                            <input type="number" class="form-control" id="min_price" name="min_price" value="{{ min_price }}" min="0">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="max_price" class="form-label">Максимальная цена</label>
+                            <input type="number" class="form-control" id="max_price" name="max_price" value="{{ max_price }}" min="0">
+                        </div>
+                        
+                        <!-- Кнопка применения фильтров -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Применить фильтры</button>
+                            <a href="{% url 'catalog' %}" class="btn btn-outline-secondary">Сбросить фильтры</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Основной контент с товарами -->
+        <div class="col-md-9">
+            <h2 class="mb-4">Каталог товаров</h2>
+            
+            {% if products %}
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for product in products %}
+                <div class="col">
+                    <div class="card h-100">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <div class="bg-light text-center py-5">
+                            <span class="text-muted">Нет изображения</span>
+                        </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-truncate">{{ product.description }}</p>
+                            <p class="card-text"><strong>Цена: {{ product.price }} ₽</strong></p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">Подробнее</a>
+                            {% if request.user.is_authenticated %}
+                            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success">В корзину</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                Товары не найдены. Попробуйте изменить параметры фильтрации.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endblock %}
+
+
+checkout.html
+
+.. code-block:: python
+
+    {% extends 'base.html' %}
+
+    {% block title %}Оформление заказа - МОЙ НЕ САМ{% endblock %}
+
+    {% block content %}
+    <h1 class="mb-4">Оформление заказа</h1>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Данные для доставки</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ field.label }}: {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label for="id_shipping_address" class="form-label">Адрес доставки</label>
+                            <textarea class="form-control" id="id_shipping_address" name="shipping_address" rows="3">{{ form.shipping_address.value|default:'' }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_phone" class="form-label">Телефон</label>
+                            <input type="tel" class="form-control" id="id_phone" name="phone" value="{{ form.phone.value|default:'' }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="id_email" name="email" value="{{ form.email.value|default:'' }}">
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Подтвердить заказ</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Ваш заказ</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for item in cart_items %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="fw-bold">{{ item.product.name }}</span>
+                                <small class="d-block text-muted">{{ item.quantity }} × {{ item.product.price }} ₽</small>
+                            </div>
+                            <span class="badge bg-primary rounded-pill">{{ item.get_total }} ₽</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Итого:</h5>
+                        <h5 class="mb-0">{{ total_amount }} ₽</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+contacts.html:
+
+.. code-block:: python
+
+    {% extends 'base.html' %}
+
+    {% block title %}Контакты - МОЙ НЕ САМ{% endblock %}
+
+    {% block content %}
+    <div class="container py-5">
+        <h1 class="mb-4">Контакты</h1>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <h5>Наш адрес:</h5>
+                <p>г. ВашГород, ул. Примерная, д. 1</p>
+                <h5>Телефон:</h5>
+                <p><a href="tel:+79991234567">+7 (999) 123-45-67</a></p>
+                <h5>Email:</h5>
+                <p><a href="mailto:info@example.com">info@example.com</a></p>
+            </div>
+            <div class="col-md-6 mb-4">
+                <h5>Мы на карте:</h5>
+                <div style="width: 100%">
+                    <!-- Вставьте сюда карту, например, Яндекс или Google -->
+                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Aexample" width="100%" height="300" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+main_page.html:
+
+.. code-block:: python
+
+    {% extends 'base.html' %}
+    {% load static %}
+
+    {% block title %}МОЙ НЕ САМ - Интернет-магазин{% endblock %}
+
+    {% block content %}
+    <!-- Слайдер -->
+    <div id="mainSlider" class="carousel slide mb-5" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Слайд 1"></button>
+            <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="1" aria-label="Слайд 2"></button>
+            <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="2" aria-label="Слайд 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'images/slide1.jpg' %}" class="d-block w-100" alt="Слайд 1">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Добро пожаловать в #МОЙНЕСАМ</h2>
+                    <p>Лучшие товары по доступным ценам</p>
+                    <a href="{% url 'catalog' %}" class="btn btn-primary">Перейти в каталог</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/slide2.jpg' %}" class="d-block w-100" alt="Слайд 2">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Акции и скидки</h2>
+                    <p>Специальные предложения для наших клиентов</p>
+                    <a href="{% url 'catalog' %}" class="btn btn-primary">Смотреть акции</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/slide3.jpg' %}" class="d-block w-100" alt="Слайд 3">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Быстрая доставка</h2>
+                    <p>Доставим заказ в любую точку страны</p>
+                    <a href="#" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainSlider" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Предыдущий</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainSlider" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+        </button>
+    </div>
+
+    <!-- Популярные товары -->
+    <div class="container">
+        <h2 class="mb-4">Популярные товары</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+            {% for product in popular_products %}
+            <div class="col">
+                <div class="card h-100 product-card">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <span class="text-muted">Изображение отсутствует</span>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted">{{ product.description|truncatechars:100 }}</p>
+                        <p class="card-text fw-bold">{{ product.price }} ₽</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary">Подробнее</a>
+                            {% if request.user.is_authenticated %}
+                            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">
+                                <i class="bi bi-cart-plus"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <p>Пока нет товаров для отображения.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Преимущества -->
+        <h2 class="mb-4">Почему выбирают нас</h2>
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-truck display-1 text-primary mb-3"></i>
+                        <h4>Быстрая доставка</h4>
+                        <p class="card-text">Доставляем товары в кратчайшие сроки по всей России.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-shield-check display-1 text-primary mb-3"></i>
+                        <h4>Гарантия качества</h4>
+                        <p class="card-text">Все товары проходят тщательную проверку перед отправкой.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-headset display-1 text-primary mb-3"></i>
+                        <h4>Поддержка 24/7</h4>
+                        <p class="card-text">Наша команда всегда готова ответить на ваши вопросы.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+order_detail.html:
+
+.. code-block:: python
+
+    {% extends 'base.html' %}
+
+    {% block title %}Заказ #{{ order.id }} - МОЙ НЕ САМ{% endblock %}
+
+    {% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'orders' %}">Мои заказы</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Заказ #{{ order.id }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Товары в заказе</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" style="width: 100px;">Фото</th>
+                                    <th scope="col">Товар</th>
+                                    <th scope="col" style="width: 100px;">Цена</th>
+                                    <th scope="col" style="width: 100px;">Кол-во</th>
+                                    <th scope="col" style="width: 100px;">Сумма</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order_items %}
+                                <tr>
+                                    <td>
+                                        {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-thumbnail" style="max-width: 80px; max-height: 80px;">
+                                        {% else %}
+                                        <div class="bg-light text-center" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                                            <span class="text-muted small">Нет фото</span>
+                                        </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'product_detail' item.product.id %}" class="text-decoration-none">
+                                            <h6 class="mb-1">{{ item.product.name }}</h6>
+                                        </a>
+                                        {% if item.product.category %}
+                                        <span class="text-muted small">{{ item.product.category.name }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.price }} ₽</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td class="fw-bold">{{ item.get_total }} ₽</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <td colspan="4" class="text-end fw-bold">Итого:</td>
+                                    <td class="fw-bold">{{ order.total_amount }} ₽</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Информация о заказе</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Номер заказа:</span>
+                            <span class="fw-bold">{{ order.id }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Дата:</span>
+                            <span>{{ order.created_at|date:"d.m.Y H:i" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Статус:</span>
+                            <span>
+                                {% if order.status == 'pending' %}
+                                <span class="badge bg-warning">Ожидает обработки</span>
+                                {% elif order.status == 'processing' %}
+                                <span class="badge bg-info">В обработке</span>
+                                {% elif order.status == 'shipped' %}
+                                <span class="badge bg-primary">Отправлен</span>
+                                {% elif order.status == 'delivered' %}
+                                <span class="badge bg-success">Доставлен</span>
+                                {% elif order.status == 'cancelled' %}
+                                <span class="badge bg-danger">Отменен</span>
+                                {% else %}
+                                <span class="badge bg-secondary">{{ order.get_status_display }}</span>
+                                {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Данные доставки</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <h6 class="mb-1">Адрес доставки:</h6>
+                            <p class="mb-0">{{ order.shipping_address }}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h6 class="mb-1">Телефон:</h6>
+                            <p class="mb-0">{{ order.phone }}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h6 class="mb-1">Email:</h6>
+                            <p class="mb-0">{{ order.email }}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+order_success.html:
+
+.. code-block:: python
+
+    {% extends 'base.html' %}
+
+    {% block title %}Заказ оформлен - МОЙ НЕ САМ{% endblock %}
+
+    {% block content %}
+    <div class="text-center py-5">
+        <div class="mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-check-circle-fill text-success" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+            </svg>
+        </div>
+        <h1 class="display-4 mb-4">Заказ успешно оформлен!</h1>
+        <p class="lead mb-4">Ваш заказ #{{ order.id }} был успешно оформлен. Мы свяжемся с вами в ближайшее время.</p>
+
+        <div class="card mb-4 mx-auto" style="max-width: 600px;">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Детали заказа</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Номер заказа:</span>
+                        <span class="fw-bold">{{ order.id }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Дата:</span>
+                        <span>{{ order.created_at|date:"d.m.Y H:i" }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Статус:</span>
+                        <span class="badge bg-warning">{{ order.get_status_display }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Адрес доставки:</span>
+                        <span>{{ order.shipping_address }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Сумма:</span>
+                        <span class="fw-bold">{{ order.total_amount }} ₽</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'orders' %}" class="btn btn-primary">Мои заказы</a>
+            <a href="{% url 'catalog' %}" class="btn btn-outline-primary">Продолжить покупки</a>
+        </div>
+    </div>
+    {% endblock %}
+
+
+orders.html:
+
+.. code-block:: python
+
+    {% extends 'base.html' %}
+
+    {% block title %}Мои заказы - МОЙ НЕ САМ{% endblock %}
+
+    {% block content %}
+    <h1 class="mb-4">Мои заказы</h1>
+
+    {% if orders %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">№ заказа</th>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Сумма</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                    <td>{{ order.total_amount }} ₽</td>
+                    <td>
+                        {% if order.status == 'pending' %}
+                        <span class="badge bg-warning">Ожидает обработки</span>
+                        {% elif order.status == 'processing' %}
+                        <span class="badge bg-info">В обработке</span>
+                        {% elif order.status == 'shipped' %}
+                        <span class="badge bg-primary">Отправлен</span>
+                        {% elif order.status == 'delivered' %}
+                        <span class="badge bg-success">Доставлен</span>
+                        {% elif order.status == 'cancelled' %}
+                        <span class="badge bg-danger">Отменен</span>
+                        {% else %}
+                        <span class="badge bg-secondary">{{ order.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'order_detail' order.id %}" class="btn btn-sm btn-primary">Подробнее</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <p class="mb-0">У вас пока нет заказов. <a href="{% url 'catalog' %}" class="alert-link">Перейти в каталог</a>.</p>
+    </div>
+    {% endif %}
+    {% endblock %}
+
+product_detail.html:
+
+.. code-block:: python
+
+    {% extends 'base.html' %}
+
+    {% block title %}{{ product.name }} - МОЙ НЕ САМ{% endblock %}
+
+    {% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'catalog' %}">Каталог</a></li>
+            {% if product.category %}
+            <li class="breadcrumb-item"><a href="{% url 'catalog' %}?category={{ product.category.id }}">{{ product.category.name }}</a></li>
+            {% endif %}
+            <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Изображение товара -->
+        <div class="col-md-5">
+            <div class="card mb-4">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                {% else %}
+                <div class="bg-light text-center py-5" style="height: 300px;">
+                    <span class="text-muted">Нет изображения</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Информация о товаре -->
+        <div class="col-md-7">
+            <h1 class="mb-3">{{ product.name }}</h1>
+
+            {% if product.category %}
+            <p class="text-muted">Категория: {{ product.category.name }}</p>
+            {% endif %}
+
+            <p class="fs-4 fw-bold mb-4">Цена: {{ product.price }} ₽</p>
+
+            <div class="mb-4">
+                <h5>Описание:</h5>
+                <p>{{ product.description }}</p>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mb-4">
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg">Добавить в корзину</a>
+                {% else %}
+                <div class="alert alert-info">
+                    <a href="{% url 'login' %}">Войдите</a> или <a href="{% url 'register' %}">зарегистрируйтесь</a>, чтобы добавить товар в корзину.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+profile.html:
+
+.. code-block:: python
+
+    {% extends 'base.html' %}
+    {% load static %}
+
+    {% block title %}Личный кабинет - МОЙ НЕ САМ{% endblock %}
+
+    {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Меню</h5>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <a href="#profile-data" class="list-group-item list-group-item-action" data-bs-toggle="tab">Мои данные</a>
+                        <a href="#orders" class="list-group-item list-group-item-action" data-bs-toggle="tab">Мои заказы</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-9">
+                <div class="tab-content">
+                    <!-- Профиль пользователя -->
+                    <div class="tab-pane fade show active" id="profile-data">
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">Мои данные</h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-3 text-center mb-3">
+                                            {% if user.avatar %}
+                                            <img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="img-fluid rounded-circle mb-2" style="max-width: 150px; max-height: 150px;">
+                                            {% else %}
+                                            <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 150px; height: 150px;">
+                                                <span class="display-4">{{ user.username|slice:":1"|upper }}</span>
+                                            </div>
+                                            {% endif %}
+                                            <div class="mt-2">
+                                                <label for="avatar" class="form-label">Изменить фото</label>
+                                                <input type="file" class="form-control form-control-sm" id="avatar" name="avatar">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-9">
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label for="username" class="form-label">Имя пользователя</label>
+                                                    <input type="text" class="form-control" id="username" value="{{ user.username }}" readonly>
+                                                </div>
+                                                
+                                                <div class="col-md-6">
+                                                    <label for="email" class="form-label">Электронная почта</label>
+                                                    <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                                                </div>
+                                                
+                                                <div class="col-md-6">
+                                                    <label for="first_name" class="form-label">Имя</label>
+                                                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name }}">
+                                                </div>
+                                                
+                                                <div class="col-md-6">
+                                                    <label for="last_name" class="form-label">Фамилия</label>
+                                                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name }}">
+                                                </div>
+                                                
+                                                <div class="col-md-6">
+                                                    <label for="phone" class="form-label">Телефон</label>
+                                                    <input type="tel" class="form-control" id="phone" name="phone" value="{{ user.phone }}" 
+                                                        pattern="^\+7\d{10}$" title="Формат: +7XXXXXXXXXX">
+                                                    <div class="form-text">Формат: +7XXXXXXXXXX</div>
+                                                </div>
+                                                
+                                                <div class="col-md-6">
+                                                    <label for="country" class="form-label">Страна</label>
+                                                    <input type="text" class="form-control" id="country" name="country" value="{{ user.country }}">
+                                                </div>
+                                                
+                                                <div class="col-md-6">
+                                                    <label for="city" class="form-label">Город</label>
+                                                    <input type="text" class="form-control" id="city" name="city" value="{{ user.city }}">
+                                                </div>
+                                                
+                                                <div class="col-12">
+                                                    <label for="address" class="form-label">Адрес</label>
+                                                    <textarea class="form-control" id="address" name="address" rows="3">{{ user.address }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Заказы пользователя -->
+                    <div class="tab-pane fade" id="orders">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">Мои заказы</h5>
+                            </div>
+                            <div class="card-body">
+                                {% if orders %}
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">№ заказа</th>
+                                                <th scope="col">Дата</th>
+                                                <th scope="col">Статус</th>
+                                                <th scope="col">Сумма</th>
+                                                <th scope="col">Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for order in orders %}
+                                            <tr>
+                                                <td>#{{ order.id }}</td>
+                                                <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                                                <td>
+                                                    {% if order.status == 'pending' %}
+                                                    <span class="badge bg-warning">Ожидает обработки</span>
+                                                    {% elif order.status == 'processing' %}
+                                                    <span class="badge bg-primary">В обработке</span>
+                                                    {% elif order.status == 'shipped' %}
+                                                    <span class="badge bg-info">Отправлен</span>
+                                                    {% elif order.status == 'delivered' %}
+                                                    <span class="badge bg-success">Доставлен</span>
+                                                    {% elif order.status == 'cancelled' %}
+                                                    <span class="badge bg-danger">Отменен</span>
+                                                    {% else %}
+                                                    <span class="badge bg-secondary">{{ order.status }}</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ order.total_amount }} ₽</td>
+                                                <td>
+                                                    <a href="{% url 'order_detail' order.id %}" class="btn btn-sm btn-outline-primary">Подробнее</a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% else %}
+                                <div class="alert alert-info">
+                                    <p class="mb-0">У вас пока нет заказов.</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block scripts %}
+    <script>
+        // Активация табов через URL-хэш
+        document.addEventListener('DOMContentLoaded', function() {
+            const hash = window.location.hash || '#profile-data';
+            const tabElement = document.querySelector(`a[href="${hash}"]`);
+            if (tabElement) {
+                const tab = new bootstrap.Tab(tabElement);
+                tab.show();
+            }
+        });
+        
+        // Валидация номера телефона
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneInput = document.getElementById('phone');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function() {
+                    let value = this.value;
+                    // Убираем все нецифровые символы, кроме плюса в начале
+                    if (value.startsWith('+')) {
+                        value = '+' + value.substring(1).replace(/\D/g, '');
+                    } else {
+                        // Если нет плюса в начале, добавляем его
+                        value = '+' + value.replace(/\D/g, '');
+                    }
+                    
+                    // Обеспечиваем формат +7
+                    if (value.length >= 1 && !value.startsWith('+7')) {
+                        if (value.startsWith('+')) {
+                            value = '+7' + value.substring(1);
+                        } else {
+                            value = '+7';
+                        }
+                    }
+                    
+                    // Ограничение длины (не больше 12 символов: +7 и 10 цифр)
+                    if (value.length > 12) {
+                        value = value.substring(0, 12);
+                    }
+                    
+                    this.value = value;
+                });
+            }
+        });
+    </script>
+    {% endblock %}
+
+admin.py:
+
+.. code-block:: python
+
+    from django.contrib import admin
+    from django.contrib.auth.admin import UserAdmin
+    from .models import (
+        CustomUser, 
+        Category,
+        Product,
+        CartItem,
+        Order,
+        OrderItem,
+    )
+
+    class CustomUserAdmin(UserAdmin):
+        list_display = ('username', 'email', 'first_name', 'last_name', 'phone', 'is_staff')
+        search_fields = ('username', 'email', 'first_name', 'last_name', 'phone')
+        ordering = ('username',)
+        
+        fieldsets = (
+            (None, {'fields': ('username', 'password')}),
+            ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone')}),
+            ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+            ('Important dates', {'fields': ('last_login', 'date_joined')}),
+            ('Additional info', {'fields': ('address', 'age', 'birth_date', 'gender', 'city', 'country', 'occupation', 'avatar')}),
+        )
+
+    # Register CustomUser with a custom admin
+    admin.site.register(CustomUser, CustomUserAdmin)
+
+    # Register Category
+    @admin.register(Category)
+    class CategoryAdmin(admin.ModelAdmin):
+        list_display = ('name',)
+        search_fields = ('name',)
+
+    # Register Product
+    @admin.register(Product)
+    class ProductAdmin(admin.ModelAdmin):
+        list_display = ('name', 'category', 'price', 'created_at')
+        list_filter = ('category',)
+        search_fields = ('name', 'description')
+
+    # Register CartItem
+    @admin.register(CartItem)
+    class CartItemAdmin(admin.ModelAdmin):
+        list_display = ('user', 'product', 'quantity')
+        list_filter = ('user',)
+
+    # Register Order
+    @admin.register(Order)
+    class OrderAdmin(admin.ModelAdmin):
+        list_display = ('user', 'status', 'total_amount', 'created_at')
+        list_filter = ('status', 'created_at')
+        search_fields = ('user__username', 'shipping_address')
+
+    # Register OrderItem
+    @admin.register(OrderItem)
+    class OrderItemAdmin(admin.ModelAdmin):
+        list_display = ('order', 'product', 'quantity', 'price')
+        list_filter = ('order',)
+
+header.html:
+
+.. code-block:: python
+
+    {% load static %}
+    <header class="bg-light py-3 mb-4 border-bottom">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="{% url "main_page" %}" class="d-flex align-items-center text-decoration-none">
+                    <img src="{% static 'images/logo.png' %}" alt="Логотип" class="me-2" style="max-height: 40px;">
+                    <span class="fs-4 fw-bold text-primary">#МОЙНЕСАМ</span>
+                </a>
+                
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Переключить навигацию">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'catalog' %}">Каталог</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'contacts' %}">Контакты</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                
+                <div class="d-flex align-items-center">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'cart' %}" class="btn btn-outline-primary me-2 position-relative">
+                            <i class="bi bi-cart"></i> Корзина
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ request.user.cart_items.count }}
+                            </span>
+                        </a>
+                        {% if request.user.is_superuser %}
+                        <a href="{% url "admin:index" %}" target="_blank" class="btn btn-outline-primary me-2">Админ</a>
+                        {% endif %}
+                        <a href="{% url 'profile' %}" class="btn btn-outline-primary me-2">
+                            <i class="bi bi-person"></i>
+                            {% if user.first_name %}
+                                {{ user.first_name }}
+                            {% else %}
+                                Профиль
+                            {% endif %}
+                        </a>
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger">Выйти</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url "register" %}" class="btn btn-outline-primary me-2">Регистрация</a>
+                        <a href="{% url "login" %}" class="btn btn-primary">Войти</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+cart.html:
+
+.. code-block:: python
+
+    {% extends 'base.html' %}
+
+    {% block title %}Корзина - МОЙ НЕ САМ{% endblock %}
+
+    {% block content %}
+
+    <h1 class="mb-4">Корзина</h1>
+    {% if cart_items %}
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Товары в корзине</h5>
+        </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                                <tr>
+                                    <th scope="col" style="width: 100px;">Фото</th>
+                                    <th scope="col">Товар</th>
+                                    <th scope="col" style="width: 150px;">Цена</th>
+                                    <th scope="col" style="width: 150px;">Количество</th>
+                                    <th scope="col" style="width: 150px;">Сумма</th>
+                                    <th scope="col" style="width: 80px;">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in cart_items %}
+                                <tr>
+                                    <td>
+                                            {% if item.product.image %}
+                                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-thumbnail" style="max-width: 80px; max-height: 80px;">
+                                            {% else %}
+                                            <div class="bg-light text-center" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                                                <span class="text-muted small">Нет фото</span>
+                                            </div>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'product_detail' item.product.id %}" class="text-decoration-none">
+                                                <h6 class="mb-1">{{ item.product.name }}</h6>
+                                            </a>
+                                            {% if item.product.category %}
+                                            <span class="text-muted small">{{ item.product.category.name }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ item.product.price }} ₽</td>
+                                        <td>
+                                            <form action="{% url 'update_cart_item' item.id %}" method="post" class="d-flex">
+                                                {% csrf_token %}
+                                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="99" class="form-control form-control-sm" style="width: 70px;">
+                                                <button type="submit" class="btn btn-sm btn-outline-primary ms-2">
+                                                    Обновить
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td class="fw-bold">{{ item.get_total }} ₽</td>
+                                    <td>
+                                            <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-sm btn-outline-danger">
+                                                Удалить
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                <tfoot class="table-light">
+                                    <tr>
+                                        <td colspan="4" class="text-end fw-bold">Итого:</td>
+                                        <td class="fw-bold">{{ total_amount }} ₽</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'catalog' %}" class="btn btn-outline-primary">
+                            Продолжить покупки
+                        </a>
+                        <a href="{% url 'checkout' %}" class="btn btn-success">
+                            Оформить заказ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+        <div class="alert alert-info">
+            <p class="mb-0">Ваша корзина пуста. <a href="{% url 'catalog' %}" class="alert-link">Перейти в каталог</a>.</p>
+        </div>
+    {% endif %}
+    {% endblock %}
+
+styles.css
+
+.. code-block:: css
+
+    :root {
+        /* Основные цвета */
+        --primary-color: #0d6efd;
+        --primary-hover-color: #0b5ed7;
+        --secondary-color: #6c757d;
+        --success-color: #198754;
+        --info-color: #0dcaf0;
+        --warning-color: #ffc107;
+        --danger-color: #dc3545;
+        --light-color: #f8f9fa;
+        --dark-color: #212529;
+        
+        /* Оттенки */
+        --primary-light-color: #cfe2ff;
+        --secondary-light-color: #e2e3e5;
+        --success-light-color: #d1e7dd;
+        --info-light-color: #cff4fc;
+        --warning-light-color: #fff3cd;
+        --danger-light-color: #f8d7da;
+        
+        /* Текст */
+        --text-color: #212529;
+        --text-muted-color: #6c757d;
+        --text-white-color: #ffffff;
+        
+        /* Фон */
+        --bg-white-color: #ffffff;
+        --bg-light-color: #f8f9fa;
+        --bg-dark-color: #212529;
+        
+        /* Границы */
+        --border-color: #dee2e6;
+    }
+
+    /* Стили для футера, закрепленного внизу страницы */
+    html, body {
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    main {
+        flex: 1 0 auto;
+    }
+
+    .footer {
+        flex-shrink: 0;
+    }
+
+    /* Переопределение цветов Bootstrap */
+    .bg-primary {
+        background-color: var(--primary-color) !important;
+    }
+
+    .bg-secondary {
+        background-color: var(--secondary-color) !important;
+    }
+
+    .bg-success {
+        background-color: var(--success-color) !important;
+    }
+
+    .bg-info {
+        background-color: var(--info-color) !important;
+    }
+
+    .bg-warning {
+        background-color: var(--warning-color) !important;
+    }
+
+    .bg-danger {
+        background-color: var(--danger-color) !important;
+    }
+
+    .bg-light {
+        background-color: var(--light-color) !important;
+    }
+
+    .bg-dark {
+        background-color: var(--dark-color) !important;
+    }
+
+    /* Текстовые цвета */
+    .text-primary {
+        color: var(--primary-color) !important;
+    }
+
+    .text-secondary {
+        color: var(--secondary-color) !important;
+    }
+
+    .text-success {
+        color: var(--success-color) !important;
+    }
+
+    .text-info {
+        color: var(--info-color) !important;
+    }
+
+    .text-warning {
+        color: var(--warning-color) !important;
+    }
+
+    .text-danger {
+        color: var(--danger-color) !important;
+    }
+
+    .text-light {
+        color: var(--light-color) !important;
+    }
+
+    .text-dark {
+        color: var(--dark-color) !important;
+    }
+
+    .text-muted {
+        color: var(--text-muted-color) !important;
+    }
+
+    /* Кнопки */
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: var(--primary-hover-color);
+        border-color: var(--primary-hover-color);
+    }
+
+    .btn-secondary {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+
+    .btn-success {
+        background-color: var(--success-color);
+        border-color: var(--success-color);
+    }
+
+    .btn-danger {
+        background-color: var(--danger-color);
+        border-color: var(--danger-color);
+    }
+
+    .btn-outline-primary {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .btn-outline-primary:hover {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .btn-outline-danger {
+        color: var(--danger-color);
+        border-color: var(--danger-color);
+    }
+
+    .btn-outline-danger:hover {
+        background-color: var(--danger-color);
+        border-color: var(--danger-color);
+    }
+
+    /* Компоненты */
+    .card-header.bg-primary {
+        background-color: var(--primary-color) !important;
+    }
+
+    .border {
+        border-color: var(--border-color) !important;
+    }
+
+    .border-bottom {
+        border-bottom-color: var(--border-color) !important;
+    }
+
+    /* Слайдер на главной странице */
+    .carousel-item {
+        height: 400px;
+    }
+
+    .carousel-item img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+
+    .carousel-caption {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    /* Пагинация */
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .pagination .page-link {
+        color: var(--primary-color);
+    }
+
+    /* Формы */
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    /* Хлебные крошки */
+    .breadcrumb-item.active {
+        color: var(--text-muted-color);
+    }
+
+    .breadcrumb-item a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+
+    /* Карточки товаров */
+    .product-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-card .card-img-top {
+        height: 200px;
+        object-fit: contain;
+        padding: 1rem;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    /* ---HEADER--- */
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 1vw;
+        background-color: var(--brand);
+        color: var(--onBrandText);
+    }
+
+    .header_logo {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+    }
+
+    .header_logo_image {
+        width: 4vw;
+    }
+
+    .header_logo_text {
+        font-size: 2.5vw;
+        font-weight: 700;
+        margin-left: 1vw;
+    }
+
+    .header_links {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header_link {
+        margin-left: 2vw;
+        font-size: 1.5vw;
+    }

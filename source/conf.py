@@ -17,8 +17,8 @@ extensions = [
 
 # Основные настройки
 project = 'Проект Django на русском'
-copyright = '2024, Your Name'
-author = 'Your Name'
+copyright = '2025, Irsp-122'
+author = 'Irs-122'
 release = '1.0.0'
 
 # Язык
@@ -26,6 +26,12 @@ language = 'ru'
 
 # Тема
 html_theme = 'sphinx_rtd_theme'
+
+# Кастомный CSS для скрытия навигационных кнопок
+html_static_path = ['_static']
+html_css_files = [
+    'custom.css',
+]
 
 # Дополнительные настройки
 html_show_sourcelink = False

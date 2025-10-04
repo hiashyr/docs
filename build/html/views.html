@@ -10,6 +10,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5d928502" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -198,9 +199,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#id93">Отображение страницы оформления</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#id94">Особенности реализации</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id94">Особенности реализации</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id95">Представление страницы успешного заказа</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id96">Код представления</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id97">Разбор кода</a><ul>
@@ -254,7 +255,9 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="templates.html">Создание HTML шаблонов</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Работа с формами в Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin.html">Настройка админ-панели Django</a></li>
 </ul>
 
         </div>
@@ -1511,9 +1514,8 @@
 <p><strong>Назначение:</strong> Показывает страницу оформления заказа с формой и товарами</p>
 </section>
 </section>
-</section>
 <section id="id94">
-<h2>Особенности реализации<a class="headerlink" href="#id94" title="Ссылка на этот заголовок"></a></h2>
+<h3>Особенности реализации<a class="headerlink" href="#id94" title="Ссылка на этот заголовок"></a></h3>
 <p><strong>Целостность данных:</strong> Сохранение цены товара на момент заказа</p>
 <p><strong>Удобство:</strong> Автозаполнение данных пользователя</p>
 <p><strong>Очистка:</strong> Автоматическое удаление товаров из корзины после оформления</p>
@@ -1525,6 +1527,7 @@
 <p class="admonition-title">Предупреждение</p>
 <p>Убедитесь, что метод <code class="docutils literal notranslate"><span class="pre">get_total()</span></code> в модели CartItem корректно вычисляет стоимость, так как от этого зависит итоговая сумма заказа.</p>
 </div>
+</section>
 </section>
 <section id="id95">
 <h2>Представление страницы успешного заказа<a class="headerlink" href="#id95" title="Ссылка на этот заголовок"></a></h2>
@@ -1867,7 +1870,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Авторские права 2024, Your Name. </p>
+    <p>&#169; Авторские права 2025, Irsp-122. </p>
   </div>
 
    
