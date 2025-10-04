@@ -52,6 +52,14 @@ def build_and_create_docset():
     # Копируем в Zeal
     copy_to_zeal(docset_dir)
 
+    # Копируем иконку если она существует
+    icon_src = Path("icon.png")
+    if icon_src.exists():
+        shutil.copy2(icon_src, docset_dir / "icon.png")
+        print("🎨 Иконка добавлена в docset")
+    else:
+        print("⚠️ Иконка не найдена. Создайте файл icon.png в папке docs/")
+
 def create_search_index(docset_dir):
     """Создает поисковый индекс"""
     conn = sqlite3.connect(docset_dir / "Contents/Resources/docSet.dsidx")

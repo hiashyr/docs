@@ -50,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project-structure.html">Создание структуры проекта ekz</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models.html">Создание моделей базы данных</a></li>
 <li class="toctree-l1"><a class="reference internal" href="views.html">Создание представлений (Views)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Создание HTML шаблонов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
 </ul>
 
@@ -76,7 +77,545 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
+  <p>Views:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">login</span><span class="p">,</span> <span class="n">logout</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.backends</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelBackend</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.db.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Q</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CustomUserCreationForm</span><span class="p">,</span>
+    <span class="n">PhoneAuthForm</span><span class="p">,</span>
+    <span class="n">EmailAuthForm</span><span class="p">,</span>
+    <span class="n">UsernameAuthForm</span><span class="p">,</span>
+    <span class="n">CartItemQuantityForm</span><span class="p">,</span>
+    <span class="n">OrderForm</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Category</span><span class="p">,</span>
+    <span class="n">Product</span><span class="p">,</span>
+    <span class="n">CartItem</span><span class="p">,</span>
+    <span class="n">Order</span><span class="p">,</span>
+    <span class="n">OrderItem</span>
+<span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">contacts_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/contacts.html&#39;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main_page</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c1"># Get popular products for display</span>
+    <span class="n">popular_products</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()[:</span><span class="mi">8</span><span class="p">]</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;popular_products&#39;</span><span class="p">:</span> <span class="n">popular_products</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/main_page.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">register_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CustomUserCreationForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;django.contrib.auth.backends.ModelBackend&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;main_page&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CustomUserCreationForm</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;components/register.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">login_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">auth_type</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;auth_type&#39;</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tab&#39;</span><span class="p">,</span> <span class="s1">&#39;username&#39;</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">auth_type</span> <span class="o">==</span> <span class="s1">&#39;phone&#39;</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">PhoneAuthForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">auth_type</span> <span class="o">==</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">EmailAuthForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">UsernameAuthForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">get_user</span><span class="p">()</span>
+            <span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;django.contrib.auth.backends.ModelBackend&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;main_page&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">auth_type</span> <span class="o">==</span> <span class="s1">&#39;phone&#39;</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">PhoneAuthForm</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">auth_type</span> <span class="o">==</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">EmailAuthForm</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">UsernameAuthForm</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;components/login.html&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s1">&#39;active_tab&#39;</span><span class="p">:</span> <span class="n">auth_type</span>
+    <span class="p">})</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">logout_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;main_page&#39;</span><span class="p">)</span>
+
+<span class="c1"># 1. Каталог с фильтрацией</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">catalog_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="n">Category</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="c1"># Получение фильтров из GET-параметров</span>
+    <span class="n">category_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+    <span class="n">search_query</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)</span>
+    <span class="n">min_price</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;min_price&#39;</span><span class="p">)</span>
+    <span class="n">max_price</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_price&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Начинаем с полной выборки товаров</span>
+    <span class="n">products</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="c1"># Применяем фильтры</span>
+    <span class="k">if</span> <span class="n">category_id</span><span class="p">:</span>
+        <span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">category_id</span><span class="o">=</span><span class="n">category_id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">search_query</span><span class="p">:</span>
+        <span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">Q</span><span class="p">(</span><span class="n">name__icontains</span><span class="o">=</span><span class="n">search_query</span><span class="p">)</span> <span class="o">|</span>
+            <span class="n">Q</span><span class="p">(</span><span class="n">description__icontains</span><span class="o">=</span><span class="n">search_query</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">min_price</span><span class="p">:</span>
+        <span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">price__gte</span><span class="o">=</span><span class="n">min_price</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">max_price</span><span class="p">:</span>
+        <span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">price__lte</span><span class="o">=</span><span class="n">max_price</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;categories&#39;</span><span class="p">:</span> <span class="n">categories</span><span class="p">,</span>
+        <span class="s1">&#39;products&#39;</span><span class="p">:</span> <span class="n">products</span><span class="p">,</span>
+        <span class="s1">&#39;selected_category&#39;</span><span class="p">:</span> <span class="n">category_id</span><span class="p">,</span>
+        <span class="s1">&#39;search_query&#39;</span><span class="p">:</span> <span class="n">search_query</span><span class="p">,</span>
+        <span class="s1">&#39;min_price&#39;</span><span class="p">:</span> <span class="n">min_price</span><span class="p">,</span>
+        <span class="s1">&#39;max_price&#39;</span><span class="p">:</span> <span class="n">max_price</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/catalog.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">product_detail_view</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="n">product</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/product_detail.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+<span class="c1"># 2. Корзина</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cart_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">cart_items</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="c1"># Подсчет общей суммы корзины</span>
+    <span class="n">total_amount</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_total</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;cart_items&#39;</span><span class="p">:</span> <span class="n">cart_items</span><span class="p">,</span>
+        <span class="s1">&#39;total_amount&#39;</span><span class="p">:</span> <span class="n">total_amount</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/cart.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_to_cart</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+
+    <span class="c1"># Проверяем, нет ли уже такого товара в корзине</span>
+    <span class="n">cart_item</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span>
+        <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+        <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span>
+        <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Если товар уже был в корзине, увеличиваем количество</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">created</span><span class="p">:</span>
+        <span class="n">cart_item</span><span class="o">.</span><span class="n">quantity</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">cart_item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_cart_item</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">item_id</span><span class="p">):</span>
+    <span class="n">cart_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">CartItem</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CartItemQuantityForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">cart_item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_from_cart</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">item_id</span><span class="p">):</span>
+    <span class="n">cart_item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">CartItem</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">cart_item</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+
+<span class="c1"># 4. Формирование заказа</span>
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">checkout_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">cart_items</span> <span class="o">=</span> <span class="n">CartItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cart_items</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">)</span>
+    <span class="n">total_amount</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_total</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">OrderForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">order</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="n">order</span><span class="o">.</span><span class="n">total_amount</span> <span class="o">=</span> <span class="n">total_amount</span>
+            <span class="n">order</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">cart_item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">:</span>
+                <span class="n">OrderItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+                    <span class="n">product</span><span class="o">=</span><span class="n">cart_item</span><span class="o">.</span><span class="n">product</span><span class="p">,</span>
+                    <span class="n">quantity</span><span class="o">=</span><span class="n">cart_item</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
+                    <span class="n">price</span><span class="o">=</span><span class="n">cart_item</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">price</span>
+                <span class="p">)</span>
+            <span class="n">cart_items</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;order_success&#39;</span><span class="p">,</span> <span class="n">order_id</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">initial_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;shipping_address&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">address</span><span class="p">,</span>
+            <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">phone</span><span class="p">,</span>
+            <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span>
+        <span class="p">}</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">OrderForm</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="n">initial_data</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s1">&#39;cart_items&#39;</span><span class="p">:</span> <span class="n">cart_items</span><span class="p">,</span>
+        <span class="s1">&#39;total_amount&#39;</span><span class="p">:</span> <span class="n">total_amount</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/checkout.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">order_success_view</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">order_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="n">order</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/order_success.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">orders_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">orders</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-created_at&#39;</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;orders&#39;</span><span class="p">:</span> <span class="n">orders</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/orders.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">order_detail_view</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">order_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">order_items</span> <span class="o">=</span> <span class="n">OrderItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="n">order</span><span class="p">,</span>
+        <span class="s1">&#39;order_items&#39;</span><span class="p">:</span> <span class="n">order_items</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/order_detail.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+<span class="nd">@login_required</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">profile_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">last_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;last_name&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">phone</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">phone</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">address</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">city</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">city</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">country</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">country</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;avatar&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">:</span>
+            <span class="n">user</span><span class="o">.</span><span class="n">avatar</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">[</span><span class="s1">&#39;avatar&#39;</span><span class="p">]</span>
+
+        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">)</span>
+
+    <span class="n">orders</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-created_at&#39;</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+        <span class="s1">&#39;orders&#39;</span><span class="p">:</span> <span class="n">orders</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;pages/profile.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Urls:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">admin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.urls</span><span class="w"> </span><span class="kn">import</span> <span class="n">path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">front</span><span class="w"> </span><span class="kn">import</span> <span class="n">views</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf.urls.static</span><span class="w"> </span><span class="kn">import</span> <span class="n">static</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Администрирование и аутентификация</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;admin&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">main_page</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;main_page&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;register/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">register_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;register&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;login/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">login_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;logout/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">logout_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;logout&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;profile/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">profile_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;profile&#39;</span><span class="p">),</span>
+
+    <span class="c1"># 1. Каталог товаров</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;catalog/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">catalog_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;catalog&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;product/&lt;int:product_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">product_detail_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;product_detail&#39;</span><span class="p">),</span>
+
+    <span class="c1"># 2. Корзина</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;cart/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">cart_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cart&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;cart/add/&lt;int:product_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">add_to_cart</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;add_to_cart&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;cart/update/&lt;int:item_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">update_cart_item</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;update_cart_item&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;cart/remove/&lt;int:item_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">remove_from_cart</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;remove_from_cart&#39;</span><span class="p">),</span>
+
+    <span class="c1"># 3. Заказы</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;checkout/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">checkout_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;checkout&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;order/success/&lt;int:order_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">order_success_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;order_success&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;orders/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">orders_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;orders&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;order/&lt;int:order_id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">order_detail_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;order_detail&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;contacts/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">contacts_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;contacts&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+    <span class="n">urlpatterns</span> <span class="o">+=</span> <span class="n">static</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_URL</span><span class="p">,</span> <span class="n">document_root</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">MEDIA_ROOT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Models:</p>
+<p>forms.py:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django</span><span class="w"> </span><span class="kn">import</span> <span class="n">forms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">authenticate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserCreationForm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.core.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CustomUser</span><span class="p">,</span> <span class="n">Product</span><span class="p">,</span> <span class="n">Category</span><span class="p">,</span> <span class="n">CartItem</span><span class="p">,</span> <span class="n">Order</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.utils.translation</span><span class="w"> </span><span class="kn">import</span> <span class="n">gettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomUserCreationForm</span><span class="p">(</span><span class="n">UserCreationForm</span><span class="p">):</span>
+    <span class="n">phone</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;placeholder&#39;</span><span class="p">:</span> <span class="s1">&#39;+7XXXXXXXXXX&#39;</span><span class="p">}),</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s1">&#39;Введите номер телефона в формате +7XXXXXXXXXX&#39;</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CustomUser</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;phone&#39;</span><span class="p">,</span> <span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;password1&#39;</span><span class="p">,</span> <span class="s1">&#39;password2&#39;</span><span class="p">,</span> <span class="s1">&#39;avatar&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">phone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">phone</span><span class="p">:</span>
+            <span class="c1"># Проверка формата номера телефона для России</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\+7\d</span><span class="si">{10}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">phone</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;Номер телефона должен быть в формате +7XXXXXXXXXX&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">phone</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PhoneAuthForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">phone</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;placeholder&#39;</span><span class="p">:</span> <span class="s1">&#39;+7XXXXXXXXXX&#39;</span><span class="p">}),</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s1">&#39;Введите номер телефона в формате +7XXXXXXXXXX&#39;</span>
+    <span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">PasswordInput</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">phone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">phone</span><span class="p">:</span>
+            <span class="c1"># Проверка формата номера телефона для России</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\+7\d</span><span class="si">{10}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">phone</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;Номер телефона должен быть в формате +7XXXXXXXXXX&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">phone</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cleaned_data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+        <span class="n">phone</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">phone</span> <span class="ow">and</span> <span class="n">password</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">phone</span><span class="o">=</span><span class="n">phone</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Неверный телефон или пароль&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cleaned_data</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">EmailAuthForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">PasswordInput</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cleaned_data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">email</span> <span class="ow">and</span> <span class="n">password</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Неверный email или пароль&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cleaned_data</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">UsernameAuthForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">PasswordInput</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cleaned_data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">)</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">username</span> <span class="ow">and</span> <span class="n">password</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Неверный логин или пароль&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cleaned_data</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CategoryForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Category</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">]</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ProductForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Product</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">]</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CartItemForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CartItem</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;product&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">]</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CartItemQuantityForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CartItem</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">OrderForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="n">phone</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;placeholder&#39;</span><span class="p">:</span> <span class="s1">&#39;+7XXXXXXXXXX&#39;</span><span class="p">}),</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s1">&#39;Введите номер телефона в формате +7XXXXXXXXXX&#39;</span>
+    <span class="p">)</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Order</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;shipping_address&#39;</span><span class="p">,</span> <span class="s1">&#39;phone&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">phone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">phone</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\+7\d</span><span class="si">{10}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">phone</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;Номер телефона должен быть в формате +7XXXXXXXXXX&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">phone</span>
+</pre></div>
+</div>
+<p>backends.py:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.backends</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelBackend</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_user_model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.db.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Q</span>
+
+<span class="n">User</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MultiFieldAuthBackend</span><span class="p">(</span><span class="n">ModelBackend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Если в kwargs есть email или phone, используем их вместо username</span>
+        <span class="k">if</span> <span class="s1">&#39;email&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="s1">&#39;email&#39;</span>
+        <span class="k">elif</span> <span class="s1">&#39;phone&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="s1">&#39;phone&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="s1">&#39;username&#39;</span>
+
+        <span class="k">if</span> <span class="n">username</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">password</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Строим запрос на основе используемого поля</span>
+            <span class="k">if</span> <span class="n">field</span> <span class="o">==</span> <span class="s1">&#39;phone&#39;</span><span class="p">:</span>
+                <span class="c1"># Нормализация телефона (удаление пробелов, скобок, дефисов)</span>
+                <span class="n">clean_phone</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">username</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">phone</span><span class="o">=</span><span class="n">clean_phone</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">field</span> <span class="o">==</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email__iexact</span><span class="o">=</span><span class="n">username</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Если это обычный логин или запрос с неизвестного поля,</span>
+                <span class="c1"># пробуем найти по всем полям</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="n">Q</span><span class="p">(</span><span class="n">phone</span><span class="o">=</span><span class="n">username</span><span class="p">)</span> <span class="o">|</span>
+                    <span class="n">Q</span><span class="p">(</span><span class="n">email__iexact</span><span class="o">=</span><span class="n">username</span><span class="p">)</span> <span class="o">|</span>
+                    <span class="n">Q</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">check_password</span><span class="p">(</span><span class="n">password</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">user</span>
+        <span class="k">except</span> <span class="n">User</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">except</span> <span class="n">User</span><span class="o">.</span><span class="n">MultipleObjectsReturned</span><span class="p">:</span>
+            <span class="c1"># Если найдено несколько пользователей, возвращаем None для безопасности</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">User</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>base.html:</p>
+<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">load</span> <span class="nv">static</span> <span class="cp">%}</span>
+<span class="x">&lt;!DOCTYPE html&gt;</span>
+<span class="x">&lt;html lang=&quot;ru&quot; class=&quot;h-100&quot;&gt;</span>
+<span class="x">&lt;head&gt;</span>
+<span class="x">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span>
+<span class="x">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span>
+<span class="x">    &lt;title&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span><span class="x">МОЙ НЕ САМ</span><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="x">&lt;/title&gt;</span>
+<span class="x">    &lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">static</span> <span class="s1">&#39;bootstrap.min.css&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;</span>
+<span class="x">    &lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">static</span> <span class="s1">&#39;bootstrap-icons.css&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;</span>
+<span class="x">    &lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="cp">{%</span> <span class="k">static</span> <span class="s1">&#39;styles.css&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">extra_css</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="x">&lt;/head&gt;</span>
+
+<span class="x">&lt;body class=&quot;d-flex flex-column h-100&quot;&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">include</span> <span class="s1">&#39;components/header.html&#39;</span> <span class="cp">%}</span>
+
+<span class="x">    &lt;main class=&quot;flex-grow-1&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;container mt-4&quot;&gt;</span>
+<span class="x">            </span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/main&gt;</span>
+
+<span class="x">    &lt;footer class=&quot;footer bg-light py-4 mt-auto&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;container&quot;&gt;</span>
+<span class="x">            &lt;div class=&quot;row&quot;&gt;</span>
+<span class="x">                &lt;div class=&quot;col-md-6&quot;&gt;</span>
+<span class="x">                    &lt;h5&gt;Контакты&lt;/h5&gt;</span>
+<span class="x">                    &lt;p&gt;Телефон: +7 (123) 456-78-90&lt;/p&gt;</span>
+<span class="x">                    &lt;p&gt;Email: info@example.com&lt;/p&gt;</span>
+<span class="x">                &lt;/div&gt;</span>
+<span class="x">                &lt;div class=&quot;col-md-6 text-end&quot;&gt;</span>
+<span class="x">                    &lt;p&gt;&amp;copy; 2025 Магазин &quot;МОЙ НЕ САМ&quot;. Все права защищены.&lt;/p&gt;</span>
+<span class="x">                &lt;/div&gt;</span>
+<span class="x">            &lt;/div&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">    &lt;/footer&gt;</span>
+
+<span class="x">    &lt;script src=&quot;</span><span class="cp">{%</span> <span class="k">static</span> <span class="s1">&#39;bootstrap.bundle.min.js&#39;</span> <span class="cp">%}</span><span class="x">&quot;&gt;&lt;/script&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">scripts</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="x">&lt;/body&gt;</span>
+
+<span class="x">&lt;/html&gt;</span>
+</pre></div>
+</div>
+
 
            </div>
           </div>
