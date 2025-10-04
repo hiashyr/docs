@@ -38,23 +38,6 @@
    auth
    git
 
-Справочник
-----------
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Полезные материалы:
-   
-   cheatsheet
-   troubleshooting
-   resources
-
-Индексы и поиск
-===============
-
-* :ref:`genindex`
-* :ref:`modindex` 
-* :ref:`search`
 
 .. note::
 
