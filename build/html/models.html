@@ -151,12 +151,11 @@
 - <code class="docutils literal notranslate"><span class="pre">max_length</span></code> (обязательный) - максимальная длина строки
 - <code class="docutils literal notranslate"><span class="pre">blank</span></code> - разрешить пустые значения в формах
 - <code class="docutils literal notranslate"><span class="pre">null</span></code> - разрешить NULL в базе данных</p>
-<p><strong>Пример:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>name = models.CharField(max_length=100)
-title = models.CharField(max_length=200, blank=True)</p>
-</div></blockquote>
+<p><strong>Пример:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="textfield">
 <h4>TextField<a class="headerlink" href="#textfield" title="Ссылка на этот заголовок"></a></h4>
@@ -164,12 +163,11 @@ title = models.CharField(max_length=200, blank=True)</p>
 <p><strong>Параметры:</strong>
 - <code class="docutils literal notranslate"><span class="pre">blank</span></code> - разрешить пустые значения
 - <code class="docutils literal notranslate"><span class="pre">null</span></code> - разрешить NULL</p>
-<p><strong>Пример:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>description = models.TextField()
-content = models.TextField(blank=True)</p>
-</div></blockquote>
+<p><strong>Пример:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+<span class="n">content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="id3">
@@ -181,12 +179,11 @@ content = models.TextField(blank=True)</p>
 - <code class="docutils literal notranslate"><span class="pre">blank</span></code> - разрешить пустые значения
 - <code class="docutils literal notranslate"><span class="pre">null</span></code> - разрешить NULL
 - <code class="docutils literal notranslate"><span class="pre">default</span></code> - значение по умолчанию</p>
-<p><strong>Пример:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>age = models.IntegerField()
-quantity = models.IntegerField(default=0)</p>
-</div></blockquote>
+<p><strong>Пример:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">age</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+<span class="n">quantity</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="decimalfield">
 <h4>DecimalField<a class="headerlink" href="#decimalfield" title="Ссылка на этот заголовок"></a></h4>
@@ -195,22 +192,20 @@ quantity = models.IntegerField(default=0)</p>
 - <code class="docutils literal notranslate"><span class="pre">max_digits</span></code> - максимальное количество цифр
 - <code class="docutils literal notranslate"><span class="pre">decimal_places</span></code> - количество знаков после запятой
 - <code class="docutils literal notranslate"><span class="pre">default</span></code> - значение по умолчанию</p>
-<p><strong>Пример:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>price = models.DecimalField(max_digits=10, decimal_places=2)
-rating = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)</p>
-</div></blockquote>
+<p><strong>Пример:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">price</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span><span class="n">max_digits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">rating</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span><span class="n">max_digits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="floatfield">
 <h4>FloatField<a class="headerlink" href="#floatfield" title="Ссылка на этот заголовок"></a></h4>
 <p>Поле для хранения чисел с плавающей точкой.</p>
-<p><strong>Пример:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>temperature = models.FloatField()
-percentage = models.FloatField(default=0.0)</p>
-</div></blockquote>
+<p><strong>Пример:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">temperature</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">()</span>
+<span class="n">percentage</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="id4">
@@ -218,12 +213,11 @@ percentage = models.FloatField(default=0.0)</p>
 <section id="booleanfield">
 <h4>BooleanField<a class="headerlink" href="#booleanfield" title="Ссылка на этот заголовок"></a></h4>
 <p>Поле для хранения True/False значений.</p>
-<p><strong>Пример:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>is_active = models.BooleanField(default=True)
-is_published = models.BooleanField(default=False)</p>
-</div></blockquote>
+<p><strong>Пример:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">is_active</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">is_published</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="id5">
@@ -234,32 +228,29 @@ is_published = models.BooleanField(default=False)</p>
 <p><strong>Параметры:</strong>
 - <code class="docutils literal notranslate"><span class="pre">auto_now</span></code> - автоматически устанавливать при сохранении
 - <code class="docutils literal notranslate"><span class="pre">auto_now_add</span></code> - автоматически устанавливать при создании</p>
-<p><strong>Пример:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>created_at = models.DateTimeField(auto_now_add=True)
-updated_at = models.DateTimeField(auto_now=True)</p>
-</div></blockquote>
+<p><strong>Пример:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">updated_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="datefield">
 <h4>DateField<a class="headerlink" href="#datefield" title="Ссылка на этот заголовок"></a></h4>
 <p>Поле для хранения только даты (без времени).</p>
-<p><strong>Пример:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>birth_date = models.DateField()
-event_date = models.DateField(auto_now_add=True)</p>
-</div></blockquote>
+<p><strong>Пример:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">birth_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
+<span class="n">event_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="timefield">
 <h4>TimeField<a class="headerlink" href="#timefield" title="Ссылка на этот заголовок"></a></h4>
 <p>Поле для хранения только времени (без даты).</p>
-<p><strong>Пример:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>start_time = models.TimeField()
-end_time = models.TimeField()</p>
-</div></blockquote>
+<p><strong>Пример:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">start_time</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TimeField</span><span class="p">()</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TimeField</span><span class="p">()</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="id6">
@@ -271,18 +262,15 @@ end_time = models.TimeField()</p>
 - <code class="docutils literal notranslate"><span class="pre">upload_to</span></code> - путь для сохранения изображений
 - <code class="docutils literal notranslate"><span class="pre">height_field</span></code> - поле для автоматического сохранения высоты
 - <code class="docutils literal notranslate"><span class="pre">width_field</span></code> - поле для автоматического сохранения ширины</p>
-<p><strong>Пример:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>avatar = models.ImageField(upload_to=“uploads/“)
-photo = models.ImageField(</p>
-<blockquote>
-<div><p>upload_to=“uploads/“,
-height_field=“image_height“,
-width_field=“image_width“</p>
-</div></blockquote>
-<p>)</p>
-</div></blockquote>
+<p><strong>Пример:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">avatar</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span><span class="n">upload_to</span><span class="o">=</span><span class="s1">&#39;uploads/&#39;</span><span class="p">)</span>
+<span class="n">photo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span>
+    <span class="n">upload_to</span><span class="o">=</span><span class="s1">&#39;uploads/&#39;</span><span class="p">,</span>
+    <span class="n">height_field</span><span class="o">=</span><span class="s1">&#39;image_height&#39;</span><span class="p">,</span>
+    <span class="n">width_field</span><span class="o">=</span><span class="s1">&#39;image_width&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="id7">
@@ -290,21 +278,19 @@ width_field=“image_width“</p>
 <section id="emailfield">
 <h4>EmailField<a class="headerlink" href="#emailfield" title="Ссылка на этот заголовок"></a></h4>
 <p>Поле для email адресов с автоматической валидацией.</p>
-<p><strong>Пример:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>email = models.EmailField(max_length=254)</p>
-</div></blockquote>
+<p><strong>Пример:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">email</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">254</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="urlfield">
 <h4>URLField<a class="headerlink" href="#urlfield" title="Ссылка на этот заголовок"></a></h4>
 <p>Поле для URL адресов с автоматической валидацией.</p>
-<p><strong>Пример:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p>website = models.URLField(max_length=200)
-profile_url = models.URLField(max_length=200, blank=True)</p>
-</div></blockquote>
+<p><strong>Пример:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">website</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">URLField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">profile_url</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">URLField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="id8">
@@ -316,49 +302,43 @@ profile_url = models.URLField(max_length=200, blank=True)</p>
 - <code class="docutils literal notranslate"><span class="pre">to</span></code> - модель для связи
 - <code class="docutils literal notranslate"><span class="pre">on_delete</span></code> - поведение при удалении связанного объекта
 - <code class="docutils literal notranslate"><span class="pre">related_name</span></code> - имя для обратной связи</p>
-<p><strong>У одного автора может быть написано несколько книг:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><dl class="simple">
-<dt>class Author(models.Model):</dt><dd><p>name = models.CharField(max_length=100)</p>
-</dd>
-<dt>class Book(models.Model):</dt><dd><p>title = models.CharField(max_length=100)
-author = models.ForeignKey(Author, on_delete=models.CASCADE)</p>
-</dd>
-</dl>
-</div></blockquote>
+<p><strong>У одного автора может быть написано несколько книг:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Author</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+   <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+   <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+   <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Author</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="manytomanyfield">
 <h4>ManyToManyField<a class="headerlink" href="#manytomanyfield" title="Ссылка на этот заголовок"></a></h4>
 <p>Поле для связи «многие-ко-многим» с другой моделью.</p>
 <p><strong>Параметры:</strong>
 - <code class="docutils literal notranslate"><span class="pre">through</span></code> - промежуточная модель для дополнительных полей</p>
-<p><strong>Книга может иметь несколько авторов, и автор может написать несколько книг:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><dl class="simple">
-<dt>class Book(models.Model):</dt><dd><p>title = models.CharField(max_length=100)
-authors = models.ManyToManyField(„Author“)</p>
-</dd>
-<dt>class Author(models.Model):</dt><dd><p>name = models.CharField(max_length=100)</p>
-</dd>
-</dl>
-</div></blockquote>
+<p><strong>Книга может иметь несколько авторов, и автор может написать несколько книг:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+   <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+   <span class="n">authors</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;Author&#39;</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Author</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+   <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="onetoonefield">
 <h4>OneToOneField<a class="headerlink" href="#onetoonefield" title="Ссылка на этот заголовок"></a></h4>
 <p>Поле для связи «один-к-одному» с другой моделью.</p>
-<p><strong>Один пользователь → один профиль:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><dl class="simple">
-<dt>class User(models.Model):</dt><dd><p>username = models.CharField(max_length=100)</p>
-</dd>
-<dt>class Profile(models.Model):</dt><dd><p>user = models.OneToOneField(User, on_delete=models.CASCADE)
-bio = models.TextField()</p>
-</dd>
-</dl>
-</div></blockquote>
+<p><strong>Один пользователь → один профиль:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">User</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+   <span class="n">username</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Profile</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+   <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+   <span class="n">bio</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+</pre></div>
+</div>
 </section>
 <section id="id9">
 <h4>Общие параметры для всех полей<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h4>
@@ -371,26 +351,22 @@ bio = models.TextField()</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">blank</span></code> - разрешение пустых значений в формах</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">null</span></code> - разрешение NULL в базе данных</p></li>
 </ul>
-<p><strong>Пример с общими параметрами:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><dl class="simple">
-<dt>STATUS_CHOICES = [</dt><dd><p>(„draft“, „Черновик“),
-(„published“, „Опубликовано“),
-(„archived“, „В архиве“),</p>
-</dd>
-</dl>
-<p>]</p>
-<dl class="simple">
-<dt>status = models.CharField(</dt><dd><p>max_length=20,
-choices=STATUS_CHOICES,
-default=“draft“,
-verbose_name=“Статус“,
-help_text=“Статус записи“</p>
-</dd>
-</dl>
-<p>)</p>
-</div></blockquote>
+<p><strong>Пример с общими параметрами:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">STATUS_CHOICES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;draft&#39;</span><span class="p">,</span> <span class="s1">&#39;Черновик&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;published&#39;</span><span class="p">,</span> <span class="s1">&#39;Опубликовано&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;archived&#39;</span><span class="p">,</span> <span class="s1">&#39;В архиве&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+    <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">choices</span><span class="o">=</span><span class="n">STATUS_CHOICES</span><span class="p">,</span>
+    <span class="n">default</span><span class="o">=</span><span class="s1">&#39;draft&#39;</span><span class="p">,</span>
+    <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;Статус&#39;</span><span class="p">,</span>
+    <span class="n">help_text</span><span class="o">=</span><span class="s1">&#39;Статус записи&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="meta-str">
@@ -398,65 +374,59 @@ help_text=“Статус записи“</p>
 <section id="meta">
 <h4>Класс Meta<a class="headerlink" href="#meta" title="Ссылка на этот заголовок"></a></h4>
 <p>Класс Meta внутри модели - это способ задать «мета-информацию» о модели, которая не относится к отдельным полям, а описывает модель в целом</p>
-<p><strong>Пример на книге:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><dl>
-<dt>class Book(models.Model):</dt><dd><p>title = models.CharField(max_length=100)
-author = models.CharField(max_length=100)
-price = models.DecimalField(max_digits=6, decimal_places=2)</p>
-<dl>
-<dt>class Meta:</dt><dd><p># Имя таблицы в БД (по умолчанию: appname_modelname)
-db_table = „books“</p>
-<p># Человеко-читаемые имена
-verbose_name = „Книга“
-verbose_name_plural = „Книги“</p>
-<p># Сортировка по умолчанию
-ordering = [„title“, „-price“]  # по названию (возр.), затем по цене (убыв.)</p>
-<p># Права доступа
-permissions = [</p>
-<blockquote>
-<div><p>(„can_mark_returned“, „Set book as returned“),</p>
-</div></blockquote>
-<p>]</p>
-<p># Ограничения уникальности
-unique_together = [„title“, „author“]</p>
-<p># Индексы для оптимизации
-indexes = [</p>
-<blockquote>
-<div><p>models.Index(fields=[„title“]),
-models.Index(fields=[„author“, „price“]),</p>
-</div></blockquote>
-<p>]</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</div></blockquote>
+<p><strong>Пример на книге:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+   <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+   <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+   <span class="n">price</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span><span class="n">max_digits</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+   <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+      <span class="c1"># Имя таблицы в БД (по умолчанию: appname_modelname)</span>
+      <span class="n">db_table</span> <span class="o">=</span> <span class="s1">&#39;books&#39;</span>
+
+      <span class="c1"># Человеко-читаемые имена</span>
+      <span class="n">verbose_name</span> <span class="o">=</span> <span class="s1">&#39;Книга&#39;</span>
+      <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s1">&#39;Книги&#39;</span>
+
+      <span class="c1"># Сортировка по умолчанию</span>
+      <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;-price&#39;</span><span class="p">]</span>  <span class="c1"># по названию (возр.), затем по цене (убыв.)</span>
+
+      <span class="c1"># Права доступа</span>
+      <span class="n">permissions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;can_mark_returned&#39;</span><span class="p">,</span> <span class="s1">&#39;Set book as returned&#39;</span><span class="p">),</span>
+      <span class="p">]</span>
+
+      <span class="c1"># Ограничения уникальности</span>
+      <span class="n">unique_together</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;author&#39;</span><span class="p">]</span>
+
+      <span class="c1"># Индексы для оптимизации</span>
+      <span class="n">indexes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">models</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]),</span>
+            <span class="n">models</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">]),</span>
+      <span class="p">]</span>
+</pre></div>
+</div>
 </section>
 <section id="str">
 <h4>__str__<a class="headerlink" href="#str" title="Ссылка на этот заголовок"></a></h4>
 <p>Метод __str__ определяет строковое представление объекта. Это то, что ты видишь когда объект выводится в консоли, админке, формах и т.д. Без __str__ в админке будут отображаться объекты как «Book object (1)», что не информативно.</p>
-<p><strong>Пример на книге:</strong>
-.. code-block:: python</p>
-<blockquote>
-<div><p># Плохо - без __str__
-class Book(models.Model):</p>
-<blockquote>
-<div><p>title = models.CharField(max_length=100)</p>
-</div></blockquote>
-<p># В админке: «Book object (1)»</p>
-<p># Хорошо - с __str__
-class Book(models.Model):</p>
-<blockquote>
-<div><p>title = models.CharField(max_length=100)</p>
-<dl class="simple">
-<dt>def __str__(self):</dt><dd><p>return self.title</p>
-</dd>
-</dl>
-</div></blockquote>
-<p># В админке: «Война и мир»</p>
-</div></blockquote>
+<p><strong>Пример на книге:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Плохо - без __str__</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+   <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># В админке: &quot;Book object (1)&quot;</span>
+
+<span class="c1"># Хорошо - с __str__</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+   <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+   <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+
+<span class="c1"># В админке: &quot;Война и мир&quot;</span>
+</pre></div>
+</div>
 <p>После редактирования базы данных нужно создать и применить миграции:</p>
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Создание миграций
 python manage.py makemigrations

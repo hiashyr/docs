@@ -21,7 +21,8 @@
       <script src="_static/translations.js?v=9bfe3ffa"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
-    <link rel="search" title="Поиск" href="search.html" /> 
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="auth.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,15 +45,38 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
               <p class="caption" role="heading"><span class="caption-text">Пошаговое руководство:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Настройка окружения и установка Django</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project-structure.html">Создание структуры проекта ekz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project-structure.html">Создание структуры проекта</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models.html">Создание моделей базы данных</a></li>
 <li class="toctree-l1"><a class="reference internal" href="views.html">Создание представлений (Views)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="templates.html">Создание HTML шаблонов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forms.html">Работа с формами в Django</a></li>
 <li class="toctree-l1"><a class="reference internal" href="admin.html">Настройка админ-панели Django</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Работа с Git для локального репозитория</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Начало работы с Git</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Инициализация репозитория</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Базовые операции с файлами</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Добавление файлов в отслеживание</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Создание коммитов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Просмотр истории и изменений</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#django">Типичный рабочий процесс для Django проекта</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Игнорирование ненужных файлов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Первый коммит проекта</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">Отмена изменений</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Отмена незакоммиченных изменений</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Отмена коммитов</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -216,80 +240,20 @@ git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> <
 git<span class="w"> </span>revert<span class="w"> </span>COMMIT_HASH
 </pre></div>
 </div>
-</section>
-</section>
-<section id="id12">
-<h2>Практические примеры для Django<a class="headerlink" href="#id12" title="Ссылка на этот заголовок"></a></h2>
-<section id="id13">
-<h3>Добавление новой модели<a class="headerlink" href="#id13" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Создаем ветку для новой функциональности</span>
-git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature-user-model
-
-<span class="c1"># Добавляем файл модели</span>
-git<span class="w"> </span>add<span class="w"> </span>myapp/models.py
-
-<span class="c1"># Создаем миграции</span>
-git<span class="w"> </span>add<span class="w"> </span>myapp/migrations/0001_initial.py
-
-<span class="c1"># Коммитим изменения</span>
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add User model with profile fields&quot;</span>
-
-<span class="c1"># Возвращаемся в основную ветку и вливаем изменения</span>
-git<span class="w"> </span>checkout<span class="w"> </span>main
-git<span class="w"> </span>merge<span class="w"> </span>feature-user-model
-</pre></div>
-</div>
-</section>
-<section id="url">
-<h3>Добавление представлений и URL<a class="headerlink" href="#url" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature-views
-
-<span class="c1"># Добавляем views</span>
-git<span class="w"> </span>add<span class="w"> </span>myapp/views.py
-git<span class="w"> </span>add<span class="w"> </span>myapp/urls.py
-
-<span class="c1"># Добавляем шаблоны</span>
-git<span class="w"> </span>add<span class="w"> </span>myapp/templates/
-
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add user views and URL configuration&quot;</span>
-git<span class="w"> </span>checkout<span class="w"> </span>main
-git<span class="w"> </span>merge<span class="w"> </span>feature-views
-</pre></div>
-</div>
-</section>
-</section>
-<section id="id14">
-<h2>Полезные команды для ежедневной работы<a class="headerlink" href="#id14" title="Ссылка на этот заголовок"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Показать текущий статус</span>
-git<span class="w"> </span>status
-
-<span class="c1"># Показать историю с графиком веток</span>
-git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph<span class="w"> </span>--all
-
-<span class="c1"># Показать кто менял файл</span>
-git<span class="w"> </span>blame<span class="w"> </span>settings.py
-
-<span class="c1"># Поиск в истории коммитов</span>
-git<span class="w"> </span>log<span class="w"> </span>--grep<span class="o">=</span><span class="s2">&quot;model&quot;</span>
-
-<span class="c1"># Показать изменения между ветками</span>
-git<span class="w"> </span>diff<span class="w"> </span>main..feature-branch
-</pre></div>
-</div>
-</section>
-<section id="git-django">
-<h2>Советы по работе с Git в Django проекте<a class="headerlink" href="#git-django" title="Ссылка на этот заголовок"></a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Предупреждение</p>
 <p>Команда <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--hard</span></code> используетя для перехода к ближашему коммиту и безвозвратно удаляет изменения. Используйте осторожно!</p>
 </div>
 </section>
 </section>
+</section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
+        <a href="auth.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+    </div>
 
   <hr/>
 
