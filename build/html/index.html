@@ -83,16 +83,15 @@
   <section id="django">
 <h1>Руководство по созданию русского Django веб-приложения<a class="headerlink" href="#django" title="Ссылка на этот заголовок"></a></h1>
 <p>Добро пожаловать в подробное руководство по созданию веб-приложения на Django!
-Это пошаговая инструкция, которая проведет вас через весь процесс разработки.</p>
+Это пошаговая инструкция, которая проведет вас через весь создания проекта.</p>
 <section id="id1">
 <h2>Быстрый старт<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h2>
-<p>Если вы только начинаете, рекомендуем следовать этому порядку:</p>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="setup.html"><span class="doc">Настройка окружения и установка Django</span></a> - Настройка окружения и установка Django</p></li>
 <li><p><a class="reference internal" href="project-structure.html"><span class="doc">Создание структуры проекта</span></a> - Создание структуры проекта</p></li>
 <li><p><a class="reference internal" href="models.html"><span class="doc">Создание моделей базы данных</span></a> - Создание моделей базы данных</p></li>
-<li><p><a class="reference internal" href="views.html"><span class="doc">Создание представлений (Views)</span></a> - Написание представлений (views)</p></li>
 <li><p><a class="reference internal" href="templates.html"><span class="doc">Создание HTML шаблонов</span></a> - Создание шаблонов</p></li>
+<li><p><a class="reference internal" href="views.html"><span class="doc">Создание представлений (Views)</span></a> - Написание представлений (views)</p></li>
 <li><p><a class="reference internal" href="urls.html"><span class="doc">Настройка URL-маршрутов</span></a> - Настройка маршрутизации (URLs)</p></li>
 <li><p><a class="reference internal" href="forms.html"><span class="doc">Работа с формами в Django</span></a> - Работа с формами</p></li>
 <li><p><a class="reference internal" href="admin.html"><span class="doc">Настройка админ-панели Django</span></a> - Настройка админ-панели</p></li>
@@ -118,49 +117,39 @@
 <li class="toctree-l2"><a class="reference internal" href="project-structure.html#django">Создание Django приложения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="project-structure.html#settings-py">Настройка settings.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="project-structure.html#id2">Создание папок для статических и медиа файлов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="project-structure.html#id3">Следующий шаг</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="models.html">Создание моделей базы данных</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="models.html#book">Модель Book</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#id2">Строковые поля</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#id3">Числовые поля</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#id4">Булевы поля</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#id5">Дата и время</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#id6">Файловые поля</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#id7">Специальные поля</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#id8">Связи между моделями</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#id9">Общие параметры для всех полей</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#meta-str">Класс Meta и __str__</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="views.html">Создание представлений (Views)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id1">Представление главной страницы</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id7">Представление регистрации пользователя</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id15">Представление входа в систему</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id25">Представление выхода из системы</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id32">Представление каталога с фильтрацией</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id43">Представление детальной страницы товара</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id47">Представление корзины пользователя</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id56">Представление добавления товара в корзину</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id65">Представление обновления количества товара в корзине</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id73">Представление удаления товара из корзины</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id81">Представление страницы контактов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id83">Представление оформления заказа</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id95">Представление страницы успешного заказа</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id102">Представление списка заказов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id109">Представление детальной страницы заказа</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#id117">Представление профиля пользователя</a></li>
+<li class="toctree-l2"><a class="reference internal" href="views.html#id1">Базовое представление для страницы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="views.html#id3">Простой импорт данных из БД</a></li>
+<li class="toctree-l2"><a class="reference internal" href="views.html#id4">Фильтрация данных из БД</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="templates.html">Создание HTML шаблонов</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="templates.html#header">Шаблон header (шапка сайта)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="templates.html#cart-html">Шаблон корзины (cart.html)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="templates.html#contacts-html">Шаблон страницы контактов (contacts.html)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="templates.html#login-html">Шаблон страницы авторизации (login.html)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="templates.html#catalog-html">Шаблон страницы каталога (catalog.html)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="templates.html#orders-html">Шаблон страницы заказов пользователя (orders.html)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="templates.html#base-html">Шаблон базового шаблона сайта (base.html)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="templates.html#main-page-html">Шаблон главной страницы (main_page.html)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id1">Базовая html-структура</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#css-js">Импорт css и js</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id2">Статика</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id3">Указание ссылок</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id4">Блок контента</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id5">Наследование</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id6">Итог</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id7">Использование данных из бд для передачи на фронт</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="urls.html#urls-py">Основной файл urls.py</a></li>
-<li class="toctree-l2"><a class="reference internal" href="urls.html#id9">Структура URL-адресов приложения</a></li>
-<li class="toctree-l2"><a class="reference internal" href="urls.html#id10">Особенности реализации</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forms.html">Работа с формами в Django</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="forms.html#id1">Основные концепции форм в Django</a></li>
 <li class="toctree-l2"><a class="reference internal" href="forms.html#customusercreationform">Класс CustomUserCreationForm</a></li>
@@ -194,11 +183,6 @@
 </ul>
 </li>
 </ul>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Примечание</p>
-<p>Это практическое руководство. После каждого раздела у вас будет
-работающая часть приложения!</p>
 </div>
 </section>
 </section>
