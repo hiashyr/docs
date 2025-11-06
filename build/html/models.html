@@ -23,7 +23,7 @@
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="search.html" />
     <link rel="next" title="Создание представлений (Views)" href="views.html" />
-    <link rel="prev" title="Создание структуры проекта ekz" href="project-structure.html" /> 
+    <link rel="prev" title="Создание структуры проекта" href="project-structure.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,95 +48,53 @@
               <p class="caption" role="heading"><span class="caption-text">Пошаговое руководство:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Настройка окружения и установка Django</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project-structure.html">Создание структуры проекта ekz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project-structure.html">Создание структуры проекта</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Создание моделей базы данных</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#customuser">Модель CustomUser</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#abstractuser">Наследование от AbstractUser</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Переопределение стандартных полей</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#first-name">Поле first_name</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#last-name">Поле last_name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#book">Модель Book</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Строковые поля</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#charfield">CharField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#textfield">TextField</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Дополнительные поля пользователя</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#phone">Поле phone</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#address">Поле address</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#age">Поле age</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#birth-date">Поле birth_date</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#gender">Поле gender</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#city">Поле city</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#country">Поле country</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#occupation">Поле occupation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#avatar">Поле avatar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Числовые поля</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#integerfield">IntegerField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#decimalfield">DecimalField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#floatfield">FloatField</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#meta">Настройки модели Meta</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Методы модели</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#get-full-name">Метод get_full_name</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#str">Метод __str__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Булевы поля</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#booleanfield">BooleanField</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#settings-py">Настройка в settings.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Дата и время</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datetimefield">DateTimeField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datefield">DateField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#timefield">TimeField</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#category">Модель Category</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Создание модели</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#name">Поле name</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#description">Поле description</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#image">Поле image</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Настройки модели Meta</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Метод __str__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Файловые поля</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#imagefield">ImageField</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#product">Модель Product</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Создание модели</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Поле name</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Поле description</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#price">Поле price</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Поле image</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#category-foreignkey">Поле category (ForeignKey)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#created-at">Поле created_at</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">Настройки модели Meta</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">Метод __str__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Специальные поля</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#emailfield">EmailField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#urlfield">URLField</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#cartitem">Модель CartItem</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id14">Создание модели</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#user-foreignkey">Поле user (ForeignKey)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#product-foreignkey">Поле product (ForeignKey)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#quantity">Поле quantity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#added-at">Поле added_at</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Настройки модели Meta</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Метод __str__</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#get-total">Метод get_total</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Связи между моделями</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#foreignkey">ForeignKey</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#manytomanyfield">ManyToManyField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#onetoonefield">OneToOneField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">Общие параметры для всех полей</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#order">Модель Order</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id17">Создание модели</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#order-status-choices">Константа ORDER_STATUS_CHOICES</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id18">Поле user (ForeignKey)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#status">Поле status</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id19">Поле created_at</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#shipping-address">Поле shipping_address</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id20">Поле phone</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#email">Поле email</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#total-amount">Поле total_amount</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id21">Настройки модели Meta</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id22">Метод __str__</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#meta-str">Класс Meta и __str__</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#meta">Класс Meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#str">__str__</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#orderitem">Модель OrderItem</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id23">Создание модели</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#order-foreignkey">Поле order (ForeignKey)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id24">Поле product (ForeignKey)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id25">Поле quantity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id26">Поле price</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id27">Настройки модели Meta</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id28">Метод __str__</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id29">Метод get_total</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id30">Импорт</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id31">Создание миграций</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="views.html">Создание представлений (Views)</a></li>
@@ -144,6 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forms.html">Работа с формами в Django</a></li>
 <li class="toctree-l1"><a class="reference internal" href="admin.html">Настройка админ-панели Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">Работа с Git для локального репозитория</a></li>
 </ul>
 
         </div>
@@ -171,764 +130,347 @@
              
   <section id="id1">
 <h1>Создание моделей базы данных<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h1>
-<p>В этом разделе мы создадим модели для нашего приложения. Начнем с кастомной модели пользователя, которая расширяет стандартную модель Django.</p>
-<section id="customuser">
-<h2>Модель CustomUser<a class="headerlink" href="#customuser" title="Ссылка на этот заголовок"></a></h2>
-<p>Модель <code class="docutils literal notranslate"><span class="pre">CustomUser</span></code> наследуется от <code class="docutils literal notranslate"><span class="pre">AbstractUser</span></code> и добавляет дополнительные поля для хранения расширенной информации о пользователях.</p>
-<section id="abstractuser">
-<h3>Наследование от AbstractUser<a class="headerlink" href="#abstractuser" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CustomUser</span><span class="p">(</span><span class="n">AbstractUser</span><span class="p">):</span>
+<p>В этом разделе мы создадим модели для нашего приложения и разберем поля. Разберем на примере простой модели Book</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Расширение для VSCode «Django» сильно упрощает работу с бд. Благодаря ему можно использовать встроенные конструкции и уже в них вносить корректировки</p>
+</div>
+<section id="book">
+<h2>Модель Book<a class="headerlink" href="#book" title="Ссылка на этот заголовок"></a></h2>
+<p>Первым делом нужно обозначить модель, указав ее название. Также нужно помнить, что модели и поля бд находятся в моделе «models». Поэтому обращение к ним происходит через models.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Book</span> <span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 </pre></div>
 </div>
-<p>Модель наследуется от <code class="docutils literal notranslate"><span class="pre">AbstractUser</span></code> - базового класса Django для пользователей. Это дает нам все стандартные поля (username, email, password, etc.) и методы, которые мы можем расширить.</p>
-</section>
+<p>Дальше нужно обозначить поля БД. Они различаются по типам данных, которые хранят.</p>
 <section id="id2">
-<h3>Переопределение стандартных полей<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h3>
-<section id="first-name">
-<h4>Поле first_name<a class="headerlink" href="#first-name" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
-    <span class="n">_</span><span class="p">(</span><span class="s1">&#39;first name&#39;</span><span class="p">),</span>
-    <span class="n">max_length</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
-    <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит имя пользователя.</p>
+<h3>Строковые поля<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h3>
+<section id="charfield">
+<h4>CharField<a class="headerlink" href="#charfield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для хранения строк фиксированной или переменной длины.</p>
 <p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">_('first</span> <span class="pre">name')</span></code> - переводимый ярлык для интернационализации
-- <code class="docutils literal notranslate"><span class="pre">max_length=150</span></code> - максимальная длина 150 символов
-- <code class="docutils literal notranslate"><span class="pre">null=True</span></code> - разрешает NULL значения в базе данных
-- <code class="docutils literal notranslate"><span class="pre">blank=True</span></code> - поле может быть пустым в формах</p>
+- <code class="docutils literal notranslate"><span class="pre">max_length</span></code> (обязательный) - максимальная длина строки
+- <code class="docutils literal notranslate"><span class="pre">blank</span></code> - разрешить пустые значения в формах
+- <code class="docutils literal notranslate"><span class="pre">null</span></code> - разрешить NULL в базе данных</p>
+<p><strong>Пример:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>name = models.CharField(max_length=100)
+title = models.CharField(max_length=200, blank=True)</p>
+</div></blockquote>
 </section>
-<section id="last-name">
-<h4>Поле last_name<a class="headerlink" href="#last-name" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
-    <span class="n">_</span><span class="p">(</span><span class="s1">&#39;last name&#39;</span><span class="p">),</span>
-    <span class="n">max_length</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
-    <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит фамилию пользователя.</p>
+<section id="textfield">
+<h4>TextField<a class="headerlink" href="#textfield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для хранения больших текстов.</p>
 <p><strong>Параметры:</strong>
-- Те же параметры, что и у <code class="docutils literal notranslate"><span class="pre">first_name</span></code> для согласованности
-- Позволяет пользователям не указывать фамилию, если они не хотят</p>
+- <code class="docutils literal notranslate"><span class="pre">blank</span></code> - разрешить пустые значения
+- <code class="docutils literal notranslate"><span class="pre">null</span></code> - разрешить NULL</p>
+<p><strong>Пример:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>description = models.TextField()
+content = models.TextField(blank=True)</p>
+</div></blockquote>
 </section>
 </section>
 <section id="id3">
-<h3>Дополнительные поля пользователя<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h3>
-<section id="phone">
-<h4>Поле phone<a class="headerlink" href="#phone" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">phone</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
-    <span class="n">_</span><span class="p">(</span><span class="s1">&#39;phone number&#39;</span><span class="p">),</span>
-    <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-    <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит номер телефона пользователя.</p>
+<h3>Числовые поля<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h3>
+<section id="integerfield">
+<h4>IntegerField<a class="headerlink" href="#integerfield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для хранения целых чисел.</p>
 <p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">max_length=20</span></code> - достаточно для международных номеров
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - поле необязательное
-- Используется <code class="docutils literal notranslate"><span class="pre">CharField</span></code> так как номер телефона может содержать символы (+, -, пробелы)</p>
+- <code class="docutils literal notranslate"><span class="pre">blank</span></code> - разрешить пустые значения
+- <code class="docutils literal notranslate"><span class="pre">null</span></code> - разрешить NULL
+- <code class="docutils literal notranslate"><span class="pre">default</span></code> - значение по умолчанию</p>
+<p><strong>Пример:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>age = models.IntegerField()
+quantity = models.IntegerField(default=0)</p>
+</div></blockquote>
 </section>
-<section id="address">
-<h4>Поле address<a class="headerlink" href="#address" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">address</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span>
-    <span class="n">_</span><span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">),</span>
-    <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит полный адрес пользователя.</p>
+<section id="decimalfield">
+<h4>DecimalField<a class="headerlink" href="#decimalfield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для хранения десятичных чисел с фиксированной точностью. Отлично подходит для обозначения цены.</p>
 <p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">TextField</span></code> - подходит для длинного текста (адрес может быть многострочным)
-- <code class="docutils literal notranslate"><span class="pre">blank=True</span></code> - поле необязательное для заполнения
-- Не использует <code class="docutils literal notranslate"><span class="pre">null=True</span></code> так как TextField предпочитает пустые строки вместо NULL</p>
+- <code class="docutils literal notranslate"><span class="pre">max_digits</span></code> - максимальное количество цифр
+- <code class="docutils literal notranslate"><span class="pre">decimal_places</span></code> - количество знаков после запятой
+- <code class="docutils literal notranslate"><span class="pre">default</span></code> - значение по умолчанию</p>
+<p><strong>Пример:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>price = models.DecimalField(max_digits=10, decimal_places=2)
+rating = models.DecimalField(max_digits=3, decimal_places=1, default=0.0)</p>
+</div></blockquote>
 </section>
-<section id="age">
-<h4>Поле age<a class="headerlink" href="#age" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">age</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span>
-    <span class="n">_</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">),</span>
-    <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит возраст пользователя в годах.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">IntegerField</span></code> - для целочисленных значений
-- <code class="docutils literal notranslate"><span class="pre">null=True,</span> <span class="pre">blank=True</span></code> - возраст может быть не указан
-- Может вычисляться автоматически из <code class="docutils literal notranslate"><span class="pre">birth_date</span></code></p>
+<section id="floatfield">
+<h4>FloatField<a class="headerlink" href="#floatfield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для хранения чисел с плавающей точкой.</p>
+<p><strong>Пример:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>temperature = models.FloatField()
+percentage = models.FloatField(default=0.0)</p>
+</div></blockquote>
 </section>
-<section id="birth-date">
-<h4>Поле birth_date<a class="headerlink" href="#birth-date" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">birth_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span>
-    <span class="n">_</span><span class="p">(</span><span class="s1">&#39;birth date&#39;</span><span class="p">),</span>
-    <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит дату рождения пользователя.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">DateField</span></code> - специализированное поле для дат
-- <code class="docutils literal notranslate"><span class="pre">null=True,</span> <span class="pre">blank=True</span></code> - необязательное поле
-- Позволяет точно хранить дату рождения для различных вычислений</p>
-</section>
-<section id="gender">
-<h4>Поле gender<a class="headerlink" href="#gender" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">GENDER_CHOICES</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s1">&#39;male&#39;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Male&#39;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;female&#39;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Female&#39;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;other&#39;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Other&#39;</span><span class="p">)),</span>
-<span class="p">]</span>
-<span class="n">gender</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
-    <span class="n">_</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">),</span>
-    <span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-    <span class="n">choices</span><span class="o">=</span><span class="n">GENDER_CHOICES</span><span class="p">,</span>
-    <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит пол пользователя с предопределенными вариантами.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">choices=GENDER_CHOICES</span></code> - ограничивает ввод предопределенными значениями
-- <code class="docutils literal notranslate"><span class="pre">max_length=10</span></code> - достаточно для самых длинных вариантов
-- <code class="docutils literal notranslate"><span class="pre">blank=True</span></code> - пользователь может не указывать пол
-- Переводимые варианты для интернационализации</p>
-</section>
-<section id="city">
-<h4>Поле city<a class="headerlink" href="#city" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">city</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
-    <span class="n">_</span><span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">),</span>
-    <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит город проживания пользователя.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">max_length=100</span></code> - достаточно для большинства названий городов
-- <code class="docutils literal notranslate"><span class="pre">blank=True</span></code> - необязательное поле</p>
-</section>
-<section id="country">
-<h4>Поле country<a class="headerlink" href="#country" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">country</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
-    <span class="n">_</span><span class="p">(</span><span class="s1">&#39;country&#39;</span><span class="p">),</span>
-    <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит страну проживания пользователя.</p>
-<p><strong>Параметры:</strong>
-- Аналогично полю <code class="docutils literal notranslate"><span class="pre">city</span></code>
-- Может быть связано со справочником стран в будущем</p>
-</section>
-<section id="occupation">
-<h4>Поле occupation<a class="headerlink" href="#occupation" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">occupation</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
-    <span class="n">_</span><span class="p">(</span><span class="s1">&#39;occupation&#39;</span><span class="p">),</span>
-    <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">blank</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит профессию или род занятий пользователя.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">max_length=100</span></code> - достаточно для большинства профессий
-- <code class="docutils literal notranslate"><span class="pre">blank=True</span></code> - необязательное поле</p>
-</section>
-<section id="avatar">
-<h4>Поле avatar<a class="headerlink" href="#avatar" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">avatar</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span>
-    <span class="n">_</span><span class="p">(</span><span class="s1">&#39;avatar&#39;</span><span class="p">),</span>
-    <span class="n">upload_to</span><span class="o">=</span><span class="s1">&#39;avatars/&#39;</span><span class="p">,</span>
-    <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">null</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит аватар (изображение профиля) пользователя.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">ImageField</span></code> - специализированное поле для изображений
-- <code class="docutils literal notranslate"><span class="pre">upload_to='avatars/'</span></code> - файлы сохраняются в папку avatars/
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - аватар не обязателен
-- Требует установки Pillow для работы с изображениями</p>
-</section>
-</section>
-<section id="meta">
-<h3>Настройки модели Meta<a class="headerlink" href="#meta" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
-    <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
-    <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Класс Meta содержит метаданные модели.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">verbose_name</span></code> - человекочитаемое имя в единственном числе
-- <code class="docutils literal notranslate"><span class="pre">verbose_name_plural</span></code> - человекочитаемое имя во множественном числе
-- Оба параметра используют переводимые строки для интернационализации</p>
 </section>
 <section id="id4">
-<h3>Методы модели<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h3>
-<section id="get-full-name">
-<h4>Метод get_full_name<a class="headerlink" href="#get-full-name" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Возвращает полное имя пользователя.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s1">&#39;</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Возвращает полное имя пользователя в формате «Имя Фамилия».</p>
-<p><strong>Особенности:</strong>
-- Использует f-строки для форматирования
-- Возвращает строку с объединением имени и фамилии
-- Переопределяет стандартный метод Django</p>
-</section>
-<section id="str">
-<h4>Метод __str__<a class="headerlink" href="#str" title="Ссылка на этот заголовок"></a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="n">full_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_full_name</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">full_name</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
-        <span class="k">return</span> <span class="n">full_name</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Определяет строковое представление объекта.</p>
-<p><strong>Логика:</strong>
-- Сначала пытается вернуть полное имя
-- Если полное имя пустое (состоит только из пробелов), возвращает username
-- Гарантирует, что всегда будет непустое строковое представление</p>
+<h3>Булевы поля<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h3>
+<section id="booleanfield">
+<h4>BooleanField<a class="headerlink" href="#booleanfield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для хранения True/False значений.</p>
+<p><strong>Пример:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>is_active = models.BooleanField(default=True)
+is_published = models.BooleanField(default=False)</p>
+</div></blockquote>
 </section>
 </section>
-<section id="settings-py">
-<h3>Настройка в settings.py<a class="headerlink" href="#settings-py" title="Ссылка на этот заголовок"></a></h3>
-<p>Чтобы Django использовал нашу кастомную модель, нужно добавить в <code class="docutils literal notranslate"><span class="pre">settings.py</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">AUTH_USER_MODEL</span> <span class="o">=</span> <span class="s1">&#39;user_auth.CustomUser&#39;</span>
-</pre></div>
-</div>
-<p>Эта настройка указывает Django использовать нашу модель вместо стандартной User.</p>
-</section>
-</section>
-<section id="category">
-<h2>Модель Category<a class="headerlink" href="#category" title="Ссылка на этот заголовок"></a></h2>
-<p>Модель <code class="docutils literal notranslate"><span class="pre">Category</span></code> представляет категории товаров в нашем приложении.</p>
 <section id="id5">
-<h3>Создание модели<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Category</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</pre></div>
-</div>
-<p>Базовый класс для создания модели базы данных. Каждая категория будет отдельной записью в таблице.</p>
-</section>
-<section id="name">
-<h3>Поле name<a class="headerlink" href="#name" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит название категории.</p>
+<h3>Дата и время<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h3>
+<section id="datetimefield">
+<h4>DateTimeField<a class="headerlink" href="#datetimefield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для хранения даты и времени.</p>
 <p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">_('name')</span></code> - переводимый ярлык для интернационализации
-- <code class="docutils literal notranslate"><span class="pre">max_length=100</span></code> - максимальная длина названия 100 символов
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - поле может быть пустым</p>
+- <code class="docutils literal notranslate"><span class="pre">auto_now</span></code> - автоматически устанавливать при сохранении
+- <code class="docutils literal notranslate"><span class="pre">auto_now_add</span></code> - автоматически устанавливать при создании</p>
+<p><strong>Пример:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>created_at = models.DateTimeField(auto_now_add=True)
+updated_at = models.DateTimeField(auto_now=True)</p>
+</div></blockquote>
 </section>
-<section id="description">
-<h3>Поле description<a class="headerlink" href="#description" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит подробное описание категории.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">TextField</span></code> - подходит для длинных текстовых описаний
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - описание не обязательно для заполнения</p>
+<section id="datefield">
+<h4>DateField<a class="headerlink" href="#datefield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для хранения только даты (без времени).</p>
+<p><strong>Пример:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>birth_date = models.DateField()
+event_date = models.DateField(auto_now_add=True)</p>
+</div></blockquote>
 </section>
-<section id="image">
-<h3>Поле image<a class="headerlink" href="#image" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">),</span> <span class="n">upload_to</span><span class="o">=</span><span class="s1">&#39;categories/&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит изображение категории.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">ImageField</span></code> - поле для загрузки изображений
-- <code class="docutils literal notranslate"><span class="pre">upload_to='categories/'</span></code> - изображения сохраняются в папку categories/
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - категория может быть без изображения</p>
+<section id="timefield">
+<h4>TimeField<a class="headerlink" href="#timefield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для хранения только времени (без даты).</p>
+<p><strong>Пример:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>start_time = models.TimeField()
+end_time = models.TimeField()</p>
+</div></blockquote>
+</section>
 </section>
 <section id="id6">
-<h3>Настройки модели Meta<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
-    <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
-    <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;categories&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Задает человекочитаемые имена для админ-панели.</p>
+<h3>Файловые поля<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h3>
+<section id="imagefield">
+<h4>ImageField<a class="headerlink" href="#imagefield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для загрузки изображений (требует Pillow).</p>
 <p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">verbose_name</span></code> - имя в единственном числе («категория»)
-- <code class="docutils literal notranslate"><span class="pre">verbose_name_plural</span></code> - имя во множественном числе («категории»)</p>
+- <code class="docutils literal notranslate"><span class="pre">upload_to</span></code> - путь для сохранения изображений
+- <code class="docutils literal notranslate"><span class="pre">height_field</span></code> - поле для автоматического сохранения высоты
+- <code class="docutils literal notranslate"><span class="pre">width_field</span></code> - поле для автоматического сохранения ширины</p>
+<p><strong>Пример:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>avatar = models.ImageField(upload_to=“uploads/“)
+photo = models.ImageField(</p>
+<blockquote>
+<div><p>upload_to=“uploads/“,
+height_field=“image_height“,
+width_field=“image_width“</p>
+</div></blockquote>
+<p>)</p>
+</div></blockquote>
+</section>
 </section>
 <section id="id7">
-<h3>Метод __str__<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Определяет строковое представление объекта.</p>
-<p><strong>Логика:</strong>
-- Возвращает название категории, если оно есть
-- Если название пустое, возвращает пустую строку
-- Гарантирует, что метод никогда не вернет None</p>
+<h3>Специальные поля<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h3>
+<section id="emailfield">
+<h4>EmailField<a class="headerlink" href="#emailfield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для email адресов с автоматической валидацией.</p>
+<p><strong>Пример:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>email = models.EmailField(max_length=254)</p>
+</div></blockquote>
+</section>
+<section id="urlfield">
+<h4>URLField<a class="headerlink" href="#urlfield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для URL адресов с автоматической валидацией.</p>
+<p><strong>Пример:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p>website = models.URLField(max_length=200)
+profile_url = models.URLField(max_length=200, blank=True)</p>
+</div></blockquote>
 </section>
 </section>
-<section id="product">
-<h2>Модель Product<a class="headerlink" href="#product" title="Ссылка на этот заголовок"></a></h2>
-<p>Модель <code class="docutils literal notranslate"><span class="pre">Product</span></code> представляет товары в нашем приложении. Каждый товар принадлежит к определенной категории.</p>
 <section id="id8">
-<h3>Создание модели<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Product</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</pre></div>
-</div>
-<p>Базовый класс для создания модели товаров. Каждый товар будет отдельной записью в таблице.</p>
+<h3>Связи между моделями<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h3>
+<section id="foreignkey">
+<h4>ForeignKey<a class="headerlink" href="#foreignkey" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для связи «один-ко-многим» с другой моделью.</p>
+<p><strong>Параметры:</strong>
+- <code class="docutils literal notranslate"><span class="pre">to</span></code> - модель для связи
+- <code class="docutils literal notranslate"><span class="pre">on_delete</span></code> - поведение при удалении связанного объекта
+- <code class="docutils literal notranslate"><span class="pre">related_name</span></code> - имя для обратной связи</p>
+<p><strong>У одного автора может быть написано несколько книг:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><dl class="simple">
+<dt>class Author(models.Model):</dt><dd><p>name = models.CharField(max_length=100)</p>
+</dd>
+<dt>class Book(models.Model):</dt><dd><p>title = models.CharField(max_length=100)
+author = models.ForeignKey(Author, on_delete=models.CASCADE)</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+<section id="manytomanyfield">
+<h4>ManyToManyField<a class="headerlink" href="#manytomanyfield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для связи «многие-ко-многим» с другой моделью.</p>
+<p><strong>Параметры:</strong>
+- <code class="docutils literal notranslate"><span class="pre">through</span></code> - промежуточная модель для дополнительных полей</p>
+<p><strong>Книга может иметь несколько авторов, и автор может написать несколько книг:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><dl class="simple">
+<dt>class Book(models.Model):</dt><dd><p>title = models.CharField(max_length=100)
+authors = models.ManyToManyField(„Author“)</p>
+</dd>
+<dt>class Author(models.Model):</dt><dd><p>name = models.CharField(max_length=100)</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+<section id="onetoonefield">
+<h4>OneToOneField<a class="headerlink" href="#onetoonefield" title="Ссылка на этот заголовок"></a></h4>
+<p>Поле для связи «один-к-одному» с другой моделью.</p>
+<p><strong>Один пользователь → один профиль:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><dl class="simple">
+<dt>class User(models.Model):</dt><dd><p>username = models.CharField(max_length=100)</p>
+</dd>
+<dt>class Profile(models.Model):</dt><dd><p>user = models.OneToOneField(User, on_delete=models.CASCADE)
+bio = models.TextField()</p>
+</dd>
+</dl>
+</div></blockquote>
 </section>
 <section id="id9">
-<h3>Поле name<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит название товара.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">_('name')</span></code> - переводимый ярлык для интернационализации
-- <code class="docutils literal notranslate"><span class="pre">max_length=200</span></code> - максимальная длина названия 200 символов (больше чем у категории)
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - поле может быть пустым</p>
-</section>
-<section id="id10">
-<h3>Поле description<a class="headerlink" href="#id10" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит подробное описание товара.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">TextField</span></code> - подходит для длинных текстовых описаний товаров
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - описание не обязательно для заполнения</p>
-</section>
-<section id="price">
-<h3>Поле price<a class="headerlink" href="#price" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">price</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">),</span> <span class="n">max_digits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит цену товара.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">DecimalField</span></code> - специализированное поле для денежных значений
-- <code class="docutils literal notranslate"><span class="pre">max_digits=10</span></code> - максимально 10 цифр (включая дробную часть)
-- <code class="docutils literal notranslate"><span class="pre">decimal_places=2</span></code> - 2 знака после запятой (копейки)
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - цена может быть не указана</p>
-</section>
-<section id="id11">
-<h3>Поле image<a class="headerlink" href="#id11" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">),</span> <span class="n">upload_to</span><span class="o">=</span><span class="s1">&#39;products/&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит изображение товара.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">ImageField</span></code> - поле для загрузки изображений товаров
-- <code class="docutils literal notranslate"><span class="pre">upload_to='products/'</span></code> - изображения сохраняются в папку products/
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - товар может быть без изображения</p>
-</section>
-<section id="category-foreignkey">
-<h3>Поле category (ForeignKey)<a class="headerlink" href="#category-foreignkey" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">category</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Category</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;products&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Связывает товар с категорией.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">Category</span></code> - модель, с которой устанавливается связь
-- <code class="docutils literal notranslate"><span class="pre">on_delete=models.SET_NULL</span></code> - при удалении категории товар остается, но связь обнуляется
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - товар может быть без категории
-- <code class="docutils literal notranslate"><span class="pre">related_name='products'</span></code> - обратная связь: category.products.all()</p>
-</section>
-<section id="created-at">
-<h3>Поле created_at<a class="headerlink" href="#created-at" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;created at&#39;</span><span class="p">),</span> <span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит дату и время создания товара.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">DateTimeField</span></code> - поле для хранения даты и времени
-- <code class="docutils literal notranslate"><span class="pre">auto_now_add=True</span></code> - автоматически устанавливает текущее время при создании
-- Не имеет <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - всегда заполняется автоматически</p>
-</section>
-<section id="id12">
-<h3>Настройки модели Meta<a class="headerlink" href="#id12" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
-    <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;product&#39;</span><span class="p">)</span>
-    <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;products&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Задает человекочитаемые имена для админ-панели.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">verbose_name</span></code> - имя в единственном числе («товар»)
-- <code class="docutils literal notranslate"><span class="pre">verbose_name_plural</span></code> - имя во множественном числе («товары»)</p>
-</section>
-<section id="id13">
-<h3>Метод __str__<a class="headerlink" href="#id13" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Определяет строковое представление объекта.</p>
-<p><strong>Логика:</strong>
-- Возвращает название товара, если оно есть
-- Если название пустое, возвращает пустую строку
-- Гарантирует корректное отображение в админ-панели</p>
+<h4>Общие параметры для всех полей<a class="headerlink" href="#id9" title="Ссылка на этот заголовок"></a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose_name</span></code> - человеко-читаемое имя поля</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">help_text</span></code> - текст подсказки для форм</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">choices</span></code> - ограничение возможных значений</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default</span></code> - значение по умолчанию</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unique</span></code> - требование уникальности значений</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">blank</span></code> - разрешение пустых значений в формах</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">null</span></code> - разрешение NULL в базе данных</p></li>
+</ul>
+<p><strong>Пример с общими параметрами:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><dl class="simple">
+<dt>STATUS_CHOICES = [</dt><dd><p>(„draft“, „Черновик“),
+(„published“, „Опубликовано“),
+(„archived“, „В архиве“),</p>
+</dd>
+</dl>
+<p>]</p>
+<dl class="simple">
+<dt>status = models.CharField(</dt><dd><p>max_length=20,
+choices=STATUS_CHOICES,
+default=“draft“,
+verbose_name=“Статус“,
+help_text=“Статус записи“</p>
+</dd>
+</dl>
+<p>)</p>
+</div></blockquote>
 </section>
 </section>
-<section id="cartitem">
-<h2>Модель CartItem<a class="headerlink" href="#cartitem" title="Ссылка на этот заголовок"></a></h2>
-<p>Модель <code class="docutils literal notranslate"><span class="pre">CartItem</span></code> представляет товары в корзине пользователя. Каждая запись соответствует одному товару в корзине с указанием количества.</p>
-<section id="id14">
-<h3>Создание модели<a class="headerlink" href="#id14" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CartItem</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</pre></div>
-</div>
-<p>Базовый класс для создания модели элементов корзины. Каждый элемент связывает пользователя с товаром и количеством.</p>
+<section id="meta-str">
+<h3>Класс Meta и __str__<a class="headerlink" href="#meta-str" title="Ссылка на этот заголовок"></a></h3>
+<section id="meta">
+<h4>Класс Meta<a class="headerlink" href="#meta" title="Ссылка на этот заголовок"></a></h4>
+<p>Класс Meta внутри модели - это способ задать «мета-информацию» о модели, которая не относится к отдельным полям, а описывает модель в целом</p>
+<p><strong>Пример на книге:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><dl>
+<dt>class Book(models.Model):</dt><dd><p>title = models.CharField(max_length=100)
+author = models.CharField(max_length=100)
+price = models.DecimalField(max_digits=6, decimal_places=2)</p>
+<dl>
+<dt>class Meta:</dt><dd><p># Имя таблицы в БД (по умолчанию: appname_modelname)
+db_table = „books“</p>
+<p># Человеко-читаемые имена
+verbose_name = „Книга“
+verbose_name_plural = „Книги“</p>
+<p># Сортировка по умолчанию
+ordering = [„title“, „-price“]  # по названию (возр.), затем по цене (убыв.)</p>
+<p># Права доступа
+permissions = [</p>
+<blockquote>
+<div><p>(„can_mark_returned“, „Set book as returned“),</p>
+</div></blockquote>
+<p>]</p>
+<p># Ограничения уникальности
+unique_together = [„title“, „author“]</p>
+<p># Индексы для оптимизации
+indexes = [</p>
+<blockquote>
+<div><p>models.Index(fields=[„title“]),
+models.Index(fields=[„author“, „price“]),</p>
+</div></blockquote>
+<p>]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
 </section>
-<section id="user-foreignkey">
-<h3>Поле user (ForeignKey)<a class="headerlink" href="#user-foreignkey" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">CustomUser</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;cart_items&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Связывает элемент корзины с пользователем.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">CustomUser</span></code> - модель пользователя, с которой устанавливается связь
-- <code class="docutils literal notranslate"><span class="pre">on_delete=models.CASCADE</span></code> - при удалении пользователя удаляются все его элементы корзины
-- <code class="docutils literal notranslate"><span class="pre">related_name='cart_items'</span></code> - обратная связь: user.cart_items.all()
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - элемент корзины может быть без пользователя (для гостей)</p>
-</section>
-<section id="product-foreignkey">
-<h3>Поле product (ForeignKey)<a class="headerlink" href="#product-foreignkey" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">product</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Связывает элемент корзины с товаром.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">Product</span></code> - модель товара, с которой устанавливается связь
-- <code class="docutils literal notranslate"><span class="pre">on_delete=models.CASCADE</span></code> - при удалении товара удаляются все связанные элементы корзины
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - элемент корзины может быть без товара</p>
-</section>
-<section id="quantity">
-<h3>Поле quantity<a class="headerlink" href="#quantity" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">quantity</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;quantity&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит количество товара в корзине.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">PositiveIntegerField</span></code> - поле для положительных целых чисел (не может быть отрицательным)
-- <code class="docutils literal notranslate"><span class="pre">default=1</span></code> - значение по умолчанию 1 товар
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - количество может быть не указано</p>
-</section>
-<section id="added-at">
-<h3>Поле added_at<a class="headerlink" href="#added-at" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">added_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;added at&#39;</span><span class="p">),</span> <span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит дату и время добавления товара в корзину.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">DateTimeField</span></code> - поле для хранения даты и времени
-- <code class="docutils literal notranslate"><span class="pre">auto_now_add=True</span></code> - автоматически устанавливает текущее время при создании
-- Полезно для анализа поведения пользователей и очистки старых корзин</p>
-</section>
-<section id="id15">
-<h3>Настройки модели Meta<a class="headerlink" href="#id15" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
-    <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;cart item&#39;</span><span class="p">)</span>
-    <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;cart items&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Задает человекочитаемые имена для админ-панели.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">verbose_name</span></code> - имя в единственном числе («элемент корзины»)
-- <code class="docutils literal notranslate"><span class="pre">verbose_name_plural</span></code> - имя во множественном числе («элементы корзины»)</p>
-</section>
-<section id="id16">
-<h3>Метод __str__<a class="headerlink" href="#id16" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Определяет строковое представление объекта.</p>
-<p><strong>Логика:</strong>
-- Возвращает строку в формате «количество x название товара»
-- Проверяет наличие товара перед обращением к его имени
-- Пример: «2 x Роза красная»</p>
-</section>
-<section id="get-total">
-<h3>Метод get_total<a class="headerlink" href="#get-total" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_total</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">price</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">price</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span>
-    <span class="k">return</span> <span class="mi">0</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Вычисляет общую стоимость элемента корзины.</p>
-<p><strong>Логика:</strong>
-- Проверяет наличие товара, цены и количества
-- Умножает цену товара на количество
-- Возвращает 0 если какие-то данные отсутствуют
-- Полезно для отображения суммы в корзине</p>
-</section>
-</section>
-<section id="order">
-<h2>Модель Order<a class="headerlink" href="#order" title="Ссылка на этот заголовок"></a></h2>
-<p>Модель <code class="docutils literal notranslate"><span class="pre">Order</span></code> представляет заказы пользователей. Каждый заказ содержит информацию о статусе, доставке и общей стоимости.</p>
-<section id="id17">
-<h3>Создание модели<a class="headerlink" href="#id17" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Order</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</pre></div>
-</div>
-<p>Базовый класс для создания модели заказов. Каждый заказ содержит полную информацию о покупке.</p>
-</section>
-<section id="order-status-choices">
-<h3>Константа ORDER_STATUS_CHOICES<a class="headerlink" href="#order-status-choices" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ORDER_STATUS_CHOICES</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s1">&#39;pending&#39;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Pending&#39;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;processing&#39;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Processing&#39;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;shipped&#39;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Shipped&#39;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;delivered&#39;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Delivered&#39;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;cancelled&#39;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Cancelled&#39;</span><span class="p">)),</span>
-<span class="p">]</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Определяет возможные статусы заказа.</p>
-<p><strong>Варианты:</strong>
-- <code class="docutils literal notranslate"><span class="pre">pending</span></code> - ожидает обработки
-- <code class="docutils literal notranslate"><span class="pre">processing</span></code> - в процессе обработки
-- <code class="docutils literal notranslate"><span class="pre">shipped</span></code> - отправлен
-- <code class="docutils literal notranslate"><span class="pre">delivered</span></code> - доставлен
-- <code class="docutils literal notranslate"><span class="pre">cancelled</span></code> - отменен</p>
-</section>
-<section id="id18">
-<h3>Поле user (ForeignKey)<a class="headerlink" href="#id18" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">CustomUser</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;orders&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Связывает заказ с пользователем.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">CustomUser</span></code> - модель пользователя
-- <code class="docutils literal notranslate"><span class="pre">on_delete=models.SET_NULL</span></code> - при удалении пользователя заказ сохраняется, но связь обнуляется
-- <code class="docutils literal notranslate"><span class="pre">related_name='orders'</span></code> - обратная связь: user.orders.all()
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - заказ может быть без пользователя (гостевой заказ)</p>
-</section>
-<section id="status">
-<h3>Поле status<a class="headerlink" href="#status" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">ORDER_STATUS_CHOICES</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;pending&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит текущий статус заказа.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">max_length=20</span></code> - достаточно для самых длинных статусов
-- <code class="docutils literal notranslate"><span class="pre">choices=ORDER_STATUS_CHOICES</span></code> - ограничивает ввод предопределенными статусами
-- <code class="docutils literal notranslate"><span class="pre">default='pending'</span></code> - новый заказ всегда создается со статусом «ожидает»
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - статус может быть не указан</p>
-</section>
-<section id="id19">
-<h3>Поле created_at<a class="headerlink" href="#id19" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;created at&#39;</span><span class="p">),</span> <span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит дату и время создания заказа.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">DateTimeField</span></code> - поле для хранения даты и времени
-- <code class="docutils literal notranslate"><span class="pre">auto_now_add=True</span></code> - автоматически устанавливает текущее время при создании
-- Важно для отслеживания истории заказов</p>
-</section>
-<section id="shipping-address">
-<h3>Поле shipping_address<a class="headerlink" href="#shipping-address" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">shipping_address</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;shipping address&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит адрес доставки заказа.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">TextField</span></code> - подходит для длинных адресов
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - адрес может быть не указан (для самовывоза)</p>
-</section>
-<section id="id20">
-<h3>Поле phone<a class="headerlink" href="#id20" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">phone</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит контактный телефон для заказа.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">max_length=20</span></code> - достаточно для международных номеров
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - телефон может быть не указан</p>
-</section>
-<section id="email">
-<h3>Поле email<a class="headerlink" href="#email" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">email</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит контактный email для заказа.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">EmailField</span></code> - специализированное поле для email с валидацией формата
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - email может быть не указан</p>
-</section>
-<section id="total-amount">
-<h3>Поле total_amount<a class="headerlink" href="#total-amount" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">total_amount</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;total amount&#39;</span><span class="p">),</span> <span class="n">max_digits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит общую стоимость заказа.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">DecimalField</span></code> - поле для денежных значений
-- <code class="docutils literal notranslate"><span class="pre">max_digits=10,</span> <span class="pre">decimal_places=2</span></code> - поддерживает суммы до 99,999,999.99
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - сумма может рассчитываться позже</p>
-</section>
-<section id="id21">
-<h3>Настройки модели Meta<a class="headerlink" href="#id21" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
-    <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;order&#39;</span><span class="p">)</span>
-    <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;orders&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Задает человекочитаемые имена для админ-панели.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">verbose_name</span></code> - имя в единственном числе («заказ»)
-- <code class="docutils literal notranslate"><span class="pre">verbose_name_plural</span></code> - имя во множественном числе («заказы»)</p>
-</section>
-<section id="id22">
-<h3>Метод __str__<a class="headerlink" href="#id22" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Order #</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Определяет строковое представление объекта.</p>
-<p><strong>Логика:</strong>
-- Возвращает строку в формате «Order #номер - имя_пользователя»
-- Проверяет наличие пользователя перед обращением к username
-- Пример: «Order #15 - john_doe»</p>
-</section>
-</section>
-<section id="orderitem">
-<h2>Модель OrderItem<a class="headerlink" href="#orderitem" title="Ссылка на этот заголовок"></a></h2>
-<p>Модель <code class="docutils literal notranslate"><span class="pre">OrderItem</span></code> представляет отдельные товары в заказе. Каждая запись связывает заказ с конкретным товаром, его количеством и ценой на момент заказа.</p>
-<section id="id23">
-<h3>Создание модели<a class="headerlink" href="#id23" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OrderItem</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</pre></div>
-</div>
-<p>Базовый класс для создания модели элементов заказа. Каждый элемент сохраняет информацию о товаре, его количестве и цене в момент оформления заказа.</p>
-</section>
-<section id="order-foreignkey">
-<h3>Поле order (ForeignKey)<a class="headerlink" href="#order-foreignkey" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;items&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Связывает элемент заказа с родительским заказом.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">Order</span></code> - модель заказа, с которой устанавливается связь
-- <code class="docutils literal notranslate"><span class="pre">on_delete=models.CASCADE</span></code> - при удалении заказа удаляются все его элементы
-- <code class="docutils literal notranslate"><span class="pre">related_name='items'</span></code> - обратная связь: order.items.all()
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - элемент может существовать без заказа</p>
-</section>
-<section id="id24">
-<h3>Поле product (ForeignKey)<a class="headerlink" href="#id24" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">product</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Связывает элемент заказа с товаром.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">Product</span></code> - модель товара
-- <code class="docutils literal notranslate"><span class="pre">on_delete=models.SET_NULL</span></code> - при удалении товара элемент заказа сохраняется, но связь обнуляется
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - элемент может быть без товара
-- <strong>Важно:</strong> Сохранение элемента даже при удалении товара позволяет вести историю заказов</p>
-</section>
-<section id="id25">
-<h3>Поле quantity<a class="headerlink" href="#id25" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">quantity</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;quantity&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит количество товара в заказе.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">PositiveIntegerField</span></code> - поле для положительных целых чисел
-- <code class="docutils literal notranslate"><span class="pre">default=1</span></code> - значение по умолчанию 1 товар
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - количество может быть не указано</p>
-</section>
-<section id="id26">
-<h3>Поле price<a class="headerlink" href="#id26" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">price</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">),</span> <span class="n">max_digits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Хранит цену товара на момент оформления заказа.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">DecimalField</span></code> - поле для денежных значений
-- <code class="docutils literal notranslate"><span class="pre">max_digits=10,</span> <span class="pre">decimal_places=2</span></code> - поддерживает цены до 99,999,999.99
-- <code class="docutils literal notranslate"><span class="pre">blank=True,</span> <span class="pre">null=True</span></code> - цена может быть не указана
-- <strong>Важно:</strong> Сохранение цены отдельно позволяет отслеживать историю изменения цен</p>
-</section>
-<section id="id27">
-<h3>Настройки модели Meta<a class="headerlink" href="#id27" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
-    <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;order item&#39;</span><span class="p">)</span>
-    <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;order items&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Задает человекочитаемые имена для админ-панели.</p>
-<p><strong>Параметры:</strong>
-- <code class="docutils literal notranslate"><span class="pre">verbose_name</span></code> - имя в единственном числе («элемент заказа»)
-- <code class="docutils literal notranslate"><span class="pre">verbose_name_plural</span></code> - имя во множественном числе («элементы заказа»)</p>
-</section>
-<section id="id28">
-<h3>Метод __str__<a class="headerlink" href="#id28" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Определяет строковое представление объекта.</p>
-<p><strong>Логика:</strong>
-- Возвращает строку в формате «количество x название товара»
-- Проверяет наличие товара перед обращением к его имени
-- Пример: «2 x Букет роз»</p>
-</section>
-<section id="id29">
-<h3>Метод get_total<a class="headerlink" href="#id29" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_total</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">price</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">price</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span>
-    <span class="k">return</span> <span class="mi">0</span>
-</pre></div>
-</div>
-<p><strong>Назначение:</strong> Вычисляет общую стоимость элемента заказа.</p>
-<p><strong>Логика:</strong>
-- Умножает сохраненную цену на количество товара
-- Возвращает 0 если цена или количество отсутствуют
-- <strong>Важно:</strong> Использует сохраненную цену, а не текущую цену товара</p>
-</section>
-</section>
-<section id="id30">
-<h2>Импорт<a class="headerlink" href="#id30" title="Ссылка на этот заголовок"></a></h2>
-<p>Не забывайте про импорт!
-Обычный импорт выглядит таким образом:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractUser</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">django.db</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">django.utils.translation</span><span class="w"> </span><span class="kn">import</span> <span class="n">gettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
-</pre></div>
-</div>
-</section>
-<section id="id31">
-<h2>Создание миграций<a class="headerlink" href="#id31" title="Ссылка на этот заголовок"></a></h2>
-<p>После создания модели выполните:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>manage.py<span class="w"> </span>makemigrations
-python<span class="w"> </span>manage.py<span class="w"> </span>migrate
+<section id="str">
+<h4>__str__<a class="headerlink" href="#str" title="Ссылка на этот заголовок"></a></h4>
+<p>Метод __str__ определяет строковое представление объекта. Это то, что ты видишь когда объект выводится в консоли, админке, формах и т.д. Без __str__ в админке будут отображаться объекты как «Book object (1)», что не информативно.</p>
+<p><strong>Пример на книге:</strong>
+.. code-block:: python</p>
+<blockquote>
+<div><p># Плохо - без __str__
+class Book(models.Model):</p>
+<blockquote>
+<div><p>title = models.CharField(max_length=100)</p>
+</div></blockquote>
+<p># В админке: «Book object (1)»</p>
+<p># Хорошо - с __str__
+class Book(models.Model):</p>
+<blockquote>
+<div><p>title = models.CharField(max_length=100)</p>
+<dl class="simple">
+<dt>def __str__(self):</dt><dd><p>return self.title</p>
+</dd>
+</dl>
+</div></blockquote>
+<p># В админке: «Война и мир»</p>
+</div></blockquote>
+<p>После редактирования базы данных нужно создать и применить миграции:</p>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Создание миграций
+python manage.py makemigrations
+
+# Применение миграций
+python manage.py migrate
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Примечание</p>
-<p><strong>Важно:</strong> Все дополнительные поля сделаны необязательными, чтобы не нарушать работу существующих пользователей при добавлении полей.</p>
+<p>Перед использованием миграций обязательно делать коммит, потому что миграция может сломать базу данных так, что ее нельзя будет восстановить</p>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Предупреждение</p>
-<p>После изменения <code class="docutils literal notranslate"><span class="pre">AUTH_USER_MODEL</span></code> сложно вернуться к стандартной модели. Планируйте структуру заранее!</p>
-</div>
+</section>
+</section>
 </section>
 </section>
 
@@ -936,7 +478,7 @@ python<span class="w"> </span>manage.py<span class="w"> </span>migrate
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
-        <a href="project-structure.html" class="btn btn-neutral float-left" title="Создание структуры проекта ekz" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="project-structure.html" class="btn btn-neutral float-left" title="Создание структуры проекта" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
         <a href="views.html" class="btn btn-neutral float-right" title="Создание представлений (Views)" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -50,13 +50,11 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Настройка окружения и установка Django</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#python">Установка Python</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id1">Создание виртуального окружения</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Установка Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Установка Django и библиотек</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">Создание Django проекта</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Запуск сервера разработки</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Запуск проекта</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">Базовые команды Django</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">Установка зависимостей:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">Полезные команды для работы с виртуальным окружением</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">Следующий шаг</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Следующий шаг</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="project-structure.html">Создание структуры проекта ekz</a></li>
@@ -66,6 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="urls.html">Настройка URL-маршрутов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forms.html">Работа с формами в Django</a></li>
 <li class="toctree-l1"><a class="reference internal" href="admin.html">Настройка админ-панели Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">Работа с Git для локального репозитория</a></li>
 </ul>
 
         </div>
@@ -96,12 +95,7 @@
 <p>В этом разделе мы настроим окружение для разработки Django приложения на Windows.</p>
 <section id="python">
 <h2>Установка Python<a class="headerlink" href="#python" title="Ссылка на этот заголовок"></a></h2>
-<ol class="arabic simple">
-<li><p><strong>Скачайте Python</strong> с официального сайта:
-<a class="reference external" href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p></li>
-<li><p><strong>При установке отметьте</strong> «Add Python to PATH»</p></li>
-<li><p><strong>Проверьте установку</strong> в командной строке:</p></li>
-</ol>
+<p>1.. <strong>Проверьте установку</strong> в командной строке:</p>
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>python --version
 # Должно показать: Python 3.x.x
 
@@ -126,9 +120,12 @@ venv\Scripts\activate
 # В командной строке должно появиться (venv)
 </pre></div>
 </div>
+<p>Если команда не работает, то можно использовать сам файл активации виртуального окружения. Для этого нужно просто перекинуть его в терминал и нажать «Enter»:</p>
+<a class="reference internal image-reference" href="_images/venv.png"><img alt="Архитектура приложения" class="align-center" src="_images/venv.png" style="width: 400px;" />
+</a>
 </section>
 <section id="id2">
-<h2>Установка Django<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
+<h2>Установка Django и библиотек<a class="headerlink" href="#id2" title="Ссылка на этот заголовок"></a></h2>
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Убедитесь что виртуальное окружение активировано
 # (должно быть (venv) в начале строки)
 
@@ -137,19 +134,22 @@ pip install django
 
 # Проверьте установку
 python -m django --version
+
+# Установие другие, нужные вам, библиотеки
+pip install pillow
 </pre></div>
 </div>
 </section>
 <section id="id3">
 <h2>Создание Django проекта<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
 <div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Создайте новый Django проект
-django-admin startproject flower_shop .
+django-admin startproject project
 
 # Структура после создания:
-# flower_shop/
+# myproject/
 # │   manage.py
 # │
-# └───flower_shop
+# └───project
 #         settings.py
 #         urls.py
 #         wsgi.py
@@ -158,8 +158,8 @@ django-admin startproject flower_shop .
 </div>
 </section>
 <section id="id4">
-<h2>Запуск сервера разработки<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
-<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Запустите сервер разработки
+<h2>Запуск проекта<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h2>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Запустите проект
 python manage.py runserver
 
 # Откройте браузер и перейдите по:
@@ -171,7 +171,10 @@ python manage.py runserver
 </section>
 <section id="id5">
 <h2>Базовые команды Django<a class="headerlink" href="#id5" title="Ссылка на этот заголовок"></a></h2>
-<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Создание приложения
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Запуск приложения
+python manage.py runserver
+
+# Создание приложения
 python manage.py startapp myapp
 
 # Создание миграций
@@ -182,47 +185,12 @@ python manage.py migrate
 
 # Создание суперпользователя
 python manage.py createsuperuser
-
-# Запуск тестов
-python manage.py test
 </pre></div>
 </div>
 </section>
 <section id="id6">
-<h2>Установка зависимостей:<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h2>
-<p>В нашем проекте используются следующие зависимости:</p>
-<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Создайте файл зависимостей
-pip install Django
-pip install Pillow
-pip install django-crispy-forms
-pip install crispy-bootstrap5
-pip install django-widget-tweaks
-</pre></div>
-</div>
-</section>
-<section id="id7">
-<h2>Полезные команды для работы с виртуальным окружением<a class="headerlink" href="#id7" title="Ссылка на этот заголовок"></a></h2>
-<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span># Деактивация виртуального окружения
-deactivate
-
-# Повторная активация (из папки проекта)
-venv\Scripts\activate
-
-# Просмотр установленных пакетов
-pip list
-
-# Установка конкретной версии Django
-pip install django==4.2.7
-</pre></div>
-</div>
-</section>
-<section id="id8">
-<h2>Следующий шаг<a class="headerlink" href="#id8" title="Ссылка на этот заголовок"></a></h2>
+<h2>Следующий шаг<a class="headerlink" href="#id6" title="Ссылка на этот заголовок"></a></h2>
 <p>После настройки окружения переходите к <a class="reference internal" href="project-structure.html"><span class="doc">Создание структуры проекта ekz</span></a> чтобы создать структуру проекта.</p>
-<div class="admonition note">
-<p class="admonition-title">Примечание</p>
-<p><strong>Совет:</strong> Добавьте папку <cite>venv</cite> в <cite>.gitignore</cite> если используете Git!</p>
-</div>
 </section>
 </section>
 

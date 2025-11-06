@@ -6,12 +6,7 @@
 Установка Python
 ----------------
 
-1. **Скачайте Python** с официального сайта:
-   https://www.python.org/downloads/
-
-2. **При установке отметьте** "Add Python to PATH"
-
-3. **Проверьте установку** в командной строке:
+1.. **Проверьте установку** в командной строке:
 
 .. code-block:: batch
 
@@ -40,7 +35,14 @@
 
    # В командной строке должно появиться (venv)
 
-Установка Django
+Если команда не работает, то можно использовать сам файл активации виртуального окружения. Для этого нужно просто перекинуть его в терминал и нажать "Enter":
+
+.. image:: /_static/images/venv.png
+   :alt: Архитектура приложения
+   :align: center
+   :width: 400
+
+Установка Django и библиотек
 ----------------
 
 .. code-block:: batch
@@ -54,30 +56,33 @@
    # Проверьте установку
    python -m django --version
 
+   # Установие другие, нужные вам, библиотеки
+   pip install pillow
+
 Создание Django проекта
 -----------------------
 
 .. code-block:: batch
 
    # Создайте новый Django проект
-   django-admin startproject flower_shop .
+   django-admin startproject project
 
    # Структура после создания:
-   # flower_shop/
+   # myproject/
    # │   manage.py
    # │
-   # └───flower_shop
+   # └───project
    #         settings.py
    #         urls.py
    #         wsgi.py
    #         __init__.py
 
-Запуск сервера разработки
+Запуск проекта
 -------------------------
 
 .. code-block:: batch
 
-   # Запустите сервер разработки
+   # Запустите проект
    python manage.py runserver
 
    # Откройте браузер и перейдите по:
@@ -89,6 +94,9 @@
 ----------------------
 
 .. code-block:: batch
+
+   # Запуск приложения
+   python manage.py runserver
 
    # Создание приложения
    python manage.py startapp myapp
@@ -102,45 +110,8 @@
    # Создание суперпользователя
    python manage.py createsuperuser
 
-   # Запуск тестов
-   python manage.py test
-
-Установка зависимостей:
--------------------------
-
-В нашем проекте используются следующие зависимости:
-
-.. code-block:: batch
-
-   # Создайте файл зависимостей
-   pip install Django
-   pip install Pillow
-   pip install django-crispy-forms
-   pip install crispy-bootstrap5
-   pip install django-widget-tweaks
-
-Полезные команды для работы с виртуальным окружением
-----------------------------------------------------
-
-.. code-block:: batch
-
-   # Деактивация виртуального окружения
-   deactivate
-
-   # Повторная активация (из папки проекта)
-   venv\Scripts\activate
-
-   # Просмотр установленных пакетов
-   pip list
-
-   # Установка конкретной версии Django
-   pip install django==4.2.7
 
 Следующий шаг
 -------------
 
 После настройки окружения переходите к :doc:`project-structure` чтобы создать структуру проекта.
-
-.. note::
-
-   **Совет:** Добавьте папку `venv` в `.gitignore` если используете Git!
