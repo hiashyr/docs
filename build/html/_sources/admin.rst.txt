@@ -311,3 +311,11 @@
 .. code-block:: bash
     
     python manage.py collectstatic --clear
+
+Также есть стандартные темы:
+
+.. code-block:: bash
+
+    python manage.py loaddata admin_interface_theme_bootstrap.json
+    python manage.py loaddata admin_interface_theme_foundation.json
+    python manage.py loaddata admin_interface_theme_uswds.json

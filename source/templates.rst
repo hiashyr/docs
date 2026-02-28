@@ -252,43 +252,6 @@
         
         return render(request, 'index.html', {'books': books})
 
-И теперь на фронте мы использем карточки для передачи в них данных из БД циклом for, а также изменяем ее содержимое относительно статуса с помощью if.
-
-.. code-block:: django
-
-            {% for book in books %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow">
-                    <div class="card-body">
-                        <!-- Заголовок и статус в одной строке -->
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h5 class="card-title">{{ book.title }}</h5>
-                            <span class="badge 
-                                {% if book.status == 'available' %}bg-success
-                                {% elif book.status == 'out_of_stock' %}bg-danger
-                                {% else %}bg-warning{% endif %}">
-                                {{ book.get_status_display }}
-                            </span>
-                        </div>
-                        
-                        <p class="card-text">
-                            <strong>👤 Автор:</strong> {{ book.author }}<br>
-                            <strong>💰 Цена:</strong> {{ book.price }} руб.
-                        </p>
-                        
-                        <!-- Разные кнопки в зависимости от статуса -->
-                        {% if book.status == 'available' %}
-                            <button class="btn btn-success w-100">🛒 В корзину</button>
-                        {% elif book.status == 'out_of_stock' %}
-                            <button class="btn btn-secondary w-100" disabled>😔 Нет в наличии</button>
-                        {% else %}
-                            <button class="btn btn-warning w-100">⏳ Уведомить о поступлении</button>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-
 .. note::
 
    Учтите, что цикл for будет проходить по количеству элементов из БД, которое вы указали во views. То есть если вы указали три записи, то выведутся три. Если же вывели все, то выведутся все.

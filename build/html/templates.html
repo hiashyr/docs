@@ -304,41 +304,6 @@
     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;books&#39;</span><span class="p">:</span> <span class="n">books</span><span class="p">})</span>
 </pre></div>
 </div>
-<p>И теперь на фронте мы использем карточки для передачи в них данных из БД циклом for, а также изменяем ее содержимое относительно статуса с помощью if.</p>
-<div class="highlight-django notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">book</span> <span class="k">in</span> <span class="nv">books</span> <span class="cp">%}</span>
-<span class="x">&lt;div class=&quot;col-md-4 mb-4&quot;&gt;</span>
-<span class="x">    &lt;div class=&quot;card h-100 shadow&quot;&gt;</span>
-<span class="x">        &lt;div class=&quot;card-body&quot;&gt;</span>
-<span class="x">            &lt;!-- Заголовок и статус в одной строке --&gt;</span>
-<span class="x">            &lt;div class=&quot;d-flex justify-content-between align-items-start mb-2&quot;&gt;</span>
-<span class="x">                &lt;h5 class=&quot;card-title&quot;&gt;</span><span class="cp">{{</span> <span class="nv">book.title</span> <span class="cp">}}</span><span class="x">&lt;/h5&gt;</span>
-<span class="x">                &lt;span class=&quot;badge</span>
-<span class="x">                    </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">book.status</span> <span class="o">==</span> <span class="s1">&#39;available&#39;</span> <span class="cp">%}</span><span class="x">bg-success</span>
-<span class="x">                    </span><span class="cp">{%</span> <span class="k">elif</span> <span class="nv">book.status</span> <span class="o">==</span> <span class="s1">&#39;out_of_stock&#39;</span> <span class="cp">%}</span><span class="x">bg-danger</span>
-<span class="x">                    </span><span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span><span class="x">bg-warning</span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x">&quot;&gt;</span>
-<span class="x">                    </span><span class="cp">{{</span> <span class="nv">book.get_status_display</span> <span class="cp">}}</span>
-<span class="x">                &lt;/span&gt;</span>
-<span class="x">            &lt;/div&gt;</span>
-
-<span class="x">            &lt;p class=&quot;card-text&quot;&gt;</span>
-<span class="x">                &lt;strong&gt;👤 Автор:&lt;/strong&gt; </span><span class="cp">{{</span> <span class="nv">book.author</span> <span class="cp">}}</span><span class="x">&lt;br&gt;</span>
-<span class="x">                &lt;strong&gt;💰 Цена:&lt;/strong&gt; </span><span class="cp">{{</span> <span class="nv">book.price</span> <span class="cp">}}</span><span class="x"> руб.</span>
-<span class="x">            &lt;/p&gt;</span>
-
-<span class="x">            &lt;!-- Разные кнопки в зависимости от статуса --&gt;</span>
-<span class="x">            </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">book.status</span> <span class="o">==</span> <span class="s1">&#39;available&#39;</span> <span class="cp">%}</span>
-<span class="x">                &lt;button class=&quot;btn btn-success w-100&quot;&gt;🛒 В корзину&lt;/button&gt;</span>
-<span class="x">            </span><span class="cp">{%</span> <span class="k">elif</span> <span class="nv">book.status</span> <span class="o">==</span> <span class="s1">&#39;out_of_stock&#39;</span> <span class="cp">%}</span>
-<span class="x">                &lt;button class=&quot;btn btn-secondary w-100&quot; disabled&gt;😔 Нет в наличии&lt;/button&gt;</span>
-<span class="x">            </span><span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
-<span class="x">                &lt;button class=&quot;btn btn-warning w-100&quot;&gt;⏳ Уведомить о поступлении&lt;/button&gt;</span>
-<span class="x">            </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
-<span class="x">        &lt;/div&gt;</span>
-<span class="x">    &lt;/div&gt;</span>
-<span class="x">&lt;/div&gt;</span>
-<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
-</pre></div>
-</div>
 <div class="admonition note">
 <p class="admonition-title">Примечание</p>
 <p>Учтите, что цикл for будет проходить по количеству элементов из БД, которое вы указали во views. То есть если вы указали три записи, то выведутся три. Если же вывели все, то выведутся все.</p>
