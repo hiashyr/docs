@@ -72,11 +72,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#register-unregister">Регистрация и удаление (register/unregister) - подробнее</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#unregister-register">Паттерн unregister/register</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id9">Динамическая регистрация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Множественная админка для одной модели</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#admin-py">Лучшие практики работы с admin.py</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Пример полного файла admin.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">13. Использование библиотек</a></li>
 </ul>
 </li>
 </ul>
@@ -340,85 +336,35 @@
 <p><strong>Объяснение:</strong> Автоматическая регистрация всех моделей приложения. Полезно для больших приложений или плагинов.</p>
 </section>
 <section id="id10">
-<h3>Множественная админка для одной модели<a class="headerlink" href="#id10" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">admin</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="c1"># Первая админка для основной работы</span>
-<span class="linenos"> 4</span><span class="nd">@admin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="p">)</span>
-<span class="linenos"> 5</span><span class="k">class</span><span class="w"> </span><span class="nc">ProductAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
-<span class="linenos"> 6</span>    <span class="n">list_display</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">]</span>
-<span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="c1"># Вторая админка для архивных записей</span>
-<span class="linenos"> 9</span><span class="k">class</span><span class="w"> </span><span class="nc">ArchivedProductAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
-<span class="linenos">10</span>    <span class="n">list_display</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;archived_at&#39;</span><span class="p">]</span>
-<span class="linenos">11</span>
-<span class="linenos">12</span>    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
-<span class="linenos">13</span>        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">archived</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="linenos">14</span>
-<span class="linenos">15</span><span class="c1"># Создаем отдельный сайт админки</span>
-<span class="linenos">16</span><span class="n">archived_admin</span> <span class="o">=</span> <span class="n">admin</span><span class="o">.</span><span class="n">AdminSite</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;archivedadmin&#39;</span><span class="p">)</span>
-<span class="linenos">17</span><span class="n">archived_admin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="n">ArchivedProductAdmin</span><span class="p">)</span>
+<h3>13. Использование библиотек<a class="headerlink" href="#id10" title="Ссылка на этот заголовок"></a></h3>
+<p>Для настройки стилизации admin-панели можно использовать библиотеки. В данном случае будет использоваться библиотека django-admin-interface</p>
+<p>Для ее установки используется команда:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>django-admin-interface
 </pre></div>
 </div>
-<p><strong>Объяснение:</strong> Одна модель может быть зарегистрирована в нескольких админках с разной конфигурацией. Полезно для разделения функциональности.</p>
-</section>
-</section>
-<section id="admin-py">
-<h2>Лучшие практики работы с admin.py<a class="headerlink" href="#admin-py" title="Ссылка на этот заголовок"></a></h2>
-<ol class="arabic simple">
-<li><p><strong>Используйте декоратор ``&#64;admin.register``</strong> для читаемости кода</p></li>
-<li><p><strong>Всегда указывайте ``list_display``</strong> для удобства просмотра списка</p></li>
-<li><p><strong>Добавляйте поиск и фильтры</strong> для больших таблиц</p></li>
-<li><p><strong>Разделяйте права доступа</strong> через <code class="docutils literal notranslate"><span class="pre">has_*_permission</span></code> методы</p></li>
-<li><p><strong>Используйте unregister/register</strong> для кастомизации стандартных моделей</p></li>
-<li><p><strong>Тестируйте админку</strong> как и остальное приложение</p></li>
-<li><p><strong>Ограничивайте ``list_per_page``</strong> для производительности</p></li>
-<li><p><strong>Добавляйте ``prefetch_related`` и ``select_related``</strong> в <code class="docutils literal notranslate"><span class="pre">get_queryset</span></code> для оптимизации запросов</p></li>
-<li><p><strong>Используйте ``readonly_fields``</strong> для полей, которые не должны изменяться</p></li>
-<li><p><strong>Логируйте важные действия</strong> через сигналы или переопределенные методы save</p></li>
-</ol>
-<section id="id11">
-<h3>Пример полного файла admin.py<a class="headerlink" href="#id11" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos"> 2</span><span class="sd">admin.py - Конфигурация административного интерфейса</span>
-<span class="linenos"> 3</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="linenos"> 4</span>
-<span class="linenos"> 5</span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">admin</span>
-<span class="linenos"> 6</span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserAdmin</span>
-<span class="linenos"> 7</span><span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">Group</span>
-<span class="linenos"> 8</span><span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Category</span><span class="p">,</span> <span class="n">Product</span><span class="p">,</span> <span class="n">Order</span>
-<span class="linenos"> 9</span>
-<span class="linenos">10</span><span class="c1"># Удаляем стандартные модели</span>
-<span class="linenos">11</span><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
-<span class="linenos">12</span><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="n">Group</span><span class="p">)</span>
-<span class="linenos">13</span>
-<span class="linenos">14</span><span class="c1"># Регистрируем кастомного пользователя</span>
-<span class="linenos">15</span><span class="nd">@admin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
-<span class="linenos">16</span><span class="k">class</span><span class="w"> </span><span class="nc">CustomUserAdmin</span><span class="p">(</span><span class="n">UserAdmin</span><span class="p">):</span>
-<span class="linenos">17</span>    <span class="n">list_display</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;is_active&#39;</span><span class="p">,</span> <span class="s1">&#39;date_joined&#39;</span><span class="p">]</span>
-<span class="linenos">18</span>    <span class="n">list_filter</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;is_staff&#39;</span><span class="p">,</span> <span class="s1">&#39;is_active&#39;</span><span class="p">]</span>
-<span class="linenos">19</span>
-<span class="linenos">20</span><span class="c1"># Регистрируем модели приложения</span>
-<span class="linenos">21</span><span class="nd">@admin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Category</span><span class="p">)</span>
-<span class="linenos">22</span><span class="k">class</span><span class="w"> </span><span class="nc">CategoryAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
-<span class="linenos">23</span>    <span class="n">list_display</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;product_count&#39;</span><span class="p">]</span>
-<span class="linenos">24</span>    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
-<span class="linenos">25</span>
-<span class="linenos">26</span><span class="nd">@admin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Product</span><span class="p">)</span>
-<span class="linenos">27</span><span class="k">class</span><span class="w"> </span><span class="nc">ProductAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
-<span class="linenos">28</span>    <span class="n">list_display</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;in_stock&#39;</span><span class="p">]</span>
-<span class="linenos">29</span>    <span class="n">list_filter</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="s1">&#39;in_stock&#39;</span><span class="p">]</span>
-<span class="linenos">30</span>    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">]</span>
-<span class="linenos">31</span>    <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-created_at&#39;</span><span class="p">]</span>
-<span class="linenos">32</span>
-<span class="linenos">33</span><span class="nd">@admin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Order</span><span class="p">)</span>
-<span class="linenos">34</span><span class="k">class</span><span class="w"> </span><span class="nc">OrderAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
-<span class="linenos">35</span>    <span class="n">list_display</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;customer&#39;</span><span class="p">,</span> <span class="s1">&#39;total&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;created_at&#39;</span><span class="p">]</span>
-<span class="linenos">36</span>    <span class="n">list_filter</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;created_at&#39;</span><span class="p">]</span>
-<span class="linenos">37</span>    <span class="n">readonly_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;created_at&#39;</span><span class="p">,</span> <span class="s1">&#39;updated_at&#39;</span><span class="p">]</span>
+<p>Далее нам нужно внести изменения в setting.py, добавив в INSTALLED_APPS необходимые приложения. Теперь список будет выглядеть следущим образом:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;admin_interface&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;colorfield&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;main&#39;</span>
+<span class="p">]</span>
 </pre></div>
 </div>
-<p><strong>Объяснение:</strong> Полный пример демонстрирует организацию файла admin.py с удалением стандартных моделей, их кастомизацией и регистрацией моделей приложения с различными настройками.</p>
+<p>Также нужно после массива добавить пару строк кода:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_FRAME_OPTIONS</span> <span class="o">=</span> <span class="s2">&quot;SAMEORIGIN&quot;</span>
+<span class="n">SILENCED_SYSTEM_CHECKS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;security.W019&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Далее нужно промигрироваться и собрать статические файлы командой:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>manage.py<span class="w"> </span>collectstatic<span class="w"> </span>--clear
+</pre></div>
+</div>
 </section>
 </section>
 </section>

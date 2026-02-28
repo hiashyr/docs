@@ -271,88 +271,43 @@
 
 **Объяснение:** Автоматическая регистрация всех моделей приложения. Полезно для больших приложений или плагинов.
 
-Множественная админка для одной модели
----------------------------------------
+
+13. Использование библиотек
+-------------------------------------
+
+Для настройки стилизации admin-панели можно использовать библиотеки. В данном случае будет использоваться библиотека django-admin-interface
+
+Для ее установки используется команда:
+
+.. code-block:: bash
+    
+    pip install django-admin-interface
+
+Далее нам нужно внести изменения в setting.py, добавив в INSTALLED_APPS необходимые приложения. Теперь список будет выглядеть следущим образом:
 
 .. code-block:: python
-   :linenos:
 
-   from django.contrib import admin
-   
-   # Первая админка для основной работы
-   @admin.register(Product, site=admin.site)
-   class ProductAdmin(admin.ModelAdmin):
-       list_display = ['name', 'price']
-   
-   # Вторая админка для архивных записей
-   class ArchivedProductAdmin(admin.ModelAdmin):
-       list_display = ['name', 'archived_at']
-       
-       def get_queryset(self, request):
-           return super().get_queryset(request).filter(archived=True)
-   
-   # Создаем отдельный сайт админки
-   archived_admin = admin.AdminSite(name='archivedadmin')
-   archived_admin.register(Product, ArchivedProductAdmin)
+    INSTALLED_APPS = [
+        "admin_interface",
+        "colorfield",
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'main'
+    ]
 
-**Объяснение:** Одна модель может быть зарегистрирована в нескольких админках с разной конфигурацией. Полезно для разделения функциональности.
-
-Лучшие практики работы с admin.py
-==================================
-
-1. **Используйте декоратор ``@admin.register``** для читаемости кода
-2. **Всегда указывайте ``list_display``** для удобства просмотра списка
-3. **Добавляйте поиск и фильтры** для больших таблиц
-4. **Разделяйте права доступа** через ``has_*_permission`` методы
-5. **Используйте unregister/register** для кастомизации стандартных моделей
-6. **Тестируйте админку** как и остальное приложение
-7. **Ограничивайте ``list_per_page``** для производительности
-8. **Добавляйте ``prefetch_related`` и ``select_related``** в ``get_queryset`` для оптимизации запросов
-9. **Используйте ``readonly_fields``** для полей, которые не должны изменяться
-10. **Логируйте важные действия** через сигналы или переопределенные методы save
-
-Пример полного файла admin.py
------------------------------
+Также нужно после массива добавить пару строк кода:
 
 .. code-block:: python
-   :linenos:
 
-   """
-   admin.py - Конфигурация административного интерфейса
-   """
-   
-   from django.contrib import admin
-   from django.contrib.auth.admin import UserAdmin
-   from django.contrib.auth.models import User, Group
-   from .models import Category, Product, Order
-   
-   # Удаляем стандартные модели
-   admin.site.unregister(User)
-   admin.site.unregister(Group)
-   
-   # Регистрируем кастомного пользователя
-   @admin.register(User)
-   class CustomUserAdmin(UserAdmin):
-       list_display = ['username', 'email', 'is_active', 'date_joined']
-       list_filter = ['is_staff', 'is_active']
-   
-   # Регистрируем модели приложения
-   @admin.register(Category)
-   class CategoryAdmin(admin.ModelAdmin):
-       list_display = ['name', 'product_count']
-       search_fields = ['name']
-   
-   @admin.register(Product)
-   class ProductAdmin(admin.ModelAdmin):
-       list_display = ['name', 'category', 'price', 'in_stock']
-       list_filter = ['category', 'in_stock']
-       search_fields = ['name', 'description']
-       ordering = ['-created_at']
-   
-   @admin.register(Order)
-   class OrderAdmin(admin.ModelAdmin):
-       list_display = ['id', 'customer', 'total', 'status', 'created_at']
-       list_filter = ['status', 'created_at']
-       readonly_fields = ['created_at', 'updated_at']
+    X_FRAME_OPTIONS = "SAMEORIGIN"
+    SILENCED_SYSTEM_CHECKS = ["security.W019"]
 
-**Объяснение:** Полный пример демонстрирует организацию файла admin.py с удалением стандартных моделей, их кастомизацией и регистрацией моделей приложения с различными настройками.
+Далее нужно промигрироваться и собрать статические файлы командой:
+
+.. code-block:: bash
+    
+    python manage.py collectstatic --clear
